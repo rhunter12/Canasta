@@ -10,10 +10,17 @@ package edu.up.cs301.canasta;
 //import androidx.appcompat.app.AppCompatActivity;
 
 import edu.up.cs301.game.GameFramework.GameMainActivity;
+import edu.up.cs301.game.GameFramework.GamePlayer;
 import edu.up.cs301.game.GameFramework.LocalGame;
 import edu.up.cs301.game.GameFramework.gameConfiguration.GameConfig;
+import edu.up.cs301.game.GameFramework.gameConfiguration.GamePlayerType;
+
+import android.R;
+
+import java.util.ArrayList;
 
 public class CanastaMainActivity extends GameMainActivity {
+    private static final int PORT_NUMBER = 2434;
 
     @Override
     public GameConfig createDefaultConfig() {

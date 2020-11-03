@@ -8,18 +8,30 @@
 package edu.up.cs301.canasta;
 
 import android.view.View;
+import android.widget.Button;
 
 import java.util.ArrayList;
 
 import edu.up.cs301.game.GameFramework.GameHumanPlayer;
 import edu.up.cs301.game.GameFramework.GameMainActivity;
 import edu.up.cs301.game.GameFramework.infoMessage.GameInfo;
+import edu.up.cs301.game.R;
 
-public class CanastaPlayer extends GameHumanPlayer {
+public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListener {
     private int score;
     private ArrayList<Card> hand = new ArrayList<>();
     private int playerNum;
     private int totalScore;
+    private boolean discardState; //true = start of turn, pick up pile      false = discard on click
+
+    private GameMainActivity myActivity;
+
+    private Button undoButton = null;
+    private Button deckButton = null;
+    private Button discardButton = null;
+
+    private ArrayList<Button> handButtons = new ArrayList<>();
+    private ArrayList<Button> meldButtons = new ArrayList<>();
 
     private ArrayList<Card> meldedAce = new ArrayList<>();
     private ArrayList<Card> meldedWild = new ArrayList<>();
@@ -268,277 +280,88 @@ public class CanastaPlayer extends GameHumanPlayer {
 
     @Override
     public void setAsGui(GameMainActivity activity) {
+        myActivity = activity;
 
+        activity.setContentView(R.layout.main_activity);
+
+        handButtons.add(0,null);
+        handButtons.add(1,(Button)activity.findViewById(R.id.handAS));
+        handButtons.add(2,(Button)activity.findViewById(R.id.hand2));
+        handButtons.add(3,(Button)activity.findViewById(R.id.hand3));
+        handButtons.add(4,(Button)activity.findViewById(R.id.hand4));
+        handButtons.add(5,(Button)activity.findViewById(R.id.hand5));
+        handButtons.add(6,(Button)activity.findViewById(R.id.hand6));
+        handButtons.add(7,(Button)activity.findViewById(R.id.hand7));
+        handButtons.add(8,(Button)activity.findViewById(R.id.hand8));
+        handButtons.add(9,(Button)activity.findViewById(R.id.hand9));
+        handButtons.add(10,(Button)activity.findViewById(R.id.hand10));
+        handButtons.add(11,(Button)activity.findViewById(R.id.handJ));
+        handButtons.add(12,(Button)activity.findViewById(R.id.handQ));
+        handButtons.add(13,(Button)activity.findViewById(R.id.handK));
+
+        meldButtons.add(0,null);
+        meldButtons.add(1,(Button)activity.findViewById(R.id.meldAs));
+        meldButtons.add(2,(Button)activity.findViewById(R.id.meld2));
+        meldButtons.add(3,(Button)activity.findViewById(R.id.meld3));
+        meldButtons.add(4,(Button)activity.findViewById(R.id.meld4));
+        meldButtons.add(5,(Button)activity.findViewById(R.id.meld5));
+        meldButtons.add(6,(Button)activity.findViewById(R.id.meld6));
+        meldButtons.add(7,(Button)activity.findViewById(R.id.meld7));
+        meldButtons.add(8,(Button)activity.findViewById(R.id.meld8));
+        meldButtons.add(9,(Button)activity.findViewById(R.id.meld9));
+        meldButtons.add(10,(Button)activity.findViewById(R.id.meld10));
+        meldButtons.add(11,(Button)activity.findViewById(R.id.meldJ));
+        meldButtons.add(12,(Button)activity.findViewById(R.id.meldQ));
+        meldButtons.add(13,(Button)activity.findViewById(R.id.meldK));
+
+        for (int i = 1; i < handButtons.size(); i++) {
+            handButtons.get(i).setOnClickListener(this);
+        }
+
+        for (int i = 1; i < meldButtons.size(); i++) {
+            meldButtons.get(i).setOnClickListener(this);
+        }
+
+        this.discardButton = (Button)activity.findViewById(R.id.discardPile);
+        this.deckButton = (Button)activity.findViewById(R.id.deck);
+        this.undoButton = (Button)activity.findViewById(R.id.undoButton);
+
+        discardButton.setOnClickListener(this);
+        deckButton.setOnClickListener(this);
+        undoButton.setOnClickListener(this);
     }
 
 
+    @Override
+    public void onClick(View view) {
+        CanastaDiscardAction discard = new CanastaDiscardAction(this);
+        CanastaDrawAction draw = new CanastaDrawAction(this);
+        CanastaUndoAction undo = new CanastaUndoAction(this);
+        CanastaMeldAction meld = new CanastaMeldAction(this);
 
-    /**
-     * Takes two cards from deck; checks if it is a red three and
-     * handles it accordingly
-     * @param p (The player the action is from)
-     */
-    private void drawFromDeck(CanastaPlayer p, CanastaGameState state) {
-        p.getHand().add(state.deck.remove(0));
-        p.getHand().add(state.deck.remove(0));
-        removeRedThree(p,state);
-    }
+        if (view == discardButton) {
+            game.sendAction(discard);
+        }
+        if (view == deckButton) {
+            game.sendAction(draw);
+        }
+        if (view == undoButton) {
+            game.sendAction(undo);
+        }
 
-    /**
-     * Removes red three from hand and replaces it with something else
-     * @param p (The player the action is from)
-     */
-    private void removeRedThree(CanastaPlayer p, CanastaGameState state) {
-        for (int i = 0; i < p.getHand().size(); i++) {
-            if (p.getHand().get(0).getValue() == 3 && (p.getHand().get(0).getSuit() == 'H' || p.getHand().get(0).getSuit() == 'D')) {
-                p.getHand().remove(i);
-                p.getHand().add(state.deck.remove(0));
-                i = 0;  //resets loop if a red three has been found. Checks if new card is a red three
-                p.setScore(p.getScore() + 100);
+        for (int i = 1; i < meldButtons.size(); i++) {
+            if (view == meldButtons.get(i)) {
+                game.sendAction(meld);
             }
         }
-    }
 
-    /**
-     * Helper method to find the number of wild
-     * cards in a meld
-     * @param cards (The deck of cards to be searched)
-     * @param value (Which meld is being considered)
-     * @return (Returns the number of wild cards found)
-     */
-    public int countWildCards(ArrayList<Card> cards, int value) {
-        int wildCount = 0;
-
-        for (int i = 0; i < cards.size(); i++) {
-            if (cards.get(i).getValue() != value) {
-                wildCount++;
+        for (int i = 1; i < handButtons.size(); i++) {
+            if (view == handButtons.get(i)) {
+                game.sendAction(new CanastaSelectCardAction(this,i));
             }
         }
-        return wildCount;
+
     }
-
-    /**
-     * Checks if all melds are of three or more cards
-     * and more than half of the cards are not a wild cards or not empty
-     * @param p (The player the action is from)
-     * @return (Returns whether the action was successful or not)
-     */
-    public boolean checkValidMeld(CanastaPlayer p) {
-        if (!((p.getMeldedAce().size() >= 3 && countWildCards(p.getMeldedAce(), 1) <= p.getMeldedAce().size()/2) || p.getMeldedAce().size() == 0)) {
-            return false;
-        }
-        if (!((p.getMelded4().size() >= 3 && countWildCards(p.getMelded4(), 4) <= p.getMelded4().size()/2) || p.getMelded4().size() == 0)) {
-            return false;
-        }
-        if (!((p.getMelded5().size() >= 3 && countWildCards(p.getMelded5(), 5) <= p.getMelded5().size()/2) || p.getMelded5().size() == 0)) {
-            return false;
-        }
-        if (!((p.getMelded6().size() >= 3 && countWildCards(p.getMelded6(), 6) <= p.getMelded6().size()/2) || p.getMelded6().size() == 0)) {
-            return false;
-        }
-        if (!((p.getMelded7().size() >= 3 && countWildCards(p.getMelded7(), 7) <= p.getMelded7().size()/2) || p.getMelded7().size() == 0)) {
-            return false;
-        }
-        if (!((p.getMelded8().size() >= 3 && countWildCards(p.getMelded8(), 8) <= p.getMelded8().size()/2) || p.getMelded8().size() == 0)) {
-            return false;
-        }
-        if (!((p.getMelded9().size() >= 3 && countWildCards(p.getMelded9(), 9) <= p.getMelded9().size()/2) || p.getMelded9().size() == 0)) {
-            return false;
-        }
-        if (!((p.getMelded10().size() >= 3 && countWildCards(p.getMelded10(), 10) <= p.getMelded10().size()/2) || p.getMelded10().size() == 0)) {
-            return false;
-        }
-        if (!((p.getMeldedJack().size() >= 3 && countWildCards(p.getMeldedJack(), 11) <= p.getMeldedJack().size()/2) || p.getMeldedJack().size() == 0)) {
-            return false;
-        }
-        if (!((p.getMeldedQueen().size() >= 3 && countWildCards(p.getMeldedQueen(), 12) <= p.getMeldedQueen().size()/2) || p.getMeldedQueen().size() == 0)) {
-            return false;
-        }
-        if (!((p.getMeldedKing().size() >= 3 && countWildCards(p.getMeldedKing(), 13) <= p.getMeldedKing().size()/2) || p.getMeldedKing().size() == 0)) {
-            return false;
-        }
-
-        if (!(p.getMeldedWild().size() == 0 || p.getMeldedWild().size() >= 3)) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Searches hand for selected card and returns index
-     * @param p (The player the action is from)
-     * @param n (The value being searched for)
-     * @return (Returns the index of the value in the hand)
-     */
-    public int searchHand(CanastaPlayer p, int n) {
-        for (int i = 0; i < p.getHand().size(); i++) {
-            if (p.getHand().get(i).getValue() == n) {
-                return i;
-            }
-        }
-        return -1;
-    }
-
-    /**
-     * Selects card
-     * @param p (The player the action is from)
-     * @param card (The card that is selected)
-     * @return (Returns whether the action was successful or not)
-     */
-    public boolean selectCard(CanastaPlayer p, int card, CanastaGameState state) {
-        if (state.getPlayerTurnID() == p.getPlayerNum()) {
-            state.setSelectedCard(card);
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Adds a selected card to the player's meld
-     * @param p (The player the action is from)
-     * @return (Returns whether the action was successful or not)
-     */
-    public boolean meldCard(CanastaPlayer p, CanastaGameState state) {
-        int pos = searchHand(p, state.getSelectedCard());
-
-        if (pos == -1) {
-            return false;
-        }
-        switch (state.getSelectedCard()) {
-            case -1:
-                return false;
-            case 1:
-                p.getPlayerMoves().add(1);
-                p.getMeldedAce().add(p.getHand().remove(pos));
-                break;
-            case 2:
-                p.getPlayerMoves().add(2);
-                p.getMeldedWild().add(p.getHand().remove(pos));
-                break;
-            case 3:
-                p.getPlayerMoves().add(3);
-                p.getMelded3().add(p.getHand().remove(pos));
-                break;
-            case 4:
-                p.getPlayerMoves().add(4);
-                p.getMelded4().add(p.getHand().remove(pos));
-                break;
-            case 5:
-                p.getPlayerMoves().add(5);
-                p.getMelded5().add(p.getHand().remove(pos));
-                break;
-            case 6:
-                p.getPlayerMoves().add(6);
-                p.getMelded6().add(p.getHand().remove(pos));
-                break;
-            case 7:
-                p.getPlayerMoves().add(7);
-                p.getMelded7().add(p.getHand().remove(pos));
-                break;
-            case 8:
-                p.getPlayerMoves().add(8);
-                p.getMelded8().add(p.getHand().remove(pos));
-                break;
-            case 9:
-                p.getPlayerMoves().add(9);
-                p.getMelded9().add(p.getHand().remove(pos));
-                break;
-            case 10:
-                p.getPlayerMoves().add(10);
-                p.getMelded10().add(p.getHand().remove(pos));
-                break;
-            case 11:
-                p.getPlayerMoves().add(11);
-                p.getMeldedJack().add(p.getHand().remove(pos));
-                break;
-            case 12:
-                p.getPlayerMoves().add(12);
-                p.getMeldedQueen().add(p.getHand().remove(pos));
-                break;
-            case 13:
-                p.getPlayerMoves().add(13);
-                p.getMeldedKing().add(p.getHand().remove(pos));
-                break;
-        }
-        return true;
-    }
-
-
-    /**
-     * Searches through hand for selected card to move to
-     * discard pile
-     * @param p (The player the action is from)
-     * @return (Returns whether the action was successful or not)
-     */
-    public boolean addToDiscard(CanastaPlayer p, CanastaGameState state) {
-        if (!(checkValidMeld(p))) {
-            return false;
-        }
-        for (int i = 0; i < p.getHand().size(); i++) {
-            if (p.getHand().get(i).getValue() == state.getSelectedCard()) {
-                state.discardPile.add(p.getHand().remove(i));
-                state.setSelectedCard(-1);
-                return true;
-            }
-        }
-        return false;
-    }
-
-
-    /**
-     * Allows player to unmeld a card based on their previous moves list
-     * @param p (The player the action is from)
-     * @return (Returns if the action was successful or not)
-     */
-    public boolean undo(CanastaPlayer p) {
-        if(p.getPlayerMoves().size() == 0) {
-            return false;
-        }
-        int value = p.getPlayerMoves().get(p.getPlayerMoves().size()-1);
-
-        switch (value) {
-            case 1:
-                p.getHand().add(p.getMeldedAce().remove(p.getMeldedAce().size()-1));
-                break;
-            case 3:
-                p.getHand().add(p.getMelded3().remove(p.getMelded3().size()-1));
-                break;
-            case 4:
-                p.getHand().add(p.getMelded4().remove(p.getMelded4().size()-1));
-                break;
-            case 5:
-                p.getHand().add(p.getMelded5().remove(p.getMelded5().size()-1));
-                break;
-            case 6:
-                p.getHand().add(p.getMelded6().remove(p.getMelded6().size()-1));
-                break;
-            case 7:
-                p.getHand().add(p.getMelded7().remove(p.getMelded7().size()-1));
-                break;
-            case 8:
-                p.getHand().add(p.getMelded8().remove(p.getMelded8().size()-1));
-                break;
-            case 9:
-                p.getHand().add(p.getMelded9().remove(p.getMelded9().size()-1));
-                break;
-            case 10:
-                p.getHand().add(p.getMelded10().remove(p.getMelded10().size()-1));
-                break;
-            case 11:
-                p.getHand().add(p.getMeldedJack().remove(p.getMeldedJack().size()-1));
-                break;
-            case 12:
-                p.getHand().add(p.getMeldedQueen().remove(p.getMeldedQueen().size()-1));
-                break;
-            case 13:
-                p.getHand().add(p.getMeldedKing().remove(p.getMeldedKing().size()-1));
-                break;
-        }
-
-        p.getPlayerMoves().remove(p.getPlayerMoves().size()-1);
-        return true;
-    }
-
 
 
 
@@ -672,5 +495,6 @@ public class CanastaPlayer extends GameHumanPlayer {
     public ArrayList<Integer> getPlayerMoves() {
         return playerMoves;
     }
+
 
 }
