@@ -59,6 +59,7 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
         hand = new ArrayList<>();
         playerNum = num;
         totalScore = 0;
+
     }
 
     /**

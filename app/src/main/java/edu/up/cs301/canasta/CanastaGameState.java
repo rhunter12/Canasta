@@ -42,7 +42,7 @@ public class CanastaGameState extends GameState{
         player1 = null;
         player2 = null;
         playerTurnID = 0;
-        
+        //start();
     }
 
     /**
