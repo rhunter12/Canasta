@@ -17,7 +17,7 @@ import java.util.Collections;
 import edu.up.cs301.game.GameFramework.infoMessage.GameState;
 
 
-public class CanastaGameState extends GameState implements Button.OnClickListener {
+public class CanastaGameState extends GameState {
 
     // instance variables
     ArrayList<Card> deck = new ArrayList<>(); //deck
@@ -28,8 +28,6 @@ public class CanastaGameState extends GameState implements Button.OnClickListene
     CanastaPlayer player2; //player 2
     private int playerTurnID; //player turn ID
     private int selectedCard = -1; //selected card
-
-    TextView outText;
 
     /**
      * Constructor
@@ -61,8 +59,8 @@ public class CanastaGameState extends GameState implements Button.OnClickListene
         player1 = new CanastaPlayer(orig.player1);
         player2 = new CanastaPlayer(orig.player2);
         playerTurnID = orig.playerTurnID;
-        outText = orig.outText;
     }
+
 
     /**
      * Builds deck and shuffles
@@ -81,6 +79,7 @@ public class CanastaGameState extends GameState implements Button.OnClickListene
         Collections.shuffle(deck);
     }
 
+
     /**
      * Deals card to players, adds one to discard pile
      * @return (Returns whether the action was successful or not)
@@ -98,101 +97,19 @@ public class CanastaGameState extends GameState implements Button.OnClickListene
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     /**
      * Init players, call build deck
      * @return (Returns whether the action was successful or not)
      */
     public boolean start() {
-        player1 = new CanastaPlayer(1);
-        player2 = new CanastaPlayer(2);
+        player1 = new CanastaPlayer(1,"Human");
+        player2 = new CanastaPlayer(2,"AI");
 
         playerTurnID = 1;
         buildDeck();
         deal();
         return true;
     }
-
-    /**
-     * Converts player's hand and melds into strings
-     * @return (Returns the string to be printed)
-     */
-    @Override
-    public String toString() {
-        String ret = player1.toString();
-        outText.append(ret);
-        return ret;
-    }
-
-    /**
-     * Assigns the text view from listener
-     * @param tv (The text view)
-     */
-    public void setTextView(TextView tv) {
-        outText = tv;
-    }
-
-
-    /**
-     * Performs the testing actions once the button is clicked
-     * @param view (The view that is being updated)
-     */
-    @Override
-    public void onClick(View view) {
-        outText.setText("");
-
-        CanastaGameState firstInstance = new CanastaGameState();
-
-        firstInstance.setTextView(outText);
-        Card addedCard = new Card(5,'H');
-        firstInstance.player1.getHand().add(addedCard);
-        firstInstance.player1.getHand().add(addedCard);
-        firstInstance.player1.getHand().add(addedCard);
-        firstInstance.player1.getHand().add(addedCard);
-
-        CanastaGameState secondInstance = new CanastaGameState(firstInstance);
-
-        firstInstance.drawFromDeck(firstInstance.player1);
-        outText.append("Player one drew from the deck.\n");
-        firstInstance.selectCard(firstInstance.player1,5);
-        outText.append("Player one selected a " + addedCard.getValue() + "\n");
-        firstInstance.meldCard(firstInstance.player1);
-        outText.append("Player one melded a " + firstInstance.selectedCard + "\n");
-
-        firstInstance.meldCard(firstInstance.player1);
-        outText.append("Player one melded a " + firstInstance.selectedCard + "\n");
-        firstInstance.undo(firstInstance.player1);
-        outText.append("Player one undid a melded.\n");
-        firstInstance.meldCard(firstInstance.player1);
-        outText.append("Player one melded a " + firstInstance.selectedCard + "\n");
-        firstInstance.meldCard(firstInstance.player1);
-        outText.append("Player one melded a " + firstInstance.selectedCard + "\n");
-        firstInstance.addToDiscard(firstInstance.player1);
-        outText.append("Player one discarded\n\n");
-
-        CanastaGameState thirdInstance = new CanastaGameState();
-        thirdInstance.setTextView(outText);
-        CanastaGameState fourthInstance = new CanastaGameState(thirdInstance);
-
-
-        secondInstance.toString();
-        fourthInstance.toString();
-        outText.invalidate();
-    }
-
 
 
 

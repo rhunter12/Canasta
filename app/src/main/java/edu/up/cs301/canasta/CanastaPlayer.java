@@ -29,9 +29,13 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
     private Button undoButton = null;
     private Button deckButton = null;
     private Button discardButton = null;
+    private Button playerScore = null;
+    private Button aiScore = null;
 
     private ArrayList<Button> handButtons = new ArrayList<>();
     private ArrayList<Button> meldButtons = new ArrayList<>();
+
+    private ArrayList<ArrayList<Card>> melds = new ArrayList<>();
 
     private ArrayList<Card> meldedAce = new ArrayList<>();
     private ArrayList<Card> meldedWild = new ArrayList<>();
@@ -59,6 +63,21 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
         hand = new ArrayList<>();
         playerNum = num;
         totalScore = 0;
+
+        melds.add(0,null);
+        melds.add(1,meldedAce);
+        melds.add(2,meldedWild);
+        melds.add(3,melded3);
+        melds.add(4,melded4);
+        melds.add(5,melded5);
+        melds.add(6,melded6);
+        melds.add(7,melded7);
+        melds.add(8,melded8);
+        melds.add(9,melded9);
+        melds.add(10,melded10);
+        melds.add(11,meldedJack);
+        melds.add(12,meldedQueen);
+        melds.add(13,meldedKing);
     }
 
     /**
@@ -267,14 +286,32 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
 
     @Override
     public View getTopView() {
-        return null;
+        return myActivity.findViewById(R.id.top_gui_layout);
     }
 
     @Override
     public void receiveInfo(GameInfo info) {
         CanastaGameState state;
+
+
         if (info instanceof CanastaGameState) {
             state = (CanastaGameState) info;
+
+            updateText(state);
+
+        }
+    }
+
+    public void updateText(CanastaGameState state) {
+        int humanScore = state.getPlayer1Score();
+        int aiScoreVal = state.getPlayer2Score();
+        this.playerScore.setText(humanScore);
+        this.aiScore.setText(aiScoreVal);
+
+        for (int i = 1; i <= meldButtons.size(); i++) {
+            if (melds.get(i).size() != 0) {
+                meldButtons.get(i).setVisibility(View.VISIBLE);
+            }
         }
     }
 
@@ -314,11 +351,11 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
         meldButtons.add(12,(Button)activity.findViewById(R.id.meldQ));
         meldButtons.add(13,(Button)activity.findViewById(R.id.meldK));
 
-        for (int i = 1; i < handButtons.size(); i++) {
+        for (int i = 1; i <= handButtons.size(); i++) {
             handButtons.get(i).setOnClickListener(this);
         }
 
-        for (int i = 1; i < meldButtons.size(); i++) {
+        for (int i = 1; i <= meldButtons.size(); i++) {
             meldButtons.get(i).setOnClickListener(this);
         }
 
