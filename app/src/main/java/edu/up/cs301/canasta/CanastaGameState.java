@@ -17,7 +17,7 @@ import java.util.Collections;
 import edu.up.cs301.game.GameFramework.infoMessage.GameState;
 
 
-public class CanastaGameState extends GameState{
+public class CanastaGameState extends GameState {
 
     // instance variables
     ArrayList<Card> deck = new ArrayList<>(); //deck
@@ -28,8 +28,6 @@ public class CanastaGameState extends GameState{
     CanastaPlayer player2; //player 2
     private int playerTurnID; //player turn ID
     private int selectedCard = -1; //selected card
-
-    TextView outText;
 
     /**
      * Constructor
@@ -42,7 +40,7 @@ public class CanastaGameState extends GameState{
         player1 = null;
         player2 = null;
         playerTurnID = 0;
-        //start();
+        start();
     }
 
     /**
@@ -61,8 +59,8 @@ public class CanastaGameState extends GameState{
         player1 = new CanastaPlayer(orig.player1);
         player2 = new CanastaPlayer(orig.player2);
         playerTurnID = orig.playerTurnID;
-        outText = orig.outText;
     }
+
 
     /**
      * Builds deck and shuffles
@@ -81,6 +79,7 @@ public class CanastaGameState extends GameState{
         Collections.shuffle(deck);
     }
 
+
     /**
      * Deals card to players, adds one to discard pile
      * @return (Returns whether the action was successful or not)
@@ -98,47 +97,19 @@ public class CanastaGameState extends GameState{
     }
 
 
-
-
-
-
     /**
      * Init players, call build deck
      * @return (Returns whether the action was successful or not)
      */
     public boolean start() {
-        player1 = new CanastaPlayer(1,"name1");
-        player2 = new CanastaPlayer(2,"name2");
+        player1 = new CanastaPlayer(1,"Human");
+        player2 = new CanastaPlayer(2,"AI");
 
         playerTurnID = 1;
         buildDeck();
         deal();
         return true;
     }
-
-    /**
-     * Converts player's hand and melds into strings
-     * @return (Returns the string to be printed)
-     */
-    @Override
-    public String toString() {
-        String ret = player1.toString();
-        outText.append(ret);
-        return ret;
-    }
-
-    /**
-     * Assigns the text view from listener
-     * @param tv (The text view)
-     */
-    public void setTextView(TextView tv) {
-        outText = tv;
-    }
-
-
-
-
-
 
 
 
