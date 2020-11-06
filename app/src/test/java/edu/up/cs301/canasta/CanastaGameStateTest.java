@@ -15,11 +15,10 @@ public class CanastaGameStateTest {
         assertNotNull(gs.discardPile);
         assertTrue(gs.getPlayer1Score()==0);
         assertTrue(gs.getPlayer2Score()==0);
-        assertTrue(gs.getPlayerTurnID()==0);
 
         //test buildDeck
         gs.buildDeck();
-        assertTrue(gs.deck.size()==108);//test that all cards exist and no extras
+        assertEquals(gs.deck.size(),108,0.000000000001);//test that all cards exist and no extras
         for (int i=0; i<108; i++){//test that none of the cards have the same address
             for (int j=i+1; j<108; j++){
                 assertTrue(gs.deck.get(i)!=gs.deck.get(j));
