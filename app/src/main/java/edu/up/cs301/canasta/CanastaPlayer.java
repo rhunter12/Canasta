@@ -49,6 +49,7 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
 
     private ArrayList<Integer> playerMoves = new ArrayList<>();
 
+
     /**
      * Constructor
      * @param num (The player number)
