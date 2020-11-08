@@ -44,12 +44,64 @@ public class CanastaComputerPlayer1 extends GameComputerPlayer {
      *
      * @param name the player's name (e.g., "John")
      */
-    public CanastaComputerPlayer1(String name) {
+    public CanastaComputerPlayer1(int num, String name) {
+
         super(name);
+        score = 0;
+        hand = new ArrayList<>();
+        playerNum = num;
+        totalScore = 0;
+
+        melds.add(0,null);
+        melds.add(1,meldedAce);
+        melds.add(2,meldedWild);
+        melds.add(3,melded3);
+        melds.add(4,melded4);
+        melds.add(5,melded5);
+        melds.add(6,melded6);
+        melds.add(7,melded7);
+        melds.add(8,melded8);
+        melds.add(9,melded9);
+        melds.add(10,melded10);
+        melds.add(11,meldedJack);
+        melds.add(12,meldedQueen);
+        melds.add(13,meldedKing);
     }
 
     @Override
     protected void receiveInfo(GameInfo info) {
+        if (info instanceof CanastaGameState){
+            CanastaGameState state=(CanastaGameState)info;
+            if (playerNum==0){
+                hand=state.player1.getHand();
+                for (int i=1; i<melds.size(); i++){
+                    melds=state.player1.getMelds();
+                }
+                totalScore=state.getPlayer1Score();
+
+            }
+            else if (playerNum==1){
+                hand=state.player2.getHand();
+                for (int i=1; i<melds.size(); i++){
+                    melds=state.player2.getMelds();
+                }
+                totalScore=state.getPlayer2Score();
+
+            }
+            else{
+                System.out.println("Error-player num has an unexpected value");
+            }
+
+            if (hand.size()<1){return;}
+            game.sendAction(new CanastaDrawAction(this));
+            int cardVal=hand.get(0).getValue();
+            game.sendAction(new CanastaSelectCardAction(this, cardVal));
+            game.sendAction(new CanastaDiscardAction(this));
+        }
+        else{
+            System.out.println("Received other info message.");
+        }
+        return;
 
     }
 

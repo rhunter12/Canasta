@@ -33,7 +33,7 @@ public class CanastaMainActivity extends GameMainActivity {
 
         playerTypes.add(new GamePlayerType("Computer player") {
             public GamePlayer createPlayer(String name) {
-                return new CanastaComputerPlayer1(name);
+                return new CanastaComputerPlayer1(1, name);
             }});
 
         GameConfig defaultConfig = new GameConfig(playerTypes, 1, 2, "Canasta", PORT_NUMBER);

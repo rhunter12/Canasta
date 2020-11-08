@@ -87,6 +87,22 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
     public CanastaPlayer(CanastaPlayer orig) {
         super(orig.name);
         score = orig.score;
+
+        melds.add(0,null);
+        melds.add(1,meldedAce);
+        melds.add(2,meldedWild);
+        melds.add(3,melded3);
+        melds.add(4,melded4);
+        melds.add(5,melded5);
+        melds.add(6,melded6);
+        melds.add(7,melded7);
+        melds.add(8,melded8);
+        melds.add(9,melded9);
+        melds.add(10,melded10);
+        melds.add(11,meldedJack);
+        melds.add(12,meldedQueen);
+        melds.add(13,meldedKing);
+
         for (Card c: orig.hand) {
             this.hand.add(new Card(c));
         }
@@ -296,6 +312,25 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
 
         if (info instanceof CanastaGameState) {
             state = (CanastaGameState) info;
+            if (playerNum==0){
+                hand=state.player1.getHand();
+                for (int i=1; i<melds.size(); i++){
+                    melds=state.player1.getMelds();
+                }
+                totalScore=state.getPlayer1Score();
+
+            }
+            else if (playerNum==1){
+                hand=state.player2.getHand();
+                for (int i=1; i<melds.size(); i++){
+                    melds=state.player2.getMelds();
+                }
+                totalScore=state.getPlayer2Score();
+
+            }
+            else{
+                System.out.println("Error-player num has an unexpected value");
+            }
 
             updateText(state);
 

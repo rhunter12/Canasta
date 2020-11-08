@@ -108,7 +108,7 @@ public class CanastaGameState extends GameState {
 
         cleanStart();
 
-        playerTurnID = 1;
+        playerTurnID = 0;
         buildDeck();
         deal();
         return true;
