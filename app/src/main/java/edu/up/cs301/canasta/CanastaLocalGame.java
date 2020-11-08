@@ -35,11 +35,24 @@ public class CanastaLocalGame extends LocalGame {
 
     @Override
     protected String checkIfGameOver() {
+        if (state.player1.getTotalScore() >= 5000 || state.player2.getTotalScore() >= 5000) {
+            if (state.player1.getTotalScore() > state.player2.getTotalScore()) {
+                return playerNames[0] + " wins";
+            }
+            else if (state.player2.getTotalScore() > state.player1.getTotalScore()) {
+                return playerNames[1] + " wins";
+            }
+            else if (state.player1.getTotalScore() == state.player2.getTotalScore()) {
+                return "It's a tie";
+            }
+        }
         return null;
     }
 
     @Override
     protected boolean makeMove(GameAction action) {
+        System.out.println("Make move called");
+
         int currentPlayer = state.getPlayerTurnID();
         boolean yourTurn;
 
@@ -57,6 +70,7 @@ public class CanastaLocalGame extends LocalGame {
         }
 
         else if (action instanceof CanastaDrawAction) {
+            System.out.println("Draw action called");
             if (currentPlayer == 0) {
                 drawFromDeck(state.player1);
             }
@@ -317,8 +331,22 @@ public class CanastaLocalGame extends LocalGame {
             if (p.getHand().get(i).getValue() == state.getSelectedCard()) {
                 state.discardPile.add(p.getHand().remove(i));
                 state.setSelectedCard(-1);
+
+                if (checkIfRoundOver(p)) {
+                    state.start();
+                }
                 return true;
             }
+        }
+        return false;
+    }
+
+    public boolean checkIfRoundOver(CanastaPlayer p) {
+        if (state.deck.size() == 0) {
+            return true;
+        }
+        else if (p.getHand().size() == 0) {
+            return true;
         }
         return false;
     }

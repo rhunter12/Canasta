@@ -305,10 +305,10 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
     public void updateText(CanastaGameState state) {
         int humanScore = state.getPlayer1Score();
         int aiScoreVal = state.getPlayer2Score();
-        this.playerScore.setText(humanScore);
-        this.aiScore.setText(aiScoreVal);
+        this.playerScore.setText("" + humanScore);
+        this.aiScore.setText("" + aiScoreVal);
 
-        for (int i = 1; i <= meldButtons.size(); i++) {
+        for (int i = 1; i < meldButtons.size(); i++) {
             if (melds.get(i).size() != 0) {
                 meldButtons.get(i).setVisibility(View.VISIBLE);
             }
@@ -351,17 +351,20 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
         meldButtons.add(12,(Button)activity.findViewById(R.id.meldQ));
         meldButtons.add(13,(Button)activity.findViewById(R.id.meldK));
 
-        for (int i = 1; i <= handButtons.size(); i++) {
+        for (int i = 1; i < handButtons.size(); i++) {
             handButtons.get(i).setOnClickListener(this);
         }
 
-        for (int i = 1; i <= meldButtons.size(); i++) {
+        for (int i = 1; i < meldButtons.size(); i++) {
             meldButtons.get(i).setOnClickListener(this);
         }
 
         this.discardButton = (Button)activity.findViewById(R.id.discardPile);
         this.deckButton = (Button)activity.findViewById(R.id.deck);
         this.undoButton = (Button)activity.findViewById(R.id.undoButton);
+
+        this.playerScore = (Button)activity.findViewById(R.id.PlayerScore);
+        this.aiScore = (Button)activity.findViewById(R.id.aiScore);
 
         discardButton.setOnClickListener(this);
         deckButton.setOnClickListener(this);
@@ -378,23 +381,28 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
 
         if (view == discardButton) {
             game.sendAction(discard);
+            System.out.println("Discard button clicked");
         }
         if (view == deckButton) {
             game.sendAction(draw);
+            System.out.println("Deck button clicked");
         }
         if (view == undoButton) {
             game.sendAction(undo);
+            System.out.println("Undo button clicked");
         }
 
         for (int i = 1; i < meldButtons.size(); i++) {
             if (view == meldButtons.get(i)) {
                 game.sendAction(meld);
+                System.out.println("Meld button clicked");
             }
         }
 
         for (int i = 1; i < handButtons.size(); i++) {
             if (view == handButtons.get(i)) {
                 game.sendAction(new CanastaSelectCardAction(this,i));
+                System.out.println("Hand button clicked");
             }
         }
 
@@ -531,6 +539,14 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
 
     public ArrayList<Integer> getPlayerMoves() {
         return playerMoves;
+    }
+
+    public int getTotalScore() {
+        return totalScore;
+    }
+
+    public ArrayList<ArrayList<Card>> getMelds() {
+        return melds;
     }
 
 

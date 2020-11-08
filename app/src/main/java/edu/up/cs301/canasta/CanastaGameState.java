@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 
 import edu.up.cs301.game.GameFramework.infoMessage.GameState;
@@ -105,10 +106,26 @@ public class CanastaGameState extends GameState {
         player1 = new CanastaPlayer(1,"Human");
         player2 = new CanastaPlayer(2,"AI");
 
+        cleanStart();
+
         playerTurnID = 1;
         buildDeck();
         deal();
         return true;
+    }
+
+    /**
+     * Starts a new round by removing the hand, melds, deck, and discard pile
+     */
+    public void cleanStart() {
+        deck.retainAll(new ArrayList<Card>());
+        discardPile.retainAll(new ArrayList<Card>());
+
+        player1.getHand().retainAll(new ArrayList<Card>());
+        player1.getMelds().retainAll(new ArrayList<ArrayList<Card>>());
+
+        player2.getHand().retainAll(new ArrayList<Card>());
+        player2.getMelds().retainAll(new ArrayList<ArrayList<Card>>());
     }
 
 
