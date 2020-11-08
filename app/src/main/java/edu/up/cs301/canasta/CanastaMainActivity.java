@@ -24,25 +24,29 @@ public class CanastaMainActivity extends GameMainActivity {
 
     @Override
     public GameConfig createDefaultConfig() {
-        return null;
+        ArrayList<GamePlayerType> playerTypes = new ArrayList<>();
+
+        playerTypes.add(new GamePlayerType("Local human player") {
+            public GamePlayer createPlayer(String name) {
+                return new CanastaPlayer(0,name);
+            }});
+
+        playerTypes.add(new GamePlayerType("Computer player") {
+            public GamePlayer createPlayer(String name) {
+                return new CanastaComputerPlayer1(name);
+            }});
+
+        GameConfig defaultConfig = new GameConfig(playerTypes, 1, 2, "Canasta", PORT_NUMBER);
+        defaultConfig.addPlayer("Human", 0);
+        defaultConfig.addPlayer("Computer", 1);
+        defaultConfig.setRemoteData("Remote Human Player", "", 0);
+
+        return defaultConfig;
     }
 
     @Override
     public LocalGame createLocalGame() {
-        return null;
+        return new CanastaLocalGame();
     }
 
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_main);
-//
-//        CanastaGameState state = new CanastaGameState();
-//
-//        Button runTest = findViewById(R.id.test_button);
-//        runTest.setOnClickListener(state);
-//
-//        TextView outputView = findViewById(R.id.output_view);
-//        state.setTextView(outputView);
-//    }
 }
