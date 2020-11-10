@@ -345,7 +345,26 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
 
         for (int i = 1; i < meldButtons.size(); i++) {
             if (melds.get(i).size() != 0) {
-                meldButtons.get(i).setVisibility(View.VISIBLE);
+                meldButtons.get(i).setAlpha(1);
+            }
+            else {
+                meldButtons.get(i).setAlpha(0);
+            }
+        }
+
+        //set cards to visible once they're in your hand
+        for (int i = 1; i < handButtons.size(); i++) {
+            boolean exists = false;
+            for (int j = 0; j < hand.size(); j++) {
+                if (hand.get(j).getValue() == i) {
+                    exists = true;
+                }
+            }
+            if (exists) {
+                handButtons.get(i).setVisibility(View.VISIBLE);
+            }
+            else {
+                handButtons.get(i).setVisibility(View.INVISIBLE);
             }
         }
     }

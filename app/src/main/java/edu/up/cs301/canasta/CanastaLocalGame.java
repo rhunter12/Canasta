@@ -72,10 +72,10 @@ public class CanastaLocalGame extends LocalGame {
         else if (action instanceof CanastaDrawAction) {
             System.out.println("Draw action called");
             if (currentPlayer == 0) {
-                drawFromDeck(state.player1);
+                drawFromDeck(state.player1.getHand(), currentPlayer);
             }
             else if (currentPlayer == 1) {
-                drawFromDeck(state.player2);
+                drawFromDeck(state.player2.getHand(), currentPlayer);
             }
         }
 
@@ -99,10 +99,10 @@ public class CanastaLocalGame extends LocalGame {
 
         else if (action instanceof CanastaSelectCardAction) {
             if (currentPlayer == 0) {
-                selectCard(state.player1,((CanastaSelectCardAction) action).getSelectedValue());
+                selectCard(currentPlayer,((CanastaSelectCardAction) action).getSelectedValue());
             }
             else if (currentPlayer == 1) {
-                selectCard(state.player2,((CanastaSelectCardAction) action).getSelectedValue());
+                selectCard(currentPlayer,((CanastaSelectCardAction) action).getSelectedValue());
             }
         }
 
@@ -131,23 +131,27 @@ public class CanastaLocalGame extends LocalGame {
      * handles it accordingly
      * @param p (The player the action is from)
      */
-    private void drawFromDeck(CanastaPlayer p) {
-        p.getHand().add(state.deck.remove(0));
-        p.getHand().add(state.deck.remove(0));
-        removeRedThree(p);
+    private void drawFromDeck(ArrayList<Card> hand, int currentPlayer) {
+        hand.add(state.deck.remove(0));
+        hand.add(state.deck.remove(0));
+        removeRedThree(hand, currentPlayer);
     }
 
     /**
      * Removes red three from hand and replaces it with something else
      * @param p (The player the action is from)
      */
-    private void removeRedThree(CanastaPlayer p) {
-        for (int i = 0; i < p.getHand().size(); i++) {
-            if (p.getHand().get(0).getValue() == 3 && (p.getHand().get(0).getSuit() == 'H' || p.getHand().get(0).getSuit() == 'D')) {
-                p.getHand().remove(i);
-                p.getHand().add(state.deck.remove(0));
-                i = 0;  //resets loop if a red three has been found. Checks if new card is a red three
-                p.setScore(p.getScore() + 100);
+    private void removeRedThree(ArrayList<Card> hand, int currentPlayer) {
+        for (int i = 0; i < hand.size(); i++) {
+            if (hand.get(0).getValue() == 3 && (hand.get(0).getSuit() == 'H' || hand.get(0).getSuit() == 'D')) {
+                hand.remove(i);
+                hand.add(state.deck.remove(0));
+                if (currentPlayer == 0) {
+                    state.player1.setScore(state.player1.getScore() + 100);
+                }
+                else if (currentPlayer == 1) {
+                    state.player2.setScore(state.player2.getScore() + 100);
+                }
             }
         }
     }
@@ -223,9 +227,9 @@ public class CanastaLocalGame extends LocalGame {
      * @param n (The value being searched for)
      * @return (Returns the index of the value in the hand)
      */
-    public int searchHand(CanastaPlayer p, int n) {
-        for (int i = 0; i < p.getHand().size(); i++) {
-            if (p.getHand().get(i).getValue() == n) {
+    public int searchHand(ArrayList<Card> hand, int n) {
+        for (int i = 0; i < hand.size(); i++) {
+            if (hand.get(i).getValue() == n) {
                 return i;
             }
         }
@@ -238,8 +242,8 @@ public class CanastaLocalGame extends LocalGame {
      * @param card (The card that is selected)
      * @return (Returns whether the action was successful or not)
      */
-    public boolean selectCard(CanastaPlayer p, int card) {
-        if (state.getPlayerTurnID() == p.getPlayerNum()) {
+    public boolean selectCard(int currentPlayer, int card) {
+        if (state.getPlayerTurnID() == currentPlayer) {
             state.setSelectedCard(card);
             return true;
         }
@@ -252,7 +256,7 @@ public class CanastaLocalGame extends LocalGame {
      * @return (Returns whether the action was successful or not)
      */
     public boolean meldCard(CanastaPlayer p) {
-        int pos = searchHand(p, state.getSelectedCard());
+        int pos = searchHand(p.getHand(), state.getSelectedCard());
 
         if (pos == -1) {
             return false;
