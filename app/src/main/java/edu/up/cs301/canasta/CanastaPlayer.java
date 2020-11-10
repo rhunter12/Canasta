@@ -7,6 +7,7 @@
 
 package edu.up.cs301.canasta;
 
+import android.graphics.Color;
 import android.view.View;
 import android.widget.Button;
 
@@ -313,17 +314,17 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
         if (info instanceof CanastaGameState) {
             state = (CanastaGameState) info;
             if (playerNum==0){
-                hand=state.player1.getHand();
+                hand=((CanastaPlayer)state.player1).getHand();
                 for (int i=1; i<melds.size(); i++){
-                    melds=state.player1.getMelds();
+                    melds=((CanastaPlayer)state.player1).getMelds();
                 }
                 totalScore=state.getPlayer1Score();
 
             }
             else if (playerNum==1){
-                hand=state.player2.getHand();
+                hand=((CanastaPlayer)state.player2).getHand();
                 for (int i=1; i<melds.size(); i++){
-                    melds=state.player2.getMelds();
+                    melds=((CanastaPlayer)state.player2).getMelds();
                 }
                 totalScore=state.getPlayer2Score();
 
@@ -343,9 +344,29 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
         this.playerScore.setText("" + humanScore);
         this.aiScore.setText("" + aiScoreVal);
 
+        //set cards to visible once they're in your meld
         for (int i = 1; i < meldButtons.size(); i++) {
             if (melds.get(i).size() != 0) {
-                meldButtons.get(i).setVisibility(View.VISIBLE);
+                meldButtons.get(i).setAlpha(1);
+            }
+            else {
+                meldButtons.get(i).setAlpha(0);
+            }
+        }
+
+        //set cards to visible once they're in your hand
+        for (int i = 1; i < handButtons.size(); i++) {
+            boolean exists = false;
+            for (int j = 0; j < hand.size(); j++) {
+                if (hand.get(j).getValue() == i) {
+                    exists = true;
+                }
+            }
+            if (exists) {
+                handButtons.get(i).setVisibility(View.VISIBLE);
+            }
+            else {
+                handButtons.get(i).setVisibility(View.INVISIBLE);
             }
         }
     }

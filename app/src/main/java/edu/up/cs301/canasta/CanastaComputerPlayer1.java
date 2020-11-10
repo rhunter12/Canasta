@@ -73,17 +73,17 @@ public class CanastaComputerPlayer1 extends GameComputerPlayer {
         if (info instanceof CanastaGameState){
             CanastaGameState state=(CanastaGameState)info;
             if (playerNum==0){
-                hand=state.player1.getHand();
+                hand=((CanastaComputerPlayer1)state.player1).getHand();
                 for (int i=1; i<melds.size(); i++){
-                    melds=state.player1.getMelds();
+                    melds=((CanastaComputerPlayer1)state.player1).getMelds();
                 }
                 totalScore=state.getPlayer1Score();
 
             }
             else if (playerNum==1){
-                hand=state.player2.getHand();
+                hand=((CanastaComputerPlayer1)state.player2).getHand();
                 for (int i=1; i<melds.size(); i++){
-                    melds=state.player2.getMelds();
+                    melds=((CanastaComputerPlayer1)state.player2).getMelds();
                 }
                 totalScore=state.getPlayer2Score();
 
@@ -233,6 +233,13 @@ public class CanastaComputerPlayer1 extends GameComputerPlayer {
 
     public ArrayList<Integer> getPlayerMoves() {
         return playerMoves;
+    }
+
+    public ArrayList<ArrayList<Card>> getMelds() {
+        return melds;
+    }
+    public int getTotalScore() {
+        return totalScore;
     }
 
 }

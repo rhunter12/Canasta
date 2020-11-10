@@ -527,7 +527,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="#4CAF50" />
+                    android:background="#4CAF50"
+                    android:text="Ace" />
 
                 <Button
                     android:id="@+id/meld2"
@@ -535,7 +536,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="#4CAF50"
-                    tools:visibility="invisible" />
+                    android:text="2" />
 
                 <Button
                     android:id="@+id/meld3"
@@ -543,7 +544,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="#4CAF50"
-                    tools:visibility="invisible" />
+                    android:text="3" />
 
                 <Button
                     android:id="@+id/meld4"
@@ -551,15 +552,14 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="#4CAF50"
-                    tools:visibility="invisible" />
+                    android:text="Four" />
 
                 <Button
                     android:id="@+id/meld5"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@drawable/pica_five"
-                    android:visibility="invisible" />
+                    android:background="@drawable/pica_five" />
 
                 <Button
                     android:id="@+id/meld6"
@@ -567,7 +567,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="#4CAF50"
-                    tools:visibility="invisible" />
+                    android:text="Six" />
 
                 <Button
                     android:id="@+id/meld7"
@@ -575,7 +575,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="#4CAF50"
-                    tools:visibility="invisible" />
+                    android:text="Seven" />
 
                 <Button
                     android:id="@+id/meld8"
@@ -583,7 +583,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="#4CAF50"
-                    tools:visibility="invisible" />
+                    android:text="Eight" />
 
                 <Button
                     android:id="@+id/meld9"
@@ -605,7 +605,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="#4CAF50"
-                    tools:visibility="invisible" />
+                    android:text="Jack" />
 
                 <Button
                     android:id="@+id/meldQ"
@@ -620,7 +620,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="#4CAF50"
-                    tools:visibility="invisible" />
+                    android:text="King" />
 
             </LinearLayout>
 
@@ -824,7 +824,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:background="#4CAF50" />
+                            android:background="#4CAF50"
+                            android:text="One"
+                            android:visibility="invisible" />
 
                         <Button
                             android:id="@+id/hand2"
@@ -832,6 +834,8 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:background="#4CAF50"
+                            android:text="Two"
+                            android:visibility="invisible"
                             tools:visibility="invisible" />
 
                         <Button
@@ -840,6 +844,8 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:background="#4CAF50"
+                            android:text="Three"
+                            android:visibility="invisible"
                             tools:visibility="invisible" />
 
                         <Button
@@ -848,6 +854,8 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:background="#4CAF50"
+                            android:text="Four"
+                            android:visibility="invisible"
                             tools:visibility="invisible" />
 
                         <Button
@@ -855,7 +863,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:background="@drawable/pica_five" />
+                            android:background="@drawable/pica_five"
+                            android:text="Five"
+                            android:visibility="invisible" />
 
                         <Button
                             android:id="@+id/hand6"
@@ -863,6 +873,8 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:background="#4CAF50"
+                            android:text="Six"
+                            android:visibility="invisible"
                             tools:visibility="invisible" />
 
                         <Button
@@ -871,6 +883,8 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:background="#4CAF50"
+                            android:text="Seven"
+                            android:visibility="invisible"
                             tools:visibility="invisible" />
 
                         <Button
@@ -879,6 +893,8 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:background="#4CAF50"
+                            android:text="Eight"
+                            android:visibility="invisible"
                             tools:visibility="invisible" />
 
                         <Button
@@ -886,14 +902,16 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:background="@drawable/hearts_nine" />
+                            android:background="@drawable/hearts_nine"
+                            android:visibility="invisible" />
 
                         <Button
                             android:id="@+id/hand10"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:background="@drawable/diamond_ten" />
+                            android:background="@drawable/diamond_ten"
+                            android:visibility="invisible" />
 
                         <Button
                             android:id="@+id/handJ"
@@ -901,6 +919,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:background="#4CAF50"
+                            android:visibility="invisible"
                             tools:visibility="invisible" />
 
                         <Button
@@ -908,7 +927,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:background="@drawable/trebol_queen" />
+                            android:background="@drawable/trebol_queen"
+                            android:visibility="invisible" />
 
                         <Button
                             android:id="@+id/handK"
@@ -916,6 +936,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:background="#4CAF50"
+                            android:visibility="invisible"
                             tools:visibility="invisible" />
 
                     </LinearLayout>
