@@ -310,9 +310,9 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
     public void receiveInfo(GameInfo info) {
         CanastaGameState state;
 
-
         if (info instanceof CanastaGameState) {
             state = (CanastaGameState) info;
+
             if (playerNum==0){
                 hand=((CanastaPlayer)state.player1).getHand();
                 for (int i=1; i<melds.size(); i++){
@@ -345,12 +345,18 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
         this.aiScore.setText("" + aiScoreVal);
 
         //set cards to visible once they're in your meld
-        for (int i = 1; i < meldButtons.size(); i++) {
-            if (melds.get(i).size() != 0) {
-                meldButtons.get(i).setAlpha(1);
-            }
-            else {
+        if (melds.size() == 0) {
+            for (int i = 1; i < meldButtons.size(); i++) {
                 meldButtons.get(i).setAlpha(0);
+            }
+        }
+        else {
+            for (int i = 1; i < meldButtons.size(); i++) {
+                if (melds.get(i).size() != 0) {
+                    meldButtons.get(i).setAlpha(1);
+                } else {
+                    meldButtons.get(i).setAlpha(0);
+                }
             }
         }
 

@@ -60,17 +60,17 @@ public class CanastaGameState extends GameState {
         player2Score = orig.player2Score;
 
         if (orig.player1 instanceof CanastaPlayer) {
-            player1 = (CanastaPlayer)orig.player1;
+            player1 = new CanastaPlayer((CanastaPlayer)orig.player1);
         }
         else if (orig.player1 instanceof CanastaComputerPlayer1) {
-            player1 = (CanastaComputerPlayer1)orig.player1;
+            player1 = new CanastaComputerPlayer1((CanastaComputerPlayer1)orig.player1);
         }
 
         if (orig.player2 instanceof CanastaPlayer) {
-            player2 = (CanastaPlayer)orig.player2;
+            player2 = new CanastaPlayer((CanastaPlayer)orig.player2);
         }
         else if (orig.player2 instanceof CanastaComputerPlayer1) {
-            player2 = (CanastaComputerPlayer1)orig.player2;
+            player2 = new CanastaComputerPlayer1((CanastaComputerPlayer1)orig.player2);
         }
         playerTurnID = orig.playerTurnID;
     }
@@ -129,8 +129,6 @@ public class CanastaGameState extends GameState {
         player1 = new CanastaPlayer(1,"Human");
         player2 = new CanastaComputerPlayer1(2,"AI");
 
-        cleanStart();
-
         playerTurnID = 0;
         buildDeck();
         deal();
@@ -147,22 +145,34 @@ public class CanastaGameState extends GameState {
         if (player1 instanceof CanastaPlayer) {
             CanastaPlayer cp = (CanastaPlayer)player1;
             cp.getHand().retainAll(new ArrayList<Card>());
-            cp.getMelds().retainAll(new ArrayList<ArrayList<Card>>());
+
+            for (int i = 1; i < cp.getMelds().size(); i++) {
+                cp.getMelds().get(i).retainAll(new ArrayList<Card>());
+            }
         }
         else if (player1 instanceof CanastaComputerPlayer1) {
             CanastaComputerPlayer1 cp = (CanastaComputerPlayer1) player1;
             cp.getHand().retainAll(new ArrayList<Card>());
-            cp.getMelds().retainAll(new ArrayList<ArrayList<Card>>());
+
+            for (int i = 1; i < cp.getMelds().size(); i++) {
+                cp.getMelds().get(i).retainAll(new ArrayList<Card>());
+            }
         }
         if (player2 instanceof CanastaComputerPlayer1) {
             CanastaComputerPlayer1 cp = (CanastaComputerPlayer1) player2;
             cp.getHand().retainAll(new ArrayList<Card>());
-            cp.getMelds().retainAll(new ArrayList<ArrayList<Card>>());
+
+            for (int i = 1; i < cp.getMelds().size(); i++) {
+                cp.getMelds().get(i).retainAll(new ArrayList<Card>());
+            }
         }
         else if (player2 instanceof CanastaPlayer) {
             CanastaPlayer cp = (CanastaPlayer)player2;
             cp.getHand().retainAll(new ArrayList<Card>());
-            cp.getMelds().retainAll(new ArrayList<ArrayList<Card>>());
+
+            for (int i = 1; i < cp.getMelds().size(); i++) {
+                cp.getMelds().get(i).retainAll(new ArrayList<Card>());
+            }
         }
 
     }

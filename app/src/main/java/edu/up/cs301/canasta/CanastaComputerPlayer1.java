@@ -68,6 +68,75 @@ public class CanastaComputerPlayer1 extends GameComputerPlayer {
         melds.add(13,meldedKing);
     }
 
+
+    public CanastaComputerPlayer1(CanastaComputerPlayer1 orig) {
+        super(orig.name);
+        score = orig.score;
+
+        melds.add(0,null);
+        melds.add(1,meldedAce);
+        melds.add(2,meldedWild);
+        melds.add(3,melded3);
+        melds.add(4,melded4);
+        melds.add(5,melded5);
+        melds.add(6,melded6);
+        melds.add(7,melded7);
+        melds.add(8,melded8);
+        melds.add(9,melded9);
+        melds.add(10,melded10);
+        melds.add(11,meldedJack);
+        melds.add(12,meldedQueen);
+        melds.add(13,meldedKing);
+
+        for (Card c: orig.hand) {
+            this.hand.add(new Card(c));
+        }
+        for (Card c: orig.meldedAce) {
+            this.meldedAce.add(new Card(c));
+        }
+        for (Card c: orig.meldedWild) {
+            this.meldedWild.add(new Card(c));
+        }
+        for (Card c: orig.melded3) {
+            this.melded3.add(new Card(c));
+        }
+        for (Card c: orig.melded4) {
+            this.melded4.add(new Card(c));
+        }
+        for (Card c: orig.melded5) {
+            this.melded5.add(new Card(c));
+        }
+        for (Card c: orig.melded6) {
+            this.melded6.add(new Card(c));
+        }
+        for (Card c: orig.melded7) {
+            this.melded7.add(new Card(c));
+        }
+        for (Card c: orig.melded8) {
+            this.melded8.add(new Card(c));
+        }
+        for (Card c: orig.melded9) {
+            this.melded9.add(new Card(c));
+        }
+        for (Card c: orig.melded10) {
+            this.melded10.add(new Card(c));
+        }
+        for (Card c: orig.meldedJack) {
+            this.meldedJack.add(new Card(c));
+        }
+        for (Card c: orig.meldedQueen) {
+            this.meldedQueen.add(new Card(c));
+        }
+        for (Card c: orig.meldedKing) {
+            this.meldedKing.add(new Card(c));
+        }
+        for (Integer v: orig.playerMoves) {
+            this.playerMoves.add(v);
+        }
+        playerNum = orig.playerNum;
+        totalScore = orig.totalScore;
+    }
+
     @Override
     protected void receiveInfo(GameInfo info) {
         if (info instanceof CanastaGameState){

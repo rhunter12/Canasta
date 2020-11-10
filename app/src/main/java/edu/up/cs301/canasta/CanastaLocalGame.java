@@ -92,10 +92,25 @@ public class CanastaLocalGame extends LocalGame {
         else if (action instanceof CanastaDrawAction) {
             System.out.println("Draw action called");
             if (currentPlayer == 0) {
-                drawFromDeck(state.player1.getHand(), currentPlayer);
+                if (state.player1 instanceof CanastaPlayer) {
+                    CanastaPlayer p = (CanastaPlayer)state.player1;
+                    drawFromDeck(p.getHand(), currentPlayer);
+                }
+                else if (state.player1 instanceof CanastaComputerPlayer1) {
+                    CanastaComputerPlayer1 p = (CanastaComputerPlayer1)state.player1;
+                    drawFromDeck(p.getHand(), currentPlayer);
+                }
+
             }
             else if (currentPlayer == 1) {
-                drawFromDeck(state.player2.getHand(), currentPlayer);
+                if (state.player2 instanceof CanastaPlayer) {
+                    CanastaPlayer p = (CanastaPlayer)state.player2;
+                    drawFromDeck(p.getHand(), currentPlayer);
+                }
+                else if (state.player2 instanceof CanastaComputerPlayer1) {
+                    CanastaComputerPlayer1 p = (CanastaComputerPlayer1)state.player2;
+                    drawFromDeck(p.getHand(), currentPlayer);
+                }
             }
         }
 
@@ -128,10 +143,16 @@ public class CanastaLocalGame extends LocalGame {
 
         else if (action instanceof CanastaUndoAction) {
             if (currentPlayer == 0) {
-                undo(state.player1);
+                if (state.player1 instanceof CanastaPlayer) {
+                    CanastaPlayer p = (CanastaPlayer)state.player1;
+                    undo(p);
+                }
             }
             else if (currentPlayer == 1) {
-                undo(state.player2);
+                if (state.player2 instanceof CanastaPlayer) {
+                    CanastaPlayer p = (CanastaPlayer)state.player2;
+                    undo(p);
+                }
             }
         }
 
@@ -139,8 +160,17 @@ public class CanastaLocalGame extends LocalGame {
             return false;
         }
 
-        state.player1.sendInfo(state);
-        state.player2.sendInfo(state);
+        if (state.player1 instanceof CanastaPlayer) {
+            CanastaPlayer p = (CanastaPlayer)state.player1;
+            p.sendInfo(state);
+        }
+
+        if (state.player2 instanceof CanastaComputerPlayer1) {
+            CanastaComputerPlayer1 p = (CanastaComputerPlayer1)state.player2;
+            p.sendInfo(state);
+        }
+        //state.player1.sendInfo(state);
+        //state.player2.sendInfo(state);
         return true;
     }
 
@@ -170,10 +200,24 @@ public class CanastaLocalGame extends LocalGame {
                 hand.add(state.deck.remove(0));
                 i = 0;  //resets loop if a red three has been found. Checks if new card is a red three
                 if (currentPlayer == 0) {
-                    state.player1.setScore(state.player1.getScore() + 100);
+                    if (state.player1 instanceof CanastaPlayer) {
+                        CanastaPlayer p = (CanastaPlayer)state.player1;
+                        p.setScore(p.getScore() + 100);
+                    }
+                    else if (state.player1 instanceof CanastaComputerPlayer1) {
+                        CanastaComputerPlayer1 p = (CanastaComputerPlayer1)state.player1;
+                        p.setScore(p.getScore() + 100);
+                    }
                 }
                 else if (currentPlayer == 1) {
-                    state.player2.setScore(state.player2.getScore() + 100);
+                    if (state.player2 instanceof CanastaPlayer) {
+                        CanastaPlayer p = (CanastaPlayer)state.player2;
+                        p.setScore(p.getScore() + 100);
+                    }
+                    else if (state.player2 instanceof CanastaComputerPlayer1) {
+                        CanastaComputerPlayer1 p = (CanastaComputerPlayer1)state.player2;
+                        p.setScore(p.getScore() + 100);
+                    }
                 }
             }
         }
@@ -480,6 +524,7 @@ public class CanastaLocalGame extends LocalGame {
                     state.setSelectedCard(-1);
 
                     if (checkIfRoundOver(p)) {
+                        state.cleanStart();
                         state.start();
                     }
                     return true;
@@ -495,6 +540,7 @@ public class CanastaLocalGame extends LocalGame {
                     state.setSelectedCard(-1);
 
                     if (checkIfRoundOver(p)) {
+                        state.cleanStart();
                         state.start();
                     }
                     return true;
