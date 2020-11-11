@@ -25,8 +25,8 @@ public class CanastaGameState extends GameState {
     ArrayList<Card> discardPile = new ArrayList<>(); //discard pile
     private int player1Score; //player 1 is the human
     private int player2Score; //player 2 is the AI
-    CanastaPlayer player1; //player 1
-    CanastaPlayer player2; //player 2
+    CanPlayer player1; //player 1
+    CanPlayer player2; //player 2
     private int playerTurnID; //player turn ID
     private int selectedCard = -1; //selected card
 
@@ -57,8 +57,19 @@ public class CanastaGameState extends GameState {
         }
         player1Score = orig.player1Score;
         player2Score = orig.player2Score;
-        player1 = new CanastaPlayer(orig.player1);
-        player2 = new CanastaPlayer(orig.player2);
+        if (player1 instanceof CanastaPlayer){
+            player1=new CanastaPlayer((CanastaPlayer)orig.player1);
+        }
+        else if (player1 instanceof CanastaComputerPlayer1){
+            player1=new CanastaComputerPlayer1((CanastaComputerPlayer1)orig.player1);
+        }
+        if (player2 instanceof CanastaPlayer){
+            player2=new CanastaPlayer((CanastaPlayer)orig.player2);
+        }
+        else if (player2 instanceof CanastaComputerPlayer1){
+            player2=new CanastaComputerPlayer1((CanastaComputerPlayer1)orig.player2);
+        }
+
         playerTurnID = orig.playerTurnID;
     }
 
@@ -103,10 +114,10 @@ public class CanastaGameState extends GameState {
      * @return (Returns whether the action was successful or not)
      */
     public boolean start() {
-        player1 = new CanastaPlayer(1,"Human");
-        player2 = new CanastaPlayer(2,"AI");
+        player1 = new CanastaPlayer(0,"Human");
+        player2 = new CanastaComputerPlayer1(1,"AI");
 
-        cleanStart();
+        //cleanStart();
 
         playerTurnID = 0;
         buildDeck();

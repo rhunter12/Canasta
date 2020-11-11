@@ -54,14 +54,14 @@ public class CanastaLocalGame extends LocalGame {
         System.out.println("Make move called");
 
         int currentPlayer = state.getPlayerTurnID();
-        boolean yourTurn;
+        boolean yourTurn=canMove(((CanPlayer)action.getPlayer()).getPlayerNum());
 
-        if (action.getPlayer() instanceof CanastaPlayer) {
-            yourTurn = canMove(((CanastaPlayer) action.getPlayer()).getPlayerNum());
-        }
-        else {
-            yourTurn = canMove(((CanastaComputerPlayer1) action.getPlayer()).getPlayerNum());
-        }
+//        if (action.getPlayer() instanceof CanastaPlayer) {
+//            yourTurn = canMove(((CanastaPlayer) action.getPlayer()).getPlayerNum());
+//        }
+//        else {
+//            yourTurn = canMove(((CanastaComputerPlayer1) action.getPlayer()).getPlayerNum());
+//        }
 
 
         if (!yourTurn) {
@@ -118,9 +118,18 @@ public class CanastaLocalGame extends LocalGame {
         else {
             return false;
         }
-
-        state.player1.sendInfo(state);
-        state.player2.sendInfo(state);
+        if (state.player1 instanceof CanastaPlayer){
+            ((CanastaPlayer)state.player1).sendInfo(state);
+        }
+        else if (state.player1 instanceof CanastaComputerPlayer1){
+            ((CanastaComputerPlayer1)state.player1).sendInfo(state);
+        }
+        if (state.player2 instanceof CanastaPlayer){
+            ((CanastaPlayer)state.player2).sendInfo(state);
+        }
+        else if (state.player2 instanceof CanastaComputerPlayer1){
+            ((CanastaComputerPlayer1)state.player2).sendInfo(state);
+        }
         return true;
     }
 
@@ -180,7 +189,7 @@ public class CanastaLocalGame extends LocalGame {
      * @param p (The player the action is from)
      * @return (Returns whether the action was successful or not)
      */
-    public boolean checkValidMeld(CanastaPlayer p) {
+    public boolean checkValidMeld(CanPlayer p) {
         if (!((p.getMeldedAce().size() >= 3 && countWildCards(p.getMeldedAce(), 1) <= p.getMeldedAce().size()/2) || p.getMeldedAce().size() == 0)) {
             return false;
         }
@@ -255,7 +264,7 @@ public class CanastaLocalGame extends LocalGame {
      * @param p (The player the action is from)
      * @return (Returns whether the action was successful or not)
      */
-    public boolean meldCard(CanastaPlayer p) {
+    public boolean meldCard(CanPlayer p) {
         int pos = searchHand(p.getHand(), state.getSelectedCard());
 
         if (pos == -1) {
@@ -327,7 +336,7 @@ public class CanastaLocalGame extends LocalGame {
      * @param p (The player the action is from)
      * @return (Returns whether the action was successful or not)
      */
-    public boolean addToDiscard(CanastaPlayer p) {
+    public boolean addToDiscard(CanPlayer p) {
         if (!(checkValidMeld(p))) {
             return false;
         }
@@ -346,7 +355,7 @@ public class CanastaLocalGame extends LocalGame {
         return false;
     }
 
-    public boolean checkIfRoundOver(CanastaPlayer p) {
+    public boolean checkIfRoundOver(CanPlayer p) {
         if (state.deck.size() == 0) {
             return true;
         }
@@ -362,7 +371,7 @@ public class CanastaLocalGame extends LocalGame {
      * @param p (The player the action is from)
      * @return (Returns if the action was successful or not)
      */
-    public boolean undo(CanastaPlayer p) {
+    public boolean undo(CanPlayer p) {
         if(p.getPlayerMoves().size() == 0) {
             return false;
         }

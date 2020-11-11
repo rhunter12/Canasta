@@ -10,7 +10,7 @@ import edu.up.cs301.game.GameFramework.GameMainActivity;
 import edu.up.cs301.game.GameFramework.infoMessage.GameInfo;
 import edu.up.cs301.game.R;
 
-public class CanastaComputerPlayer1 extends GameComputerPlayer {
+public class CanastaComputerPlayer1 extends GameComputerPlayer implements CanPlayer{
 
     private int score;
     private ArrayList<Card> hand = new ArrayList<>();
@@ -72,11 +72,83 @@ public class CanastaComputerPlayer1 extends GameComputerPlayer {
 
 
     }
+    public CanastaComputerPlayer1(CanastaComputerPlayer1 orig) {
+        super(orig.name);
+        score = orig.score;
+
+        melds.add(0,null);
+        melds.add(1,meldedAce);
+        melds.add(2,meldedWild);
+        melds.add(3,melded3);
+        melds.add(4,melded4);
+        melds.add(5,melded5);
+        melds.add(6,melded6);
+        melds.add(7,melded7);
+        melds.add(8,melded8);
+        melds.add(9,melded9);
+        melds.add(10,melded10);
+        melds.add(11,meldedJack);
+        melds.add(12,meldedQueen);
+        melds.add(13,meldedKing);
+
+        for (Card c: orig.hand) {
+            this.hand.add(new Card(c));
+        }
+        for (Card c: orig.meldedAce) {
+            this.meldedAce.add(new Card(c));
+        }
+        for (Card c: orig.meldedWild) {
+            this.meldedWild.add(new Card(c));
+        }
+        for (Card c: orig.melded3) {
+            this.melded3.add(new Card(c));
+        }
+        for (Card c: orig.melded4) {
+            this.melded4.add(new Card(c));
+        }
+        for (Card c: orig.melded5) {
+            this.melded5.add(new Card(c));
+        }
+        for (Card c: orig.melded6) {
+            this.melded6.add(new Card(c));
+        }
+        for (Card c: orig.melded7) {
+            this.melded7.add(new Card(c));
+        }
+        for (Card c: orig.melded8) {
+            this.melded8.add(new Card(c));
+        }
+        for (Card c: orig.melded9) {
+            this.melded9.add(new Card(c));
+        }
+        for (Card c: orig.melded10) {
+            this.melded10.add(new Card(c));
+        }
+        for (Card c: orig.meldedJack) {
+            this.meldedJack.add(new Card(c));
+        }
+        for (Card c: orig.meldedQueen) {
+            this.meldedQueen.add(new Card(c));
+        }
+        for (Card c: orig.meldedKing) {
+            this.meldedKing.add(new Card(c));
+        }
+        for (Integer v: orig.playerMoves) {
+            this.playerMoves.add(v);
+        }
+        playerNum = orig.playerNum;
+        totalScore = orig.totalScore;
+    }
 
     @Override
     protected void receiveInfo(GameInfo info) {
+
         if (info instanceof CanastaGameState){
             CanastaGameState state=(CanastaGameState)info;
+
+            if (state.player1==null){return;}
+
+            if (state.player1==null){return;}
             if (playerNum==0){
                 hand=state.player1.getHand();
                 for (int i=1; i<melds.size(); i++){
@@ -104,14 +176,14 @@ public class CanastaComputerPlayer1 extends GameComputerPlayer {
             game.sendAction(new CanastaSelectCardAction(this, cardVal));
             game.sendAction(new CanastaDiscardAction(this));
 
-            /*for (int i = 1; i < meldButtons.size(); i++) {
-                if (melds.get(i).size() != 0) {
-                    meldButtons.get(i).setAlpha(1);
-                }
-                else {
-                    meldButtons.get(i).setAlpha(0);
-                }
-            }*/
+//            for (int i = 1; i < meldButtons.size(); i++) {
+//                if (melds.get(i).size() != 0) {
+//                    meldButtons.get(i).setAlpha(1);
+//                }
+//                else {
+//                    meldButtons.get(i).setAlpha(0);
+//                }
+//            }
         }
         else{
             System.out.println("Received other info message.");
@@ -264,6 +336,14 @@ public class CanastaComputerPlayer1 extends GameComputerPlayer {
 
     public ArrayList<Integer> getPlayerMoves() {
         return playerMoves;
+    }
+
+    public int getTotalScore() {
+        return totalScore;
+    }
+
+    public ArrayList<ArrayList<Card>> getMelds() {
+        return melds;
     }
 
 }

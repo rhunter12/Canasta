@@ -17,7 +17,7 @@ import edu.up.cs301.game.GameFramework.GameMainActivity;
 import edu.up.cs301.game.GameFramework.infoMessage.GameInfo;
 import edu.up.cs301.game.R;
 
-public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListener {
+public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListener, CanPlayer {
     private int score;
     private ArrayList<Card> hand = new ArrayList<>();
     private int playerNum;
@@ -309,11 +309,15 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
 
     @Override
     public void receiveInfo(GameInfo info) {
+
         CanastaGameState state;
 
 
         if (info instanceof CanastaGameState) {
             state = (CanastaGameState) info;
+
+            if (state.player1==null){return;}
+
             if (playerNum==0){
                 hand=state.player1.getHand();
                 for (int i=1; i<melds.size(); i++){
