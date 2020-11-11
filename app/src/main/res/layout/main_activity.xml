@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:background="@drawable/ic_launcher_background"
+        android:background="#4CAF50"
         android:backgroundTint="#4CAF50"
         android:orientation="vertical">
 
@@ -27,7 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="0.5"
-                android:background="@drawable/ic_launcher_background"
+                android:background="#4CAF50"
                 android:backgroundTint="#4CAF50"
                 android:orientation="vertical">
 
@@ -43,6 +43,7 @@
                         android:id="@+id/aiScore"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
+                        android:background="#4CAF50"
                         android:backgroundTint="#4CAF50"
                         android:clickable="false"
                         android:contextClickable="false"
@@ -348,90 +349,91 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:background="#4CAF50"/>
+                        android:background="@drawable/clubas" />
 
                     <Button
                         android:id="@+id/PCmeld2"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:background="@drawable/two_trebol" />
+                        android:background="@drawable/club2" />
+
+                    <Button
+                        android:id="@+id/PCmeld3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@drawable/club3" />
 
                     <Button
                         android:id="@+id/PCmeld4"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:background="#4CAF50"
-                        tools:visibility="invisible" />
+                        android:background="@drawable/club3" />
 
                     <Button
                         android:id="@+id/PCmeld5"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:background="#4CAF50" />
+                        android:background="@drawable/club5" />
 
                     <Button
                         android:id="@+id/PCmeld6"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:background="@drawable/six_hearts"
-                        />
+                        android:background="@drawable/club6" />
 
                     <Button
                         android:id="@+id/PCmeld7"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:background="#4CAF50"
-                        tools:visibility="invisible" />
+                        android:background="@drawable/club7" />
 
                     <Button
-                        android:id="@+id/PCmeld88"
+                        android:id="@+id/PCmeld8"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:background="#4CAF50"
-                        tools:visibility="invisible" />
+                        android:background="@drawable/club8" />
 
                     <Button
                         android:id="@+id/PCmeld9"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:background="#4CAF50" />
+                        android:background="@drawable/club9" />
 
                     <Button
                         android:id="@+id/PCmeld10"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:background="#4CAF50" />
+                        android:background="@drawable/club10" />
 
                     <Button
                         android:id="@+id/PCmeldJ"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:background="#4CAF50"
-                        tools:visibility="invisible" />
+                        android:background="@drawable/clubjack" />
 
                     <Button
                         android:id="@+id/PCmeldQ"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:background="#4CAF50" />
+                        android:background="@drawable/clubqueen" />
 
                     <Button
                         android:id="@+id/PCmeldK"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:background="@drawable/king_pica"
-                        />
+                        android:background="@drawable/clubking" />
 
                 </LinearLayout>
 
@@ -527,100 +529,91 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="#4CAF50" />
+                    android:background="@drawable/clubas" />
 
                 <Button
                     android:id="@+id/meld2"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="#4CAF50"
-                     />
+                    android:background="@drawable/club2" />
 
                 <Button
                     android:id="@+id/meld3"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="#4CAF50"
-                     />
+                    android:background="@drawable/club3" />
 
                 <Button
                     android:id="@+id/meld4"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="#4CAF50"
-                     />
+                    android:background="@drawable/club4" />
 
                 <Button
                     android:id="@+id/meld5"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@drawable/pica_five"
-                   />
+                    android:background="@drawable/club5" />
 
                 <Button
                     android:id="@+id/meld6"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="#4CAF50"
-                    />
+                    android:background="@drawable/club6" />
 
                 <Button
                     android:id="@+id/meld7"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="#4CAF50"
-                     />
+                    android:background="@drawable/club7" />
 
                 <Button
                     android:id="@+id/meld8"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="#4CAF50"
-                     />
+                    android:background="@drawable/club8" />
 
                 <Button
                     android:id="@+id/meld9"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@drawable/hearts_nine" />
+                    android:background="@drawable/club9" />
 
                 <Button
                     android:id="@+id/meld10"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@drawable/diamond_ten" />
+                    android:background="@drawable/club10" />
 
                 <Button
                     android:id="@+id/meldJ"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="#4CAF50"
-                     />
+                    android:background="@drawable/clubjack" />
 
                 <Button
                     android:id="@+id/meldQ"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@drawable/trebol_queen" />
+                    android:background="@drawable/clubqueen" />
 
                 <Button
                     android:id="@+id/meldK"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="#4CAF50"
-                    />
+                    android:background="@drawable/clubking" />
 
             </LinearLayout>
 
@@ -650,6 +643,16 @@
 
                     <Button
                         android:id="@+id/nCards2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:backgroundTint="#4CAF50"
+                        android:clickable="false"
+                        android:contextClickable="false"
+                        android:textColor="#000000" />
+
+                    <Button
+                        android:id="@+id/nCards3"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -798,7 +801,7 @@
 
             <LinearLayout
                 android:id="@+id/playerHands2"
-                android:layout_width="wrap_content"
+                android:layout_width="748dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:orientation="horizontal">
@@ -814,7 +817,7 @@
 
                     <LinearLayout
                         android:id="@+id/handCards"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:orientation="horizontal">
@@ -824,112 +827,112 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:background="#4CAF50"
-                            android:visibility="invisible"/>
+                            android:background="@drawable/clubas"
+                            android:visibility="invisible" />
 
                         <Button
                             android:id="@+id/hand2"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:background="#4CAF50"
-                            tools:visibility="invisible"
-                            android:visibility="invisible"/>
+                            android:background="@drawable/club2"
+                            android:visibility="invisible"
+                            tools:visibility="invisible" />
 
                         <Button
                             android:id="@+id/hand3"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:background="#4CAF50"
-                            tools:visibility="invisible"
-                            android:visibility="invisible"/>
+                            android:background="@drawable/club3"
+                            android:visibility="invisible"
+                            tools:visibility="invisible" />
 
                         <Button
                             android:id="@+id/hand4"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:background="#4CAF50"
-                            tools:visibility="invisible"
-                            android:visibility="invisible"/>
+                            android:background="@drawable/club4"
+                            android:visibility="invisible"
+                            tools:visibility="invisible" />
 
                         <Button
                             android:id="@+id/hand5"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:background="@drawable/pica_five"
-                            android:visibility="invisible"/>
+                            android:background="@drawable/club5"
+                            android:visibility="invisible" />
 
                         <Button
                             android:id="@+id/hand6"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:background="#4CAF50"
-                            tools:visibility="invisible"
-                            android:visibility="invisible"/>
+                            android:background="@drawable/club6"
+                            android:visibility="invisible"
+                            tools:visibility="invisible" />
 
                         <Button
                             android:id="@+id/hand7"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:background="#4CAF50"
-                            tools:visibility="invisible"
-                            android:visibility="invisible"/>
+                            android:background="@drawable/club7"
+                            android:visibility="invisible"
+                            tools:visibility="invisible" />
 
                         <Button
                             android:id="@+id/hand8"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:background="#4CAF50"
-                            tools:visibility="invisible"
-                            android:visibility="invisible"/>
+                            android:background="@drawable/club8"
+                            android:visibility="invisible"
+                            tools:visibility="invisible" />
 
                         <Button
                             android:id="@+id/hand9"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:background="@drawable/hearts_nine"
-                            android:visibility="invisible"/>
+                            android:background="@drawable/club9"
+                            android:visibility="invisible" />
 
                         <Button
                             android:id="@+id/hand10"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:background="@drawable/diamond_ten"
-                            android:visibility="invisible"/>
+                            android:background="@drawable/club10"
+                            android:visibility="invisible" />
 
                         <Button
                             android:id="@+id/handJ"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:background="#4CAF50"
-                            tools:visibility="invisible"
-                            android:visibility="invisible"/>
+                            android:background="@drawable/clubjack"
+                            android:visibility="invisible"
+                            tools:visibility="invisible" />
 
                         <Button
                             android:id="@+id/handQ"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:background="@drawable/trebol_queen"
-                            android:visibility="invisible"/>
+                            android:background="@drawable/clubqueen"
+                            android:visibility="invisible" />
 
                         <Button
                             android:id="@+id/handK"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:background="#4CAF50"
-                            tools:visibility="invisible"
-                            android:visibility="invisible"/>
+                            android:background="@drawable/clubking"
+                            android:visibility="invisible"
+                            tools:visibility="invisible" />
 
                     </LinearLayout>
 
@@ -938,8 +941,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.4"
-                        android:orientation="horizontal"
-                        >
+                        android:orientation="horizontal">
 
                         <Button
                             android:id="@+id/nPlayerAS"
@@ -963,6 +965,16 @@
 
                         <Button
                             android:id="@+id/nPlayer4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:backgroundTint="#4CAF50"
+                            android:clickable="false"
+                            android:contextClickable="false"
+                            android:textColor="#000000" />
+
+                        <Button
+                            android:id="@+id/nPlayer3"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"

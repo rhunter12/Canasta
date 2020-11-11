@@ -1,5 +1,6 @@
 package edu.up.cs301.canasta;
 
+import android.view.View;
 import android.widget.Button;
 
 import java.util.ArrayList;
@@ -94,14 +95,27 @@ public class CanastaComputerPlayer1 extends GameComputerPlayer {
 
             if (hand.size()<1){return;}
             game.sendAction(new CanastaDrawAction(this));
-            int cardVal=hand.get(0).getValue();
+            int cardVal = hand.get(0).getValue();
             game.sendAction(new CanastaSelectCardAction(this, cardVal));
             game.sendAction(new CanastaDiscardAction(this));
+            updateText(state);
         }
         else{
             System.out.println("Received other info message.");
         }
         return;
+
+    }
+    public void updateText(CanastaGameState state) {
+
+        for (int i = 1; i < meldButtons.size(); i++) {
+            if (melds.get(i).size() != 0) {
+                meldButtons.get(i).setAlpha(1);
+            }
+            else {
+                meldButtons.get(i).setAlpha(0);
+            }
+        }
 
     }
 
