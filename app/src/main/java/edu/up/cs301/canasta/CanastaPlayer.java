@@ -55,6 +55,8 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
 
     private ArrayList<Integer> playerMoves = new ArrayList<>();
 
+
+
     /**
      * Constructor
      * @param num (The player number)
@@ -335,6 +337,19 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
             }
 
             updateText(state);
+
+            //this is for the dumb ai
+//            if (playerNum==1 && state.getTurnStage()==0) {
+//                game.sendAction(new CanastaDrawAction(this));
+//            }
+//            else if (playerNum==1 && state.getTurnStage()==1){
+//                if (countInHand(hand,state.getSelectedCard())==0) {
+//                    game.sendAction(new CanastaSelectCardAction(this, hand.get(0).getValue()));
+//                }
+//                else {
+//                    game.sendAction(new CanastaDiscardAction(this));
+//                }
+//            }
 
         }
     }
@@ -658,6 +673,8 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
     public ArrayList<ArrayList<Card>> getMelds() {
         return melds;
     }
+    public void addTotalScore(int s){totalScore=totalScore+s;}
+
 
 
 }

@@ -29,6 +29,7 @@ public class CanastaGameState extends GameState {
     CanastaPlayer player2; //player 2
     private int playerTurnID; //player turn ID
     private int selectedCard = -1; //selected card
+    private int turnStage;//used to determine which actions are allowed
 
     /**
      * Constructor
@@ -41,6 +42,7 @@ public class CanastaGameState extends GameState {
         player1 = null;
         player2 = null;
         playerTurnID = 0;
+        turnStage=0;
         start();
     }
 
@@ -60,6 +62,7 @@ public class CanastaGameState extends GameState {
         player1 = new CanastaPlayer(orig.player1);
         player2 = new CanastaPlayer(orig.player2);
         playerTurnID = orig.playerTurnID;
+        turnStage=orig.turnStage;
     }
 
 
@@ -74,8 +77,8 @@ public class CanastaGameState extends GameState {
                 deck.add(new Card(j,'D'));
                 deck.add(new Card(j,'C'));
             }
-            deck.add(new Card(0,'W'));
-            deck.add(new Card(0,'W'));
+            //deck.add(new Card(0,'W'));
+            //deck.add(new Card(0,'W'));
         }
         Collections.shuffle(deck);
     }
@@ -103,8 +106,8 @@ public class CanastaGameState extends GameState {
      * @return (Returns whether the action was successful or not)
      */
     public boolean start() {
-        player1 = new CanastaPlayer(1,"Human");
-        player2 = new CanastaPlayer(2,"AI");
+        player1 = new CanastaPlayer(0,"Human");
+        player2 = new CanastaPlayer(1,"AI");
 
         cleanStart();
 
@@ -118,14 +121,43 @@ public class CanastaGameState extends GameState {
      * Starts a new round by removing the hand, melds, deck, and discard pile
      */
     public void cleanStart() {
+        updatePoints();
         deck.retainAll(new ArrayList<Card>());
         discardPile.retainAll(new ArrayList<Card>());
 
         player1.getHand().retainAll(new ArrayList<Card>());
-        player1.getMelds().retainAll(new ArrayList<ArrayList<Card>>());
+        for (int i=1; i<player1.getMelds().size(); i++) {
+            player1.getMelds().get(i).retainAll(new ArrayList<Card>());
+        }
 
         player2.getHand().retainAll(new ArrayList<Card>());
-        player2.getMelds().retainAll(new ArrayList<ArrayList<Card>>());
+        for (int i=1; i<player1.getMelds().size(); i++) {
+            player2.getMelds().get(i).retainAll(new ArrayList<Card>());
+        }
+
+        buildDeck();
+        deal();
+    }
+
+    public void updatePoints(){
+        player1.addTotalScore(player1.getScore());
+        for (int i=1; i<player1.getMelds().size(); i++){
+            if (player1.getMelds().get(i).size()>=7){//canastas
+                if (i==2){player1.addTotalScore(1000);}
+                else{
+                    player1.addTotalScore(500);
+                }
+            }
+        }
+        player2.addTotalScore(player2.getScore());
+        for (int i=1; i<player2.getMelds().size(); i++){
+            if (player2.getMelds().get(i).size()>=7){//canastas
+                if (i==2){player2.addTotalScore(1000);}
+                else{
+                    player2.addTotalScore(500);
+                }
+            }
+        }
     }
 
 
@@ -147,6 +179,19 @@ public class CanastaGameState extends GameState {
     }
     public int getSelectedCard() {
         return selectedCard;
+    }
+    public int getTurnStage(){return turnStage;}
+    public int nextTurnStage(){
+        turnStage++;
+        turnStage=turnStage%2;
+        return turnStage;
+        //0 means player needs to draw or pick up discard pile
+        //1 means you can meld, discard, or undo
+    }
+    public int nextPlayer(){
+        playerTurnID++;
+        playerTurnID=playerTurnID%2;
+        return playerTurnID;
     }
 
 

@@ -13,6 +13,7 @@ public class CanastaLocalGame extends LocalGame {
 
     public CanastaLocalGame() {
         state = new CanastaGameState();
+
     }
 
     @Override
@@ -119,8 +120,10 @@ public class CanastaLocalGame extends LocalGame {
             return false;
         }
 
-        state.player1.sendInfo(state);
-        state.player2.sendInfo(state);
+        //state.player1.sendInfo(state);
+        //state.player2.sendInfo(state);
+        //sendUpdatedStateTo(state.player1);
+        //sendUpdatedStateTo(state.player2);
         return true;
     }
 
@@ -131,10 +134,13 @@ public class CanastaLocalGame extends LocalGame {
      * handles it accordingly
      * @param p (The player the action is from)
      */
-    private void drawFromDeck(ArrayList<Card> hand, int currentPlayer) {
+    private boolean drawFromDeck(ArrayList<Card> hand, int currentPlayer) {
+        if (state.getTurnStage()!=0){return false;}
         hand.add(state.deck.remove(0));
         hand.add(state.deck.remove(0));
         removeRedThree(hand, currentPlayer);
+        state.nextTurnStage();
+        return true;
     }
 
     /**
@@ -331,14 +337,18 @@ public class CanastaLocalGame extends LocalGame {
         if (!(checkValidMeld(p))) {
             return false;
         }
+        if (state.getTurnStage()==0){return false;}
+        //you must draw or pick up discard pile before discarding
         for (int i = 0; i < p.getHand().size(); i++) {
             if (p.getHand().get(i).getValue() == state.getSelectedCard()) {
                 state.discardPile.add(p.getHand().remove(i));
                 state.setSelectedCard(-1);
 
                 if (checkIfRoundOver(p)) {
-                    state.start();
+                    state.cleanStart();
                 }
+                state.nextPlayer();
+                state.nextTurnStage();
                 //state.setPlayerTurnID(1);
                 return true;
             }
