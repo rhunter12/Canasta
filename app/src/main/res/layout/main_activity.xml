@@ -989,6 +989,7 @@
                             android:backgroundTint="#4CAF50"
                             android:clickable="false"
                             android:contextClickable="false"
+                            android:editable="true"
                             android:textColor="#000000" />
 
                         <Button

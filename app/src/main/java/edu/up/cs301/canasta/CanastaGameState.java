@@ -134,6 +134,9 @@ public class CanastaGameState extends GameState {
     public int getPlayer1Score() {
         return player1Score;
     }
+    public void setPlayer1Score(int score) {
+        this.player1Score = score;
+    }
     public int getPlayer2Score() {
         return player2Score;
     }

@@ -125,7 +125,21 @@ public class CanastaLocalGame extends LocalGame {
     }
 
 
-
+    public int calculateScore(CanastaPlayer p){
+        int countMeld;
+        for (int i = 1; i < p.getMelds().size(); i++) {
+            if (p.getMelds().get(i).size() != 0 && p.getMelds().get(i).size() < 8) {
+                countMeld = p.getMelds().get(i).size();
+                p.setScore(p.getScore() + countMeld * 50);
+            }
+            else {
+                countMeld = p.getMelds().get(i).size();
+                p.setScore(p.getScore() + countMeld * 100);
+            }
+            countMeld = 0;
+        }
+        return p.getScore();
+    }
     /**
      * Takes two cards from deck; checks if it is a red three and
      * handles it accordingly
@@ -335,7 +349,7 @@ public class CanastaLocalGame extends LocalGame {
             if (p.getHand().get(i).getValue() == state.getSelectedCard()) {
                 state.discardPile.add(p.getHand().remove(i));
                 state.setSelectedCard(-1);
-
+                state.setPlayer1Score(calculateScore(p));
                 if (checkIfRoundOver(p)) {
                     state.start();
                 }
