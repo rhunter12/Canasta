@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import edu.up.cs301.game.GameFramework.GameComputerPlayer;
 import edu.up.cs301.game.GameFramework.GameMainActivity;
 import edu.up.cs301.game.GameFramework.infoMessage.GameInfo;
+import edu.up.cs301.game.R;
 
 public class CanastaComputerPlayer1 extends GameComputerPlayer {
 
@@ -16,6 +17,7 @@ public class CanastaComputerPlayer1 extends GameComputerPlayer {
     private int playerNum;
     private int totalScore;
     private boolean discardState; //true = start of turn, pick up pile      false = discard on click
+    private GameMainActivity myActivity;
 
     private ArrayList<Button> meldButtons = new ArrayList<>();
 
@@ -36,7 +38,6 @@ public class CanastaComputerPlayer1 extends GameComputerPlayer {
     private ArrayList<Card> meldedKing = new ArrayList<>();
 
     private ArrayList<Integer> playerMoves = new ArrayList<>();
-
 
 
 
@@ -67,6 +68,9 @@ public class CanastaComputerPlayer1 extends GameComputerPlayer {
         melds.add(11,meldedJack);
         melds.add(12,meldedQueen);
         melds.add(13,meldedKing);
+        meldButtons.add(0,null);
+
+
     }
 
     @Override
@@ -94,11 +98,20 @@ public class CanastaComputerPlayer1 extends GameComputerPlayer {
             }
 
             if (hand.size()<1){return;}
+
             game.sendAction(new CanastaDrawAction(this));
             int cardVal = hand.get(0).getValue();
             game.sendAction(new CanastaSelectCardAction(this, cardVal));
             game.sendAction(new CanastaDiscardAction(this));
-            updateText(state);
+
+            /*for (int i = 1; i < meldButtons.size(); i++) {
+                if (melds.get(i).size() != 0) {
+                    meldButtons.get(i).setAlpha(1);
+                }
+                else {
+                    meldButtons.get(i).setAlpha(0);
+                }
+            }*/
         }
         else{
             System.out.println("Received other info message.");
@@ -106,23 +119,27 @@ public class CanastaComputerPlayer1 extends GameComputerPlayer {
         return;
 
     }
-    public void updateText(CanastaGameState state) {
-
-        for (int i = 1; i < meldButtons.size(); i++) {
-            if (melds.get(i).size() != 0) {
-                meldButtons.get(i).setAlpha(1);
-            }
-            else {
-                meldButtons.get(i).setAlpha(0);
-            }
-        }
-
+    /*public View getTopView() {
+        return myActivity.findViewById(R.id.top_gui_layout);
     }
+    public void setAsGui(GameMainActivity activity) {
+        myActivity = activity;
 
-
-
-
-
+        activity.setContentView(R.layout.main_activity);
+        meldButtons.add(1, (Button) activity.findViewById(R.id.PCmeldAs));
+        meldButtons.add(2, (Button) activity.findViewById(R.id.PCmeld2));
+        meldButtons.add(3, (Button) activity.findViewById(R.id.PCmeld3));
+        meldButtons.add(4, (Button) activity.findViewById(R.id.PCmeld4));
+        meldButtons.add(5, (Button) activity.findViewById(R.id.PCmeld5));
+        meldButtons.add(6, (Button) activity.findViewById(R.id.PCmeld6));
+        meldButtons.add(7, (Button) activity.findViewById(R.id.PCmeld7));
+        meldButtons.add(8, (Button) activity.findViewById(R.id.PCmeld8));
+        meldButtons.add(9, (Button) activity.findViewById(R.id.PCmeld9));
+        meldButtons.add(10, (Button) activity.findViewById(R.id.PCmeld10));
+        meldButtons.add(11, (Button) activity.findViewById(R.id.PCmeldJ));
+        meldButtons.add(12, (Button) activity.findViewById(R.id.PCmeldQ));
+        meldButtons.add(13, (Button) activity.findViewById(R.id.PCmeldK));
+    }*/
 
     public void setScore(int s) {
         score = s;

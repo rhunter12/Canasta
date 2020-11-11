@@ -34,6 +34,8 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
 
     private ArrayList<Button> handButtons = new ArrayList<>();
     private ArrayList<Button> meldButtons = new ArrayList<>();
+    private ArrayList<Button> cardHandCount = new ArrayList<>();
+    private ArrayList<Button> cardMeldCount = new ArrayList<>();
 
     private ArrayList<ArrayList<Card>> melds = new ArrayList<>();
 
@@ -352,14 +354,29 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
             }
         }
 
+
         //set cards to visible once they're in your hand
         for (int i = 1; i < handButtons.size(); i++) {
             boolean exists = false;
+            int counter = 0;
             for (int j = 0; j < hand.size(); j++) {
                 if (hand.get(j).getValue() == i) {
                     exists = true;
+
+//
+                    for(int z = 1; z < cardHandCount.size(); z++ ){
+                        for(int t = 0; t<hand.size();t++){
+                            if(hand.get(t).getValue() == z){
+                                counter++;
+                            }
+
+                        }
+                    }
+                    cardHandCount.get(i).setText(counter);
                 }
+                counter = 0;
             }
+            //
             if (exists) {
                 handButtons.get(i).setVisibility(View.VISIBLE);
             }
@@ -389,6 +406,37 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
         handButtons.add(11,(Button)activity.findViewById(R.id.handJ));
         handButtons.add(12,(Button)activity.findViewById(R.id.handQ));
         handButtons.add(13,(Button)activity.findViewById(R.id.handK));
+
+        cardHandCount.add(0, null);
+        cardHandCount.add(1, (Button)activity.findViewById((R.id.nPlayerAS)));
+        cardHandCount.add(2, (Button)activity.findViewById((R.id.nPlayer2)));
+        cardHandCount.add(3, (Button)activity.findViewById((R.id.nPlayer3)));
+        cardHandCount.add(4, (Button)activity.findViewById((R.id.nPlayer4)));
+        cardHandCount.add(5, (Button)activity.findViewById((R.id.nPlayer5)));
+        cardHandCount.add(6, (Button)activity.findViewById((R.id.nPlayer6)));
+        cardHandCount.add(7, (Button)activity.findViewById((R.id.nPlayer7)));
+        cardHandCount.add(8, (Button)activity.findViewById((R.id.nPlayer8)));
+        cardHandCount.add(9, (Button)activity.findViewById((R.id.nPlayer9)));
+        cardHandCount.add(10, (Button)activity.findViewById((R.id.nPlayer10)));
+        cardHandCount.add(11, (Button)activity.findViewById((R.id.nPlayerJ)));
+        cardHandCount.add(12, (Button)activity.findViewById((R.id.nPlayerQ)));
+        cardHandCount.add(13, (Button)activity.findViewById((R.id.nPlayerK)));
+
+        cardMeldCount.add(0, null);
+        cardMeldCount.add(1, (Button)activity.findViewById((R.id.nCardsAS)));
+        cardMeldCount.add(2, (Button)activity.findViewById((R.id.nCards2)));
+        cardMeldCount.add(3, (Button)activity.findViewById((R.id.nCards3)));
+        cardMeldCount.add(4, (Button)activity.findViewById((R.id.nCards4)));
+        cardMeldCount.add(5, (Button)activity.findViewById((R.id.nCards5)));
+        cardMeldCount.add(6, (Button)activity.findViewById((R.id.nCards6)));
+        cardMeldCount.add(7, (Button)activity.findViewById((R.id.nCards7)));
+        cardMeldCount.add(8, (Button)activity.findViewById((R.id.nCards8)));
+        cardMeldCount.add(9, (Button)activity.findViewById((R.id.nCards9)));
+        cardMeldCount.add(10, (Button)activity.findViewById((R.id.nCards10)));
+        cardMeldCount.add(11, (Button)activity.findViewById((R.id.nCardsJ)));
+        cardMeldCount.add(12, (Button)activity.findViewById((R.id.nCardsQ)));
+        cardMeldCount.add(13, (Button)activity.findViewById((R.id.nCardsK)));
+
 
         meldButtons.add(0,null);
         meldButtons.add(1,(Button)activity.findViewById(R.id.meldAs));
@@ -461,12 +509,6 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
         }
 
     }
-
-
-
-
-
-
 
 
 

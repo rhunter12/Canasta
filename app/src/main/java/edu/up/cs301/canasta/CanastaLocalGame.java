@@ -339,6 +339,7 @@ public class CanastaLocalGame extends LocalGame {
                 if (checkIfRoundOver(p)) {
                     state.start();
                 }
+                //state.setPlayerTurnID(1);
                 return true;
             }
         }

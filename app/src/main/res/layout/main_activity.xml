@@ -220,6 +220,7 @@
                             android:backgroundTint="#4CAF50"
                             android:clickable="false"
                             android:contextClickable="false"
+                            android:text="@string/_0"
                             android:textColor="#000000" />
 
                         <Button
@@ -230,7 +231,7 @@
                             android:backgroundTint="#4CAF50"
                             android:clickable="false"
                             android:contextClickable="false"
-                            android:text="@string/_4"
+                            android:text="@string/_0"
                             android:textColor="#000000" />
 
                         <Button
@@ -241,6 +242,7 @@
                             android:backgroundTint="#4CAF50"
                             android:clickable="false"
                             android:contextClickable="false"
+                            android:text="@string/_0"
                             android:textColor="#000000" />
 
                         <Button
@@ -251,6 +253,7 @@
                             android:backgroundTint="#4CAF50"
                             android:clickable="false"
                             android:contextClickable="false"
+                            android:text="@string/_0"
                             android:textColor="#000000" />
 
                         <Button
@@ -261,7 +264,7 @@
                             android:backgroundTint="#4CAF50"
                             android:clickable="false"
                             android:contextClickable="false"
-                            android:text="@string/_5"
+                            android:text="@string/_0"
                             android:textColor="#000000" />
 
                         <Button
@@ -271,6 +274,7 @@
                             android:layout_weight="1"
                             android:backgroundTint="#4CAF50"
                             android:clickable="false"
+                            android:text="@string/_0"
                             android:contextClickable="false"
                             android:textColor="#000000" />
 
@@ -281,6 +285,7 @@
                             android:layout_weight="1"
                             android:backgroundTint="#4CAF50"
                             android:clickable="false"
+                            android:text="@string/_0"
                             android:contextClickable="false"
                             android:textColor="#000000" />
 
@@ -291,6 +296,7 @@
                             android:layout_weight="1"
                             android:backgroundTint="#4CAF50"
                             android:clickable="false"
+                            android:text="@string/_0"
                             android:contextClickable="false"
                             android:textColor="#000000" />
 
@@ -301,6 +307,7 @@
                             android:layout_weight="1"
                             android:backgroundTint="#4CAF50"
                             android:clickable="false"
+                            android:text="@string/_0"
                             android:contextClickable="false"
                             android:textColor="#000000" />
 
@@ -311,6 +318,7 @@
                             android:layout_weight="1"
                             android:backgroundTint="#4CAF50"
                             android:clickable="false"
+                            android:text="@string/_0"
                             android:contextClickable="false"
                             android:textColor="#000000" />
 
@@ -321,6 +329,7 @@
                             android:layout_weight="1"
                             android:backgroundTint="#4CAF50"
                             android:clickable="false"
+                            android:text="@string/_0"
                             android:contextClickable="false"
                             android:textColor="#000000" />
 
@@ -332,7 +341,7 @@
                             android:backgroundTint="#4CAF50"
                             android:clickable="false"
                             android:contextClickable="false"
-                            android:text="@string/_3"
+                            android:text="@string/_0"
                             android:textColor="#000000" />
                     </LinearLayout>
                 </LinearLayout>
@@ -349,91 +358,104 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:background="@drawable/clubas" />
+                        android:background="@drawable/clubas"
+                        android:visibility="invisible"/>
 
                     <Button
                         android:id="@+id/PCmeld2"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:background="@drawable/club2" />
+                        android:background="@drawable/club2"
+                        android:visibility="invisible"/>
 
                     <Button
                         android:id="@+id/PCmeld3"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:background="@drawable/club3" />
+                        android:background="@drawable/club3"
+                        android:visibility="invisible"/>
 
                     <Button
                         android:id="@+id/PCmeld4"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:background="@drawable/club3" />
+                        android:background="@drawable/club4"
+                        android:visibility="invisible"/>
 
                     <Button
                         android:id="@+id/PCmeld5"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:background="@drawable/club5" />
+                        android:background="@drawable/club5"
+                        android:visibility="invisible"/>
 
                     <Button
                         android:id="@+id/PCmeld6"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:background="@drawable/club6" />
+                        android:background="@drawable/club6"
+                        android:visibility="invisible"/>
 
                     <Button
                         android:id="@+id/PCmeld7"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:background="@drawable/club7" />
+                        android:background="@drawable/club7"
+                        android:visibility="invisible"/>
 
                     <Button
                         android:id="@+id/PCmeld8"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:background="@drawable/club8" />
+                        android:background="@drawable/club8"
+                        android:visibility="invisible"/>
 
                     <Button
                         android:id="@+id/PCmeld9"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:background="@drawable/club9" />
+                        android:background="@drawable/club9"
+                        android:visibility="invisible"/>
 
                     <Button
                         android:id="@+id/PCmeld10"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:background="@drawable/club10" />
+                        android:background="@drawable/club10"
+                        android:visibility="invisible"/>
 
                     <Button
                         android:id="@+id/PCmeldJ"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:background="@drawable/clubjack" />
+                        android:background="@drawable/clubjack"
+                        android:visibility="invisible"/>
 
                     <Button
                         android:id="@+id/PCmeldQ"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:background="@drawable/clubqueen" />
+                        android:background="@drawable/clubqueen"
+                        android:visibility="invisible"/>
 
                     <Button
                         android:id="@+id/PCmeldK"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:background="@drawable/clubking" />
+                        android:background="@drawable/clubking"
+                        android:visibility="invisible"/>
 
                 </LinearLayout>
 
@@ -964,7 +986,7 @@
                             android:textColor="#000000" />
 
                         <Button
-                            android:id="@+id/nPlayer4"
+                            android:id="@+id/nPlayer3"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
@@ -974,7 +996,7 @@
                             android:textColor="#000000" />
 
                         <Button
-                            android:id="@+id/nPlayer3"
+                            android:id="@+id/nPlayer4"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"

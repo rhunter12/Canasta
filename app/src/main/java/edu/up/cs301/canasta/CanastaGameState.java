@@ -141,6 +141,7 @@ public class CanastaGameState extends GameState {
     public int getPlayerTurnID() {
         return playerTurnID;
     }
+    public void setPlayerTurnID(int playerTurnID){ this.playerTurnID = playerTurnID; }
     public void setSelectedCard(int card) {
         selectedCard = card;
     }
