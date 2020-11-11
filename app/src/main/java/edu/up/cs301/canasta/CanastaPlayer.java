@@ -304,11 +304,19 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
     }
 
 
+    /**
+     * Connects activity to layout
+     * @return
+     */
     @Override
     public View getTopView() {
         return myActivity.findViewById(R.id.top_gui_layout);
     }
 
+    /**
+     * Performs action when it gets info back from GameInfo
+     * @param info (The game info sender)
+     */
     @Override
     public void receiveInfo(GameInfo info) {
         CanastaGameState state;
@@ -354,12 +362,18 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
         }
     }
 
+    /**
+     * Updates text in the UI when the score changes,
+     * your hand or meld changes, or the counts change
+     * @param state (The game state)
+     */
     public void updateText(CanastaGameState state) {
         int humanScore = state.getPlayer1Score();
         int aiScoreVal = state.getPlayer2Score();
         this.playerScore.setText("" + humanScore);
         this.aiScore.setText("" + aiScoreVal);
 
+        //sets visibility of melds
         for (int i = 1; i < meldButtons.size(); i++) {
             if (melds.get(i).size() != 0) {
                 meldButtons.get(i).setAlpha(1);
@@ -403,12 +417,17 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
         }
     }
 
+    /**
+     * Connects buttons to UI instances and sets listeners
+     * @param activity (The game's main activity)
+     */
     @Override
     public void setAsGui(GameMainActivity activity) {
         myActivity = activity;
 
         activity.setContentView(R.layout.main_activity);
 
+        //connect hand card buttons
         handButtons.add(0,null);
         handButtons.add(1,(Button)activity.findViewById(R.id.handAS));
         handButtons.add(2,(Button)activity.findViewById(R.id.hand2));
@@ -424,6 +443,7 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
         handButtons.add(12,(Button)activity.findViewById(R.id.handQ));
         handButtons.add(13,(Button)activity.findViewById(R.id.handK));
 
+        //connects hand card counters
         cardHandCount.add(0, null);
         cardHandCount.add(1, (Button)activity.findViewById((R.id.nPlayerAS)));
         cardHandCount.add(2, (Button)activity.findViewById((R.id.nPlayer2)));
@@ -439,6 +459,7 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
         cardHandCount.add(12, (Button)activity.findViewById((R.id.nPlayerQ)));
         cardHandCount.add(13, (Button)activity.findViewById((R.id.nPlayerK)));
 
+        //connects meld card counters
         cardMeldCount.add(0, null);
         cardMeldCount.add(1, (Button)activity.findViewById((R.id.nCardsAS)));
         cardMeldCount.add(2, (Button)activity.findViewById((R.id.nCards2)));
@@ -454,7 +475,7 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
         cardMeldCount.add(12, (Button)activity.findViewById((R.id.nCardsQ)));
         cardMeldCount.add(13, (Button)activity.findViewById((R.id.nCardsK)));
 
-
+        //connects meld buttons
         meldButtons.add(0,null);
         meldButtons.add(1,(Button)activity.findViewById(R.id.meldAs));
         meldButtons.add(2,(Button)activity.findViewById(R.id.meld2));
@@ -491,6 +512,10 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
     }
 
 
+    /**
+     * Tells what action should be done when a button is pressed
+     * @param view
+     */
     @Override
     public void onClick(View view) {
         CanastaDiscardAction discard = new CanastaDiscardAction(this);
@@ -528,6 +553,13 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
     }
 
 
+    /**
+     * Tells the number of instances of
+     * a specific card in the player's hand
+     * @param hand (The hand to search through)
+     * @param n (The value we're searching for)
+     * @return (The count of cards)
+     */
     public int countInHand(ArrayList<Card> hand, int n) {
         int count = 0;
 
@@ -540,6 +572,9 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
     }
 
 
+    /*
+    Getters and setters
+     */
 
     public void setScore(int s) {
         score = s;
