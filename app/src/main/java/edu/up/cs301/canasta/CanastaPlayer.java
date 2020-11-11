@@ -355,28 +355,19 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
         }
 
 
+        for (int i = 1; i < cardHandCount.size(); i++) {
+            cardHandCount.get(i).setText("" + countInHand(hand,i));
+        }
+
+
         //set cards to visible once they're in your hand
         for (int i = 1; i < handButtons.size(); i++) {
             boolean exists = false;
-            int counter = 0;
             for (int j = 0; j < hand.size(); j++) {
                 if (hand.get(j).getValue() == i) {
                     exists = true;
-
-//
-                    for(int z = 1; z < cardHandCount.size(); z++ ){
-                        for(int t = 0; t<hand.size();t++){
-                            if(hand.get(t).getValue() == z){
-                                counter++;
-                            }
-
-                        }
-                    }
-                    cardHandCount.get(i).setText(counter);
                 }
-                counter = 0;
             }
-            //
             if (exists) {
                 handButtons.get(i).setVisibility(View.VISIBLE);
             }
@@ -508,6 +499,18 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
             }
         }
 
+    }
+
+
+    public int countInHand(ArrayList<Card> hand, int n) {
+        int count = 0;
+
+        for (int i = 0; i < hand.size(); i++) {
+            if (hand.get(i).getValue() == n) {
+                count++;
+            }
+        }
+        return count;
     }
 
 
