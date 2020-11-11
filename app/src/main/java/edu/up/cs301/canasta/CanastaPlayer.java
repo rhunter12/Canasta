@@ -355,8 +355,19 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
         }
 
 
+        //set counter of cards in your hand
         for (int i = 1; i < cardHandCount.size(); i++) {
             cardHandCount.get(i).setText("" + countInHand(hand,i));
+        }
+
+        //set counter for number of cards in meld
+        for (int i = 1; i < cardMeldCount.size(); i++) {
+            if (melds.get(i).size() != 0) {
+                cardMeldCount.get(i).setText("" + melds.get(i).size());
+            }
+            else {
+                cardMeldCount.get(i).setText("0");
+            }
         }
 
 

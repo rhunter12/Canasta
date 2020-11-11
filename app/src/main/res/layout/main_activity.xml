@@ -701,7 +701,6 @@
                         android:backgroundTint="#4CAF50"
                         android:clickable="false"
                         android:contextClickable="false"
-                        android:text="@string/_5"
                         android:textColor="#000000" />
 
                     <Button
@@ -742,7 +741,6 @@
                         android:backgroundTint="#4CAF50"
                         android:clickable="false"
                         android:contextClickable="false"
-                        android:text="@string/_4"
                         android:textColor="#000000" />
 
                     <Button
@@ -753,7 +751,6 @@
                         android:backgroundTint="#4CAF50"
                         android:clickable="false"
                         android:contextClickable="false"
-                        android:text="7"
                         android:textColor="#000000" />
 
                     <Button
@@ -774,7 +771,6 @@
                         android:backgroundTint="#4CAF50"
                         android:clickable="false"
                         android:contextClickable="false"
-                        android:text="@string/_6"
                         android:textColor="#000000" />
 
                     <Button
@@ -1013,7 +1009,6 @@
                             android:backgroundTint="#4CAF50"
                             android:clickable="false"
                             android:contextClickable="false"
-                            android:text="@string/_2"
                             android:textColor="#000000" />
 
                         <Button
@@ -1054,7 +1049,6 @@
                             android:backgroundTint="#4CAF50"
                             android:clickable="false"
                             android:contextClickable="false"
-                            android:text="@string/_1"
                             android:textColor="#000000" />
 
                         <Button
@@ -1065,7 +1059,6 @@
                             android:backgroundTint="#4CAF50"
                             android:clickable="false"
                             android:contextClickable="false"
-                            android:text="@string/_1"
                             android:textColor="#000000" />
 
                         <Button
@@ -1086,7 +1079,6 @@
                             android:backgroundTint="#4CAF50"
                             android:clickable="false"
                             android:contextClickable="false"
-                            android:text="@string/_2"
                             android:textColor="#000000" />
 
                         <Button
