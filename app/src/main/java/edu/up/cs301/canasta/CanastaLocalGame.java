@@ -190,10 +190,10 @@ public class CanastaLocalGame extends LocalGame {
                 hand.remove(i);
                 hand.add(state.deck.remove(0));
                 if (currentPlayer == 0) {
-                    state.player1.setScore(state.player1.getScore() + 100);
+                    state.player1.addTotalScore(  100);
                 }
                 else if (currentPlayer == 1) {
-                    state.player2.setScore(state.player2.getScore() + 100);
+                    state.player2.addTotalScore(100);
                 }
             }
         }

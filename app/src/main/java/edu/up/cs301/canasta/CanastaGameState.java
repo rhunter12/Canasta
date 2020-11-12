@@ -178,6 +178,46 @@ public class CanastaGameState extends GameState {
             player1.setScore(sum);
 
         }
+        sum=0;
+        for (int i=1; i<player2.getMelds().size(); i++){
+
+            boolean hasWilds=false;
+            for (int j=0; j<player2.getMelds().get(i).size();j++){
+                if (player2.getMelds().get(i).get(j).getValue()==0){
+                    hasWilds=true;
+                    sum=sum+50;
+                }
+                else if (player2.getMelds().get(i).get(j).getValue()==2){
+                    hasWilds=true;
+                    sum=sum+20;
+                }
+                else if (player2.getMelds().get(i).get(j).getValue()==1){
+                    sum=sum+20;
+                }
+                else if (player2.getMelds().get(i).get(j).getValue()<=7){
+                    sum=sum+5;
+                }
+                else if (player2.getMelds().get(i).get(j).getValue()>7){
+                    sum=sum+10;
+                }
+            }
+
+            if (player2.getMelds().get(i).size()>=7){//canastas
+                if (i==2){
+                    sum=sum+1000;
+                }
+                else if (hasWilds){
+                    sum=sum+300;
+                }
+                else{
+                    sum=sum+500;
+                }
+            }
+        }
+
+        player2.setScore(sum);
+
+
     }
 
 
