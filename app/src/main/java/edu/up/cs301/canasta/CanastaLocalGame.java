@@ -11,10 +11,19 @@ public class CanastaLocalGame extends LocalGame {
 
     private CanastaGameState state;
 
+    /**
+     * Constructor sets the state to a new state
+     */
     public CanastaLocalGame() {
         state = new CanastaGameState();
+
     }
 
+    /**
+     * Sends updates to the game player via
+     * a new state
+     * @param p (The game player)
+     */
     @Override
     protected void sendUpdatedStateTo(GamePlayer p) {
         if (state == null) {
@@ -25,6 +34,13 @@ public class CanastaLocalGame extends LocalGame {
         p.sendInfo(stateForPlayer);
     }
 
+    /**
+     * Check if the player can move by comparing playerIdx
+     * to the player turn ID
+     * @param playerIdx
+     * 		the player's player-number (ID)
+     * @return
+     */
     @Override
     protected boolean canMove(int playerIdx) {
         if (state.getPlayerTurnID() == playerIdx) {
@@ -33,42 +49,33 @@ public class CanastaLocalGame extends LocalGame {
         return false;
     }
 
+    /**
+     * Checks if the game is over and sees if
+     * any player has a score greater than 5000
+     * @return (The result of the game)
+     */
     @Override
     protected String checkIfGameOver() {
-        if (state.player1 instanceof CanastaPlayer && state.player2 instanceof CanastaComputerPlayer1) {
-            if (((CanastaPlayer)state.player1).getTotalScore() >= 5000 || ((CanastaComputerPlayer1)state.player2).getTotalScore() >= 5000) {
-                if (((CanastaPlayer)state.player1).getTotalScore() > ((CanastaComputerPlayer1)state.player2).getTotalScore()) {
-                    return playerNames[0] + " wins";
-                }
-                else if (((CanastaComputerPlayer1)state.player2).getTotalScore() > ((CanastaPlayer)state.player1).getTotalScore()) {
-                    return playerNames[1] + " wins";
-                }
-                else if (((CanastaPlayer)state.player1).getTotalScore() == ((CanastaComputerPlayer1)state.player2).getTotalScore()) {
-                    return "It's a tie";
-                }
+        if (state.player1.getTotalScore() >= 5000 || state.player2.getTotalScore() >= 5000) {
+            if (state.player1.getTotalScore() > state.player2.getTotalScore()) {
+                return playerNames[0] + " wins";
+            }
+            else if (state.player2.getTotalScore() > state.player1.getTotalScore()) {
+                return playerNames[1] + " wins";
+            }
+            else if (state.player1.getTotalScore() == state.player2.getTotalScore()) {
+                return "It's a tie";
             }
         }
-
-        else if (state.player1 instanceof CanastaComputerPlayer1 && state.player2 instanceof CanastaPlayer) {
-            if (((CanastaComputerPlayer1)state.player1).getTotalScore() >= 5000 || ((CanastaPlayer)state.player2).getTotalScore() >= 5000) {
-                if (((CanastaComputerPlayer1)state.player1).getTotalScore() > ((CanastaPlayer)state.player2).getTotalScore()) {
-                    return playerNames[0] + " wins";
-                }
-                else if (((CanastaPlayer)state.player2).getTotalScore() > ((CanastaComputerPlayer1)state.player1).getTotalScore()) {
-                    return playerNames[1] + " wins";
-                }
-                else if (((CanastaComputerPlayer1)state.player1).getTotalScore() == ((CanastaPlayer)state.player2).getTotalScore()) {
-                    return "It's a tie";
-                }
-            }
-        }
-        else {
-            System.out.println("We don't support that");
-        }
-
         return null;
     }
 
+    /**
+     * Receives action from player and performs that action
+     * @param action
+     * 			The move that the player has sent to the game
+     * @return (Whether that action was successful)
+     */
     @Override
     protected boolean makeMove(GameAction action) {
         System.out.println("Make move called");
@@ -89,31 +96,18 @@ public class CanastaLocalGame extends LocalGame {
             return false;
         }
 
+        //draw action
         else if (action instanceof CanastaDrawAction) {
             System.out.println("Draw action called");
             if (currentPlayer == 0) {
-                if (state.player1 instanceof CanastaPlayer) {
-                    CanastaPlayer p = (CanastaPlayer)state.player1;
-                    drawFromDeck(p.getHand(), currentPlayer);
-                }
-                else if (state.player1 instanceof CanastaComputerPlayer1) {
-                    CanastaComputerPlayer1 p = (CanastaComputerPlayer1)state.player1;
-                    drawFromDeck(p.getHand(), currentPlayer);
-                }
-
+                drawFromDeck(state.player1.getHand(), currentPlayer);
             }
             else if (currentPlayer == 1) {
-                if (state.player2 instanceof CanastaPlayer) {
-                    CanastaPlayer p = (CanastaPlayer)state.player2;
-                    drawFromDeck(p.getHand(), currentPlayer);
-                }
-                else if (state.player2 instanceof CanastaComputerPlayer1) {
-                    CanastaComputerPlayer1 p = (CanastaComputerPlayer1)state.player2;
-                    drawFromDeck(p.getHand(), currentPlayer);
-                }
+                drawFromDeck(state.player2.getHand(), currentPlayer);
             }
         }
 
+        //discard action
         else if (action instanceof CanastaDiscardAction) {
             if (currentPlayer == 0) {
                 addToDiscard(state.player1);
@@ -123,6 +117,7 @@ public class CanastaLocalGame extends LocalGame {
             }
         }
 
+        //meld action
         else if (action instanceof CanastaMeldAction) {
             if (currentPlayer == 0) {
                 meldCard(state.player1);
@@ -132,6 +127,7 @@ public class CanastaLocalGame extends LocalGame {
             }
         }
 
+        //select card action
         else if (action instanceof CanastaSelectCardAction) {
             if (currentPlayer == 0) {
                 selectCard(currentPlayer,((CanastaSelectCardAction) action).getSelectedValue());
@@ -141,18 +137,13 @@ public class CanastaLocalGame extends LocalGame {
             }
         }
 
+        //undo action
         else if (action instanceof CanastaUndoAction) {
             if (currentPlayer == 0) {
-                if (state.player1 instanceof CanastaPlayer) {
-                    CanastaPlayer p = (CanastaPlayer)state.player1;
-                    undo(p);
-                }
+                undo(state.player1);
             }
             else if (currentPlayer == 1) {
-                if (state.player2 instanceof CanastaPlayer) {
-                    CanastaPlayer p = (CanastaPlayer)state.player2;
-                    undo(p);
-                }
+                undo(state.player2);
             }
         }
 
@@ -160,37 +151,37 @@ public class CanastaLocalGame extends LocalGame {
             return false;
         }
 
-        if (state.player1 instanceof CanastaPlayer) {
-            CanastaPlayer p = (CanastaPlayer)state.player1;
-            p.sendInfo(state);
-        }
-
-        if (state.player2 instanceof CanastaComputerPlayer1) {
-            CanastaComputerPlayer1 p = (CanastaComputerPlayer1)state.player2;
-            p.sendInfo(state);
-        }
         //state.player1.sendInfo(state);
         //state.player2.sendInfo(state);
+        //sendUpdatedStateTo(state.player1);
+        //sendUpdatedStateTo(state.player2);
         return true;
     }
-
-
 
     /**
      * Takes two cards from deck; checks if it is a red three and
      * handles it accordingly
-     * @param hand (The players hand)
+     * @param hand (The player's hand)
      * @param currentPlayer (The current player)
      */
-    private void drawFromDeck(ArrayList<Card> hand, int currentPlayer) {
-        hand.add(state.deck.remove(0));
-        hand.add(state.deck.remove(0));
-        removeRedThree(hand, currentPlayer);
+    private boolean drawFromDeck(ArrayList<Card> hand, int currentPlayer) {
+        if (state.getTurnStage()!=0){return false;}
+        if (state.deck.size() > 1) {
+            hand.add(state.deck.remove(0));
+            hand.add(state.deck.remove(0));
+            removeRedThree(hand, currentPlayer);
+            state.nextTurnStage();
+            return true;
+        }
+        else {
+            state.cleanStart();
+        }
+        return false;
     }
 
     /**
      * Removes red three from hand and replaces it with something else
-     * @param hand (The players hand)
+     * @param hand (The player's hand)
      * @param currentPlayer (The current player)
      */
     private void removeRedThree(ArrayList<Card> hand, int currentPlayer) {
@@ -198,26 +189,11 @@ public class CanastaLocalGame extends LocalGame {
             if (hand.get(0).getValue() == 3 && (hand.get(0).getSuit() == 'H' || hand.get(0).getSuit() == 'D')) {
                 hand.remove(i);
                 hand.add(state.deck.remove(0));
-                i = 0;  //resets loop if a red three has been found. Checks if new card is a red three
                 if (currentPlayer == 0) {
-                    if (state.player1 instanceof CanastaPlayer) {
-                        CanastaPlayer p = (CanastaPlayer)state.player1;
-                        p.setScore(p.getScore() + 100);
-                    }
-                    else if (state.player1 instanceof CanastaComputerPlayer1) {
-                        CanastaComputerPlayer1 p = (CanastaComputerPlayer1)state.player1;
-                        p.setScore(p.getScore() + 100);
-                    }
+                    state.player1.addTotalScore(  100);
                 }
                 else if (currentPlayer == 1) {
-                    if (state.player2 instanceof CanastaPlayer) {
-                        CanastaPlayer p = (CanastaPlayer)state.player2;
-                        p.setScore(p.getScore() + 100);
-                    }
-                    else if (state.player2 instanceof CanastaComputerPlayer1) {
-                        CanastaComputerPlayer1 p = (CanastaComputerPlayer1)state.player2;
-                        p.setScore(p.getScore() + 100);
-                    }
+                    state.player2.addTotalScore(100);
                 }
             }
         }
@@ -244,99 +220,53 @@ public class CanastaLocalGame extends LocalGame {
     /**
      * Checks if all melds are of three or more cards
      * and more than half of the cards are not a wild cards or not empty
-     * @param gp (The player the action is from)
+     * @param p (The player the action is from)
      * @return (Returns whether the action was successful or not)
      */
-    public boolean checkValidMeld(GamePlayer gp) {
-        if (gp instanceof CanastaPlayer) {
-            CanastaPlayer p = (CanastaPlayer) gp;
-
-            if (!((p.getMeldedAce().size() >= 3 && countWildCards(p.getMeldedAce(), 1) <= p.getMeldedAce().size() / 2) || p.getMeldedAce().size() == 0)) {
-                return false;
-            }
-            if (!((p.getMelded4().size() >= 3 && countWildCards(p.getMelded4(), 4) <= p.getMelded4().size() / 2) || p.getMelded4().size() == 0)) {
-                return false;
-            }
-            if (!((p.getMelded5().size() >= 3 && countWildCards(p.getMelded5(), 5) <= p.getMelded5().size() / 2) || p.getMelded5().size() == 0)) {
-                return false;
-            }
-            if (!((p.getMelded6().size() >= 3 && countWildCards(p.getMelded6(), 6) <= p.getMelded6().size() / 2) || p.getMelded6().size() == 0)) {
-                return false;
-            }
-            if (!((p.getMelded7().size() >= 3 && countWildCards(p.getMelded7(), 7) <= p.getMelded7().size() / 2) || p.getMelded7().size() == 0)) {
-                return false;
-            }
-            if (!((p.getMelded8().size() >= 3 && countWildCards(p.getMelded8(), 8) <= p.getMelded8().size() / 2) || p.getMelded8().size() == 0)) {
-                return false;
-            }
-            if (!((p.getMelded9().size() >= 3 && countWildCards(p.getMelded9(), 9) <= p.getMelded9().size() / 2) || p.getMelded9().size() == 0)) {
-                return false;
-            }
-            if (!((p.getMelded10().size() >= 3 && countWildCards(p.getMelded10(), 10) <= p.getMelded10().size() / 2) || p.getMelded10().size() == 0)) {
-                return false;
-            }
-            if (!((p.getMeldedJack().size() >= 3 && countWildCards(p.getMeldedJack(), 11) <= p.getMeldedJack().size() / 2) || p.getMeldedJack().size() == 0)) {
-                return false;
-            }
-            if (!((p.getMeldedQueen().size() >= 3 && countWildCards(p.getMeldedQueen(), 12) <= p.getMeldedQueen().size() / 2) || p.getMeldedQueen().size() == 0)) {
-                return false;
-            }
-            if (!((p.getMeldedKing().size() >= 3 && countWildCards(p.getMeldedKing(), 13) <= p.getMeldedKing().size() / 2) || p.getMeldedKing().size() == 0)) {
-                return false;
-            }
-
-            if (!(p.getMeldedWild().size() == 0 || p.getMeldedWild().size() >= 3)) {
-                return false;
-            }
+    public boolean checkValidMeld(CanastaPlayer p) {
+        if (!((p.getMeldedAce().size() >= 3 && countWildCards(p.getMeldedAce(), 1) <= p.getMeldedAce().size()/2) || p.getMeldedAce().size() == 0)) {
+            return false;
+        }
+        if (!((p.getMelded4().size() >= 3 && countWildCards(p.getMelded4(), 4) <= p.getMelded4().size()/2) || p.getMelded4().size() == 0)) {
+            return false;
+        }
+        if (!((p.getMelded5().size() >= 3 && countWildCards(p.getMelded5(), 5) <= p.getMelded5().size()/2) || p.getMelded5().size() == 0)) {
+            return false;
+        }
+        if (!((p.getMelded6().size() >= 3 && countWildCards(p.getMelded6(), 6) <= p.getMelded6().size()/2) || p.getMelded6().size() == 0)) {
+            return false;
+        }
+        if (!((p.getMelded7().size() >= 3 && countWildCards(p.getMelded7(), 7) <= p.getMelded7().size()/2) || p.getMelded7().size() == 0)) {
+            return false;
+        }
+        if (!((p.getMelded8().size() >= 3 && countWildCards(p.getMelded8(), 8) <= p.getMelded8().size()/2) || p.getMelded8().size() == 0)) {
+            return false;
+        }
+        if (!((p.getMelded9().size() >= 3 && countWildCards(p.getMelded9(), 9) <= p.getMelded9().size()/2) || p.getMelded9().size() == 0)) {
+            return false;
+        }
+        if (!((p.getMelded10().size() >= 3 && countWildCards(p.getMelded10(), 10) <= p.getMelded10().size()/2) || p.getMelded10().size() == 0)) {
+            return false;
+        }
+        if (!((p.getMeldedJack().size() >= 3 && countWildCards(p.getMeldedJack(), 11) <= p.getMeldedJack().size()/2) || p.getMeldedJack().size() == 0)) {
+            return false;
+        }
+        if (!((p.getMeldedQueen().size() >= 3 && countWildCards(p.getMeldedQueen(), 12) <= p.getMeldedQueen().size()/2) || p.getMeldedQueen().size() == 0)) {
+            return false;
+        }
+        if (!((p.getMeldedKing().size() >= 3 && countWildCards(p.getMeldedKing(), 13) <= p.getMeldedKing().size()/2) || p.getMeldedKing().size() == 0)) {
+            return false;
         }
 
-        else if (gp instanceof CanastaComputerPlayer1) {
-            CanastaComputerPlayer1 p = (CanastaComputerPlayer1) gp;
-
-            if (!((p.getMeldedAce().size() >= 3 && countWildCards(p.getMeldedAce(), 1) <= p.getMeldedAce().size() / 2) || p.getMeldedAce().size() == 0)) {
-                return false;
-            }
-            if (!((p.getMelded4().size() >= 3 && countWildCards(p.getMelded4(), 4) <= p.getMelded4().size() / 2) || p.getMelded4().size() == 0)) {
-                return false;
-            }
-            if (!((p.getMelded5().size() >= 3 && countWildCards(p.getMelded5(), 5) <= p.getMelded5().size() / 2) || p.getMelded5().size() == 0)) {
-                return false;
-            }
-            if (!((p.getMelded6().size() >= 3 && countWildCards(p.getMelded6(), 6) <= p.getMelded6().size() / 2) || p.getMelded6().size() == 0)) {
-                return false;
-            }
-            if (!((p.getMelded7().size() >= 3 && countWildCards(p.getMelded7(), 7) <= p.getMelded7().size() / 2) || p.getMelded7().size() == 0)) {
-                return false;
-            }
-            if (!((p.getMelded8().size() >= 3 && countWildCards(p.getMelded8(), 8) <= p.getMelded8().size() / 2) || p.getMelded8().size() == 0)) {
-                return false;
-            }
-            if (!((p.getMelded9().size() >= 3 && countWildCards(p.getMelded9(), 9) <= p.getMelded9().size() / 2) || p.getMelded9().size() == 0)) {
-                return false;
-            }
-            if (!((p.getMelded10().size() >= 3 && countWildCards(p.getMelded10(), 10) <= p.getMelded10().size() / 2) || p.getMelded10().size() == 0)) {
-                return false;
-            }
-            if (!((p.getMeldedJack().size() >= 3 && countWildCards(p.getMeldedJack(), 11) <= p.getMeldedJack().size() / 2) || p.getMeldedJack().size() == 0)) {
-                return false;
-            }
-            if (!((p.getMeldedQueen().size() >= 3 && countWildCards(p.getMeldedQueen(), 12) <= p.getMeldedQueen().size() / 2) || p.getMeldedQueen().size() == 0)) {
-                return false;
-            }
-            if (!((p.getMeldedKing().size() >= 3 && countWildCards(p.getMeldedKing(), 13) <= p.getMeldedKing().size() / 2) || p.getMeldedKing().size() == 0)) {
-                return false;
-            }
-
-            if (!(p.getMeldedWild().size() == 0 || p.getMeldedWild().size() >= 3)) {
-                return false;
-            }
+        if (!(p.getMeldedWild().size() == 0 || p.getMeldedWild().size() >= 3)) {
+            return false;
         }
         return true;
     }
 
     /**
      * Searches hand for selected card and returns index
-     * @param hand (The players hand)
+     * @param hand (The player's hand)
      * @param n (The value being searched for)
      * @return (Returns the index of the value in the hand)
      */
@@ -365,140 +295,70 @@ public class CanastaLocalGame extends LocalGame {
 
     /**
      * Adds a selected card to the player's meld
-     * @param gp (The player the action is from)
+     * @param p (The player the action is from)
      * @return (Returns whether the action was successful or not)
      */
-    public boolean meldCard(GamePlayer gp) {
-        if (gp instanceof CanastaPlayer) {
-            CanastaPlayer p = (CanastaPlayer) gp;
+    public boolean meldCard(CanastaPlayer p) {
+        int pos = searchHand(p.getHand(), state.getSelectedCard());
 
-            int pos = searchHand(p.getHand(), state.getSelectedCard());
-
-            if (pos == -1) {
-                return false;
-            }
-            switch (state.getSelectedCard()) {
-                case -1:
-                    return false;
-                case 1:
-                    p.getPlayerMoves().add(1);
-                    p.getMeldedAce().add(p.getHand().remove(pos));
-                    break;
-                case 2:
-                    p.getPlayerMoves().add(2);
-                    p.getMeldedWild().add(p.getHand().remove(pos));
-                    break;
-                case 3:
-                    p.getPlayerMoves().add(3);
-                    p.getMelded3().add(p.getHand().remove(pos));
-                    break;
-                case 4:
-                    p.getPlayerMoves().add(4);
-                    p.getMelded4().add(p.getHand().remove(pos));
-                    break;
-                case 5:
-                    p.getPlayerMoves().add(5);
-                    p.getMelded5().add(p.getHand().remove(pos));
-                    break;
-                case 6:
-                    p.getPlayerMoves().add(6);
-                    p.getMelded6().add(p.getHand().remove(pos));
-                    break;
-                case 7:
-                    p.getPlayerMoves().add(7);
-                    p.getMelded7().add(p.getHand().remove(pos));
-                    break;
-                case 8:
-                    p.getPlayerMoves().add(8);
-                    p.getMelded8().add(p.getHand().remove(pos));
-                    break;
-                case 9:
-                    p.getPlayerMoves().add(9);
-                    p.getMelded9().add(p.getHand().remove(pos));
-                    break;
-                case 10:
-                    p.getPlayerMoves().add(10);
-                    p.getMelded10().add(p.getHand().remove(pos));
-                    break;
-                case 11:
-                    p.getPlayerMoves().add(11);
-                    p.getMeldedJack().add(p.getHand().remove(pos));
-                    break;
-                case 12:
-                    p.getPlayerMoves().add(12);
-                    p.getMeldedQueen().add(p.getHand().remove(pos));
-                    break;
-                case 13:
-                    p.getPlayerMoves().add(13);
-                    p.getMeldedKing().add(p.getHand().remove(pos));
-                    break;
-            }
+        if (pos == -1) {
+            return false;
         }
-
-        if (gp instanceof CanastaComputerPlayer1) {
-            CanastaComputerPlayer1 p = (CanastaComputerPlayer1) gp;
-
-            int pos = searchHand(p.getHand(), state.getSelectedCard());
-
-            if (pos == -1) {
+        switch (state.getSelectedCard()) {
+            case -1:
                 return false;
-            }
-            switch (state.getSelectedCard()) {
-                case -1:
-                    return false;
-                case 1:
-                    p.getPlayerMoves().add(1);
-                    p.getMeldedAce().add(p.getHand().remove(pos));
-                    break;
-                case 2:
-                    p.getPlayerMoves().add(2);
-                    p.getMeldedWild().add(p.getHand().remove(pos));
-                    break;
-                case 3:
-                    p.getPlayerMoves().add(3);
-                    p.getMelded3().add(p.getHand().remove(pos));
-                    break;
-                case 4:
-                    p.getPlayerMoves().add(4);
-                    p.getMelded4().add(p.getHand().remove(pos));
-                    break;
-                case 5:
-                    p.getPlayerMoves().add(5);
-                    p.getMelded5().add(p.getHand().remove(pos));
-                    break;
-                case 6:
-                    p.getPlayerMoves().add(6);
-                    p.getMelded6().add(p.getHand().remove(pos));
-                    break;
-                case 7:
-                    p.getPlayerMoves().add(7);
-                    p.getMelded7().add(p.getHand().remove(pos));
-                    break;
-                case 8:
-                    p.getPlayerMoves().add(8);
-                    p.getMelded8().add(p.getHand().remove(pos));
-                    break;
-                case 9:
-                    p.getPlayerMoves().add(9);
-                    p.getMelded9().add(p.getHand().remove(pos));
-                    break;
-                case 10:
-                    p.getPlayerMoves().add(10);
-                    p.getMelded10().add(p.getHand().remove(pos));
-                    break;
-                case 11:
-                    p.getPlayerMoves().add(11);
-                    p.getMeldedJack().add(p.getHand().remove(pos));
-                    break;
-                case 12:
-                    p.getPlayerMoves().add(12);
-                    p.getMeldedQueen().add(p.getHand().remove(pos));
-                    break;
-                case 13:
-                    p.getPlayerMoves().add(13);
-                    p.getMeldedKing().add(p.getHand().remove(pos));
-                    break;
-            }
+            case 1:
+                p.getPlayerMoves().add(1);
+                p.getMeldedAce().add(p.getHand().remove(pos));
+                break;
+            case 2:
+                p.getPlayerMoves().add(2);
+                p.getMeldedWild().add(p.getHand().remove(pos));
+                break;
+            case 3:
+                p.getPlayerMoves().add(3);
+                p.getMelded3().add(p.getHand().remove(pos));
+                break;
+            case 4:
+                p.getPlayerMoves().add(4);
+                p.getMelded4().add(p.getHand().remove(pos));
+                break;
+            case 5:
+                p.getPlayerMoves().add(5);
+                p.getMelded5().add(p.getHand().remove(pos));
+                break;
+            case 6:
+                p.getPlayerMoves().add(6);
+                p.getMelded6().add(p.getHand().remove(pos));
+                break;
+            case 7:
+                p.getPlayerMoves().add(7);
+                p.getMelded7().add(p.getHand().remove(pos));
+                break;
+            case 8:
+                p.getPlayerMoves().add(8);
+                p.getMelded8().add(p.getHand().remove(pos));
+                break;
+            case 9:
+                p.getPlayerMoves().add(9);
+                p.getMelded9().add(p.getHand().remove(pos));
+                break;
+            case 10:
+                p.getPlayerMoves().add(10);
+                p.getMelded10().add(p.getHand().remove(pos));
+                break;
+            case 11:
+                p.getPlayerMoves().add(11);
+                p.getMeldedJack().add(p.getHand().remove(pos));
+                break;
+            case 12:
+                p.getPlayerMoves().add(12);
+                p.getMeldedQueen().add(p.getHand().remove(pos));
+                break;
+            case 13:
+                p.getPlayerMoves().add(13);
+                p.getMeldedKing().add(p.getHand().remove(pos));
+                break;
         }
         return true;
     }
@@ -507,66 +367,38 @@ public class CanastaLocalGame extends LocalGame {
     /**
      * Searches through hand for selected card to move to
      * discard pile
-     * @param gp (The player the action is from)
+     * @param p (The player the action is from)
      * @return (Returns whether the action was successful or not)
      */
-    public boolean addToDiscard(GamePlayer gp) {
-        if (!(checkValidMeld(gp))) {
+    public boolean addToDiscard(CanastaPlayer p) {
+        if (!(checkValidMeld(p))) {
             return false;
         }
-
-        if (gp instanceof CanastaPlayer) {
-            CanastaPlayer p = (CanastaPlayer)gp;
-
-            for (int i = 0; i < p.getHand().size(); i++) {
-                if (p.getHand().get(i).getValue() == state.getSelectedCard()) {
-                    state.discardPile.add(p.getHand().remove(i));
-                    state.setSelectedCard(-1);
-
-                    if (checkIfRoundOver(p)) {
-                        state.cleanStart();
-                        state.start();
-                    }
-                    return true;
+        if (state.getTurnStage()==0){return false;}
+        //you must draw or pick up discard pile before discarding
+        for (int i = 0; i < p.getHand().size(); i++) {
+            if (p.getHand().get(i).getValue() == state.getSelectedCard()) {
+                state.discardPile.add(p.getHand().remove(i));
+                state.setSelectedCard(-1);
+                state.updatePoints();
+                if (checkIfRoundOver(p)) {
+                    state.cleanStart();
                 }
-            }
-        }
-        else if (gp instanceof CanastaComputerPlayer1) {
-            CanastaComputerPlayer1 p = (CanastaComputerPlayer1) gp;
-
-            for (int i = 0; i < p.getHand().size(); i++) {
-                if (p.getHand().get(i).getValue() == state.getSelectedCard()) {
-                    state.discardPile.add(p.getHand().remove(i));
-                    state.setSelectedCard(-1);
-
-                    if (checkIfRoundOver(p)) {
-                        state.cleanStart();
-                        state.start();
-                    }
-                    return true;
-                }
+                state.nextPlayer();
+                state.nextTurnStage();
+                //state.setPlayerTurnID(1);
+                return true;
             }
         }
         return false;
     }
 
-    public boolean checkIfRoundOver(GamePlayer gp) {
+    public boolean checkIfRoundOver(CanastaPlayer p) {
         if (state.deck.size() == 0) {
             return true;
         }
-
-        else if (gp instanceof CanastaPlayer) {
-            CanastaPlayer p = (CanastaPlayer) gp;
-            if (p.getHand().size() == 0) {
-                return true;
-            }
-        }
-
-        else if (gp instanceof CanastaComputerPlayer1) {
-            CanastaComputerPlayer1 p = (CanastaComputerPlayer1)gp;
-            if (p.getHand().size() == 0) {
-                return true;
-            }
+        else if (p.getHand().size() == 0) {
+            return true;
         }
         return false;
     }
