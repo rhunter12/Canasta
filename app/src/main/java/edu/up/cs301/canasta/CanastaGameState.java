@@ -109,8 +109,6 @@ public class CanastaGameState extends GameState {
         player1 = new CanastaPlayer(0,"Human");
         player2 = new CanastaPlayer(1,"AI");
 
-        cleanStart();
-
         playerTurnID = 0;
         buildDeck();
         deal();
@@ -140,24 +138,45 @@ public class CanastaGameState extends GameState {
     }
 
     public void updatePoints(){
-        player1.addTotalScore(player1.getScore());
+        //player1.addTotalScore(player1.getScore());
+        int sum=0;
         for (int i=1; i<player1.getMelds().size(); i++){
+            boolean hasWilds=false;
+            for (int j=0; j<player1.getMelds().get(i).size();j++){
+                if (player1.getMelds().get(i).get(j).getValue()==0){
+                    hasWilds=true;
+                    sum=sum+50;
+                }
+                else if (player1.getMelds().get(i).get(j).getValue()==2){
+                    hasWilds=true;
+                    sum=sum+20;
+                }
+                else if (player1.getMelds().get(i).get(j).getValue()==1){
+                    sum=sum+20;
+                }
+                else if (player1.getMelds().get(i).get(j).getValue()<=7){
+                    sum=sum+5;
+                }
+                else if (player1.getMelds().get(i).get(j).getValue()>7){
+                    sum=sum+10;
+                }
+            }
             if (player1.getMelds().get(i).size()>=7){//canastas
-                if (i==2){player1.addTotalScore(1000);}
+                if (i==2){
+                    player1.addTotalScore(1000);
+                }
+                else if (hasWilds){
+                    player1.addTotalScore(300);
+                }
                 else{
                     player1.addTotalScore(500);
                 }
             }
         }
-        player2.addTotalScore(player2.getScore());
-        for (int i=1; i<player2.getMelds().size(); i++){
-            if (player2.getMelds().get(i).size()>=7){//canastas
-                if (i==2){player2.addTotalScore(1000);}
-                else{
-                    player2.addTotalScore(500);
-                }
-            }
+        if (playerTurnID == 0) {
+            player1.addTotalScore(player1.getScore() + sum);
         }
+
     }
 
 
