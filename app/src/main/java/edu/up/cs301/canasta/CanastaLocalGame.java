@@ -168,11 +168,14 @@ public class CanastaLocalGame extends LocalGame {
      */
     private boolean drawFromDeck(ArrayList<Card> hand, int currentPlayer) {
         if (state.getTurnStage()!=0){return false;}
-        hand.add(state.deck.remove(0));
-        hand.add(state.deck.remove(0));
-        removeRedThree(hand, currentPlayer);
-        state.nextTurnStage();
-        return true;
+        if (state.deck.size() > 1) {
+            hand.add(state.deck.remove(0));
+            hand.add(state.deck.remove(0));
+            removeRedThree(hand, currentPlayer);
+            state.nextTurnStage();
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -376,7 +379,7 @@ public class CanastaLocalGame extends LocalGame {
             if (p.getHand().get(i).getValue() == state.getSelectedCard()) {
                 state.discardPile.add(p.getHand().remove(i));
                 state.setSelectedCard(-1);
-
+                state.updatePoints();
                 if (checkIfRoundOver(p)) {
                     state.cleanStart();
                 }

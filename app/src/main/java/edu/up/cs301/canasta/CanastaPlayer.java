@@ -368,7 +368,7 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
      * @param state (The game state)
      */
     public void updateText(CanastaGameState state) {
-        int humanScore = state.getPlayer1Score();
+        int humanScore = state.player1.getTotalScore();
         int aiScoreVal = state.getPlayer2Score();
         this.playerScore.setText("" + humanScore);
         this.aiScore.setText("" + aiScoreVal);
@@ -709,6 +709,7 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
         return melds;
     }
     public void addTotalScore(int s){totalScore=totalScore+s;}
+
 
 
 
