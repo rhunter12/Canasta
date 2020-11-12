@@ -173,7 +173,10 @@ public class CanastaGameState extends GameState {
                 }
             }
         }
-        player1.addTotalScore(player1.getScore() + sum);
+        if (playerTurnID == 0) {
+            player1.addTotalScore(player1.getScore() + sum);
+        }
+
     }
 
 
