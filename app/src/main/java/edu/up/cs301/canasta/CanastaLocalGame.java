@@ -158,8 +158,6 @@ public class CanastaLocalGame extends LocalGame {
         return true;
     }
 
-
-
     /**
      * Takes two cards from deck; checks if it is a red three and
      * handles it accordingly
@@ -174,6 +172,9 @@ public class CanastaLocalGame extends LocalGame {
             removeRedThree(hand, currentPlayer);
             state.nextTurnStage();
             return true;
+        }
+        else {
+            state.cleanStart();
         }
         return false;
     }
