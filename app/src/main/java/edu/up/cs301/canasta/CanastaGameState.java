@@ -120,6 +120,7 @@ public class CanastaGameState extends GameState {
      */
     public void cleanStart() {
         updatePoints();
+        player1.addTotalScore(player1.getScore());
         deck.retainAll(new ArrayList<Card>());
         discardPile.retainAll(new ArrayList<Card>());
 
@@ -138,7 +139,6 @@ public class CanastaGameState extends GameState {
     }
 
     public void updatePoints(){
-        //player1.addTotalScore(player1.getScore());
         int sum=0;
         for (int i=1; i<player1.getMelds().size(); i++){
             boolean hasWilds=false;
@@ -161,22 +161,23 @@ public class CanastaGameState extends GameState {
                     sum=sum+10;
                 }
             }
+
             if (player1.getMelds().get(i).size()>=7){//canastas
                 if (i==2){
-                    player1.addTotalScore(1000);
+                    sum=sum+1000;
                 }
                 else if (hasWilds){
-                    player1.addTotalScore(300);
+                    sum=sum+300;
                 }
                 else{
-                    player1.addTotalScore(500);
+                    sum=sum+500;
                 }
             }
         }
-        if (playerTurnID == 0) {
-            player1.addTotalScore(player1.getScore() + sum);
-        }
+        if(playerTurnID == 0) {
+            player1.setScore(sum);
 
+        }
     }
 
 

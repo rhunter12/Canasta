@@ -372,12 +372,12 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
         int aiScoreVal = 0;
 
         if (playerNum == 0) {
-            humanScore = state.player1.getTotalScore();
-            aiScoreVal = state.player2.getTotalScore();
+            humanScore = state.player1.getScore();
+            aiScoreVal = state.player2.getScore();
         }
         else if (playerNum == 1) {
-            humanScore = state.player2.getTotalScore();
-            aiScoreVal = state.player1.getTotalScore();
+            humanScore = state.player2.getScore();
+            aiScoreVal = state.player1.getScore();
         }
 
         this.playerScore.setText("" + humanScore);
