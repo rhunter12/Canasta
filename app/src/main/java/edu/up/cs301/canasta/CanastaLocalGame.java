@@ -11,10 +11,19 @@ public class CanastaLocalGame extends LocalGame {
 
     private CanastaGameState state;
 
+    /**
+     * Constructor sets the state to a new state
+     */
     public CanastaLocalGame() {
         state = new CanastaGameState();
+
     }
 
+    /**
+     * Sends updates to the game player via
+     * a new state
+     * @param p (The game player)
+     */
     @Override
     protected void sendUpdatedStateTo(GamePlayer p) {
         if (state == null) {
@@ -25,6 +34,13 @@ public class CanastaLocalGame extends LocalGame {
         p.sendInfo(stateForPlayer);
     }
 
+    /**
+     * Check if the player can move by comparing playerIdx
+     * to the player turn ID
+     * @param playerIdx
+     * 		the player's player-number (ID)
+     * @return
+     */
     @Override
     protected boolean canMove(int playerIdx) {
         if (state.getPlayerTurnID() == playerIdx) {
@@ -33,6 +49,11 @@ public class CanastaLocalGame extends LocalGame {
         return false;
     }
 
+    /**
+     * Checks if the game is over and sees if
+     * any player has a score greater than 5000
+     * @return (The result of the game)
+     */
     @Override
     protected String checkIfGameOver() {
         if (state.player1.getTotalScore() >= 5000 || state.player2.getTotalScore() >= 5000) {
@@ -49,6 +70,12 @@ public class CanastaLocalGame extends LocalGame {
         return null;
     }
 
+    /**
+     * Receives action from player and performs that action
+     * @param action
+     * 			The move that the player has sent to the game
+     * @return (Whether that action was successful)
+     */
     @Override
     protected boolean makeMove(GameAction action) {
         System.out.println("Make move called");
@@ -69,6 +96,7 @@ public class CanastaLocalGame extends LocalGame {
             return false;
         }
 
+        //draw action
         else if (action instanceof CanastaDrawAction) {
             System.out.println("Draw action called");
             if (currentPlayer == 0) {
@@ -79,6 +107,7 @@ public class CanastaLocalGame extends LocalGame {
             }
         }
 
+        //discard action
         else if (action instanceof CanastaDiscardAction) {
             if (currentPlayer == 0) {
                 addToDiscard(state.player1);
@@ -88,6 +117,7 @@ public class CanastaLocalGame extends LocalGame {
             }
         }
 
+        //meld action
         else if (action instanceof CanastaMeldAction) {
             if (currentPlayer == 0) {
                 meldCard(state.player1);
@@ -97,6 +127,7 @@ public class CanastaLocalGame extends LocalGame {
             }
         }
 
+        //select card action
         else if (action instanceof CanastaSelectCardAction) {
             if (currentPlayer == 0) {
                 selectCard(currentPlayer,((CanastaSelectCardAction) action).getSelectedValue());
@@ -106,6 +137,7 @@ public class CanastaLocalGame extends LocalGame {
             }
         }
 
+        //undo action
         else if (action instanceof CanastaUndoAction) {
             if (currentPlayer == 0) {
                 undo(state.player1);
@@ -119,8 +151,10 @@ public class CanastaLocalGame extends LocalGame {
             return false;
         }
 
-        state.player1.sendInfo(state);
-        state.player2.sendInfo(state);
+        //state.player1.sendInfo(state);
+        //state.player2.sendInfo(state);
+        //sendUpdatedStateTo(state.player1);
+        //sendUpdatedStateTo(state.player2);
         return true;
     }
 
@@ -143,17 +177,22 @@ public class CanastaLocalGame extends LocalGame {
     /**
      * Takes two cards from deck; checks if it is a red three and
      * handles it accordingly
-     * @param p (The player the action is from)
+     * @param hand (The player's hand)
+     * @param currentPlayer (The current player)
      */
-    private void drawFromDeck(ArrayList<Card> hand, int currentPlayer) {
+    private boolean drawFromDeck(ArrayList<Card> hand, int currentPlayer) {
+        if (state.getTurnStage()!=0){return false;}
         hand.add(state.deck.remove(0));
         hand.add(state.deck.remove(0));
         removeRedThree(hand, currentPlayer);
+        state.nextTurnStage();
+        return true;
     }
 
     /**
      * Removes red three from hand and replaces it with something else
-     * @param p (The player the action is from)
+     * @param hand (The player's hand)
+     * @param currentPlayer (The current player)
      */
     private void removeRedThree(ArrayList<Card> hand, int currentPlayer) {
         for (int i = 0; i < hand.size(); i++) {
@@ -237,7 +276,7 @@ public class CanastaLocalGame extends LocalGame {
 
     /**
      * Searches hand for selected card and returns index
-     * @param p (The player the action is from)
+     * @param hand (The player's hand)
      * @param n (The value being searched for)
      * @return (Returns the index of the value in the hand)
      */
@@ -252,7 +291,7 @@ public class CanastaLocalGame extends LocalGame {
 
     /**
      * Selects card
-     * @param p (The player the action is from)
+     * @param currentPlayer (The player the action is from)
      * @param card (The card that is selected)
      * @return (Returns whether the action was successful or not)
      */
@@ -345,14 +384,18 @@ public class CanastaLocalGame extends LocalGame {
         if (!(checkValidMeld(p))) {
             return false;
         }
+        if (state.getTurnStage()==0){return false;}
+        //you must draw or pick up discard pile before discarding
         for (int i = 0; i < p.getHand().size(); i++) {
             if (p.getHand().get(i).getValue() == state.getSelectedCard()) {
                 state.discardPile.add(p.getHand().remove(i));
                 state.setSelectedCard(-1);
                 state.setPlayer1Score(calculateScore(p));
                 if (checkIfRoundOver(p)) {
-                    state.start();
+                    state.cleanStart();
                 }
+                state.nextPlayer();
+                state.nextTurnStage();
                 //state.setPlayerTurnID(1);
                 return true;
             }
