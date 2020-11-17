@@ -56,14 +56,14 @@ public class CanastaLocalGame extends LocalGame {
      */
     @Override
     protected String checkIfGameOver() {
-        if (state.player1.getTotalScore() >= 5000 || state.player2.getTotalScore() >= 5000) {
-            if (state.player1.getTotalScore() > state.player2.getTotalScore()) {
+        if (state.getResources(0).getTotalScore() >= 5000 || state.getResources(1).getTotalScore() >= 5000) {
+            if (state.getResources(0).getTotalScore() > state.getResources(1).getTotalScore()) {
                 return playerNames[0] + " wins";
             }
-            else if (state.player2.getTotalScore() > state.player1.getTotalScore()) {
+            else if (state.getResources(1).getTotalScore() > state.getResources(0).getTotalScore()) {
                 return playerNames[1] + " wins";
             }
-            else if (state.player1.getTotalScore() == state.player2.getTotalScore()) {
+            else if (state.getResources(0).getTotalScore() == state.getResources(1).getTotalScore()) {
                 return "It's a tie";
             }
         }
@@ -99,32 +99,23 @@ public class CanastaLocalGame extends LocalGame {
         //draw action
         else if (action instanceof CanastaDrawAction) {
             System.out.println("Draw action called");
-            if (currentPlayer == 0) {
-                drawFromDeck(state.player1.getHand(), currentPlayer);
-            }
-            else if (currentPlayer == 1) {
-                drawFromDeck(state.player2.getHand(), currentPlayer);
-            }
+            drawFromDeck(state.getResources(currentPlayer).getHand(), currentPlayer);
         }
 
         //discard action
         else if (action instanceof CanastaDiscardAction) {
-            if (currentPlayer == 0) {
-                addToDiscard(state.player1);
+            if (state.getTurnStage() == 0) {
+                drawDiscard(state.getResources(currentPlayer));
             }
-            else if (currentPlayer == 1) {
-                addToDiscard(state.player2);
+            else if (state.getTurnStage() == 1) {
+                addToDiscard(state.getResources(currentPlayer));
             }
         }
 
         //meld action
         else if (action instanceof CanastaMeldAction) {
-            if (currentPlayer == 0) {
-                meldCard(state.player1);
-            }
-            else if (currentPlayer == 1) {
-                meldCard(state.player2);
-            }
+            meldCard(state.getResources(currentPlayer));
+
         }
 
         //select card action
@@ -139,12 +130,8 @@ public class CanastaLocalGame extends LocalGame {
 
         //undo action
         else if (action instanceof CanastaUndoAction) {
-            if (currentPlayer == 0) {
-                undo(state.player1);
-            }
-            else if (currentPlayer == 1) {
-                undo(state.player2);
-            }
+            undo(state.getResources(currentPlayer));
+
         }
 
         else {
@@ -189,12 +176,7 @@ public class CanastaLocalGame extends LocalGame {
             if (hand.get(0).getValue() == 3 && (hand.get(0).getSuit() == 'H' || hand.get(0).getSuit() == 'D')) {
                 hand.remove(i);
                 hand.add(state.deck.remove(0));
-                if (currentPlayer == 0) {
-                    state.player1.addTotalScore(  100);
-                }
-                else if (currentPlayer == 1) {
-                    state.player2.addTotalScore(100);
-                }
+                state.getResources(currentPlayer).addTotalScore(  100);
             }
         }
     }
@@ -223,7 +205,7 @@ public class CanastaLocalGame extends LocalGame {
      * @param p (The player the action is from)
      * @return (Returns whether the action was successful or not)
      */
-    public boolean checkValidMeld(CanastaPlayer p) {
+    public boolean checkValidMeld(PlayerResources p) {
         if (!((p.getMeldedAce().size() >= 3 && countWildCards(p.getMeldedAce(), 1) <= p.getMeldedAce().size()/2) || p.getMeldedAce().size() == 0)) {
             return false;
         }
@@ -298,7 +280,7 @@ public class CanastaLocalGame extends LocalGame {
      * @param p (The player the action is from)
      * @return (Returns whether the action was successful or not)
      */
-    public boolean meldCard(CanastaPlayer p) {
+    public boolean meldCard(PlayerResources p) {
         int pos = searchHand(p.getHand(), state.getSelectedCard());
 
         if (pos == -1) {
@@ -370,7 +352,7 @@ public class CanastaLocalGame extends LocalGame {
      * @param p (The player the action is from)
      * @return (Returns whether the action was successful or not)
      */
-    public boolean addToDiscard(CanastaPlayer p) {
+    public boolean addToDiscard(PlayerResources p) {
         if (!(checkValidMeld(p))) {
             return false;
         }
@@ -393,7 +375,16 @@ public class CanastaLocalGame extends LocalGame {
         return false;
     }
 
-    public boolean checkIfRoundOver(CanastaPlayer p) {
+    public void drawDiscard(PlayerResources p) {
+        if (state.getTurnStage() == 0) {
+            for (Card c : state.discardPile) {
+                p.getHand().add(c);
+            }
+            state.discardPile.retainAll(new ArrayList<Card>());
+        }
+    }
+
+    public boolean checkIfRoundOver(PlayerResources p) {
         if (state.deck.size() == 0) {
             return true;
         }
@@ -409,7 +400,7 @@ public class CanastaLocalGame extends LocalGame {
      * @param p (The player the action is from)
      * @return (Returns if the action was successful or not)
      */
-    public boolean undo(CanastaPlayer p) {
+    public boolean undo(PlayerResources p) {
         if(p.getPlayerMoves().size() == 0) {
             return false;
         }
