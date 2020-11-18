@@ -381,6 +381,7 @@ public class CanastaLocalGame extends LocalGame {
                 p.getHand().add(c);
             }
             state.discardPile.retainAll(new ArrayList<Card>());
+            state.nextTurnStage();
         }
     }
 
