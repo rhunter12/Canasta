@@ -109,6 +109,7 @@ public class CanastaLocalGame extends LocalGame {
             }
             else if (state.getTurnStage() == 1) {
                 addToDiscard(state.getResources(currentPlayer));
+                state.getResources(currentPlayer).setPlayerMoves(state.getResources(currentPlayer).getPlayerMoves());
             }
         }
 

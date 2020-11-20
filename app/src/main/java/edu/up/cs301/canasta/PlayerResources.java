@@ -256,5 +256,9 @@ public class PlayerResources {
         return melds;
     }
     public void addTotalScore(int s){totalScore=totalScore+s;}
+    public void setPlayerMoves(ArrayList<Integer> playerMoves){
+        this.playerMoves = playerMoves;
+        this.playerMoves.clear();
 
+    }
 }
