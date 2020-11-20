@@ -277,7 +277,7 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
         deckButton.setOnClickListener(this);
         undoButton.setOnClickListener(this);
 
-        int[] i={R.drawable.jokercard,R.drawable.club_as,R.drawable.club3,R.drawable.club4,
+        int[] i={R.drawable.jokercard,R.drawable.club_as,R.drawable.club2,R.drawable.club3,R.drawable.club4,
                 R.drawable.club5,R.drawable.club6,R.drawable.club7,R.drawable.club8,R.drawable.club9,
                 R.drawable.club10,R.drawable.club_jack,R.drawable.club_queen,R.drawable.club_king};
         images=i;
@@ -311,6 +311,7 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
 
         for (int i = 1; i < meldButtons.size(); i++) {
             if (view == meldButtons.get(i)) {
+                meld.setMeldDestination(i);
                 game.sendAction(meld);
                 System.out.println("Meld button clicked");
             }

@@ -114,8 +114,7 @@ public class CanastaLocalGame extends LocalGame {
 
         //meld action
         else if (action instanceof CanastaMeldAction) {
-            meldCard(state.getResources(currentPlayer));
-
+            meldCard(state.getResources(currentPlayer),((CanastaMeldAction) action).getMeldDestination());
         }
 
         //select card action
@@ -131,7 +130,6 @@ public class CanastaLocalGame extends LocalGame {
         //undo action
         else if (action instanceof CanastaUndoAction) {
             undo(state.getResources(currentPlayer));
-
         }
 
         else {
@@ -280,7 +278,7 @@ public class CanastaLocalGame extends LocalGame {
      * @param p (The player the action is from)
      * @return (Returns whether the action was successful or not)
      */
-    public boolean meldCard(PlayerResources p) {
+    public boolean meldCard(PlayerResources p, int destination) {
         int pos = searchHand(p.getHand(), state.getSelectedCard());
 
         if (pos == -1) {
@@ -289,57 +287,16 @@ public class CanastaLocalGame extends LocalGame {
         switch (state.getSelectedCard()) {
             case -1:
                 return false;
-            case 1:
-                p.getPlayerMoves().add(1);
-                p.getMeldedAce().add(p.getHand().remove(pos));
-                break;
+            case 0:
+                p.getPlayerMoves().add(destination);
+                p.getMelds().get(destination).add(p.getHand().remove(pos));
             case 2:
-                p.getPlayerMoves().add(2);
-                p.getMeldedWild().add(p.getHand().remove(pos));
+                p.getPlayerMoves().add(destination);
+                p.getMelds().get(destination).add(p.getHand().remove(pos));
                 break;
-            case 3:
-                p.getPlayerMoves().add(3);
-                p.getMelded3().add(p.getHand().remove(pos));
-                break;
-            case 4:
-                p.getPlayerMoves().add(4);
-                p.getMelded4().add(p.getHand().remove(pos));
-                break;
-            case 5:
-                p.getPlayerMoves().add(5);
-                p.getMelded5().add(p.getHand().remove(pos));
-                break;
-            case 6:
-                p.getPlayerMoves().add(6);
-                p.getMelded6().add(p.getHand().remove(pos));
-                break;
-            case 7:
-                p.getPlayerMoves().add(7);
-                p.getMelded7().add(p.getHand().remove(pos));
-                break;
-            case 8:
-                p.getPlayerMoves().add(8);
-                p.getMelded8().add(p.getHand().remove(pos));
-                break;
-            case 9:
-                p.getPlayerMoves().add(9);
-                p.getMelded9().add(p.getHand().remove(pos));
-                break;
-            case 10:
-                p.getPlayerMoves().add(10);
-                p.getMelded10().add(p.getHand().remove(pos));
-                break;
-            case 11:
-                p.getPlayerMoves().add(11);
-                p.getMeldedJack().add(p.getHand().remove(pos));
-                break;
-            case 12:
-                p.getPlayerMoves().add(12);
-                p.getMeldedQueen().add(p.getHand().remove(pos));
-                break;
-            case 13:
-                p.getPlayerMoves().add(13);
-                p.getMeldedKing().add(p.getHand().remove(pos));
+            default:
+                p.getPlayerMoves().add(state.getSelectedCard());
+                p.getMelds().get(state.getSelectedCard()).add(p.getHand().remove(pos));
                 break;
         }
         return true;

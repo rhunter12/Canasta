@@ -75,8 +75,8 @@ public class CanastaGameState extends GameState {
                 deck.add(new Card(j,'D'));
                 deck.add(new Card(j,'C'));
             }
-            //deck.add(new Card(0,'W'));
-            //deck.add(new Card(0,'W'));
+            deck.add(new Card(0,'W'));
+            deck.add(new Card(0,'W'));
         }
         Collections.shuffle(deck);
     }
@@ -225,6 +225,21 @@ public class CanastaGameState extends GameState {
 
     }
 
+
+    public int checkPointsToMeld (int pNum) {
+        if (resources[pNum].getTotalScore() < 0) {
+            return 15;
+        }
+        else if (resources[pNum].getTotalScore() < 1500) {
+            return 50;
+        }
+        else if (resources[pNum].getTotalScore() < 3000) {
+            return 90;
+        }
+        else {
+            return 120;
+        }
+    }
 
 
     //accessors
