@@ -31,6 +31,7 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
     private ArrayList<Button> meldButtons = new ArrayList<>();
     private ArrayList<Button> cardHandCount = new ArrayList<>();
     private ArrayList<Button> cardMeldCount = new ArrayList<>();
+    private int[] images;
 
 
 
@@ -96,6 +97,21 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
 //            }
 
             updateText(state);
+
+            if (images==null){
+                return;
+            }
+            if (state.discardPile.size()>0) {
+                discardButton.setAlpha(1);
+                int val = state.discardPile.get(state.discardPile.size() - 1).getValue();
+                if (val>0 && val<images.length) {
+                    discardButton.setBackgroundResource(images[val]);
+                }
+            }
+            else{
+                discardButton.setAlpha(0);
+            }
+
 
             //this is for the dumb ai
 //            if (playerNum==1 && state.getTurnStage()==0) {
@@ -260,6 +276,12 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
         discardButton.setOnClickListener(this);
         deckButton.setOnClickListener(this);
         undoButton.setOnClickListener(this);
+
+        int[] i={R.drawable.jokercard,R.drawable.club_as,R.drawable.club2,R.drawable.club3,R.drawable.club4,
+                R.drawable.club5,R.drawable.club6,R.drawable.club7,R.drawable.club8,R.drawable.club9,
+                R.drawable.club10,R.drawable.club_jack,R.drawable.club_queen,R.drawable.club_king};
+        images=i;
+        //the zeroth place should be the joker
     }
 
 
@@ -289,6 +311,7 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
 
         for (int i = 1; i < meldButtons.size(); i++) {
             if (view == meldButtons.get(i)) {
+                meld.setMeldDestination(i);
                 game.sendAction(meld);
                 System.out.println("Meld button clicked");
             }
