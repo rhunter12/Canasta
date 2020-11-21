@@ -33,6 +33,9 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
     private ArrayList<Button> cardMeldCount = new ArrayList<>();
     private int[] images;
 
+    private ArrayList<Button> aiMeldButtons = new ArrayList<>();
+    private ArrayList<Button> aiCardMeldCount = new ArrayList<>();
+
 
 
     /**
@@ -152,6 +155,16 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
             }
         }
 
+        //sets visibility of AI melds
+        for (int i = 1; i < aiMeldButtons.size(); i++) {
+            if (state.getResources((playerNum+1)%2).getMelds().get(i).size() != 0) {
+                aiMeldButtons.get(i).setAlpha(1);
+            }
+            else {
+                aiMeldButtons.get(i).setAlpha(0);
+            }
+        }
+
         //set counter of cards in your hand
         for (int i = 1; i < cardHandCount.size(); i++) {
             cardHandCount.get(i).setText("" + countInHand(state.getResources(playerNum).getHand(),i));
@@ -164,6 +177,16 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
             }
             else {
                 cardMeldCount.get(i).setText("0");
+            }
+        }
+
+        //set counter for number of cards in AI meld
+        for (int i = 1; i < aiCardMeldCount.size(); i++) {
+            if (state.getResources((playerNum+1)%2).getMelds().get(i).size() != 0) {
+                aiCardMeldCount.get(i).setText("" + state.getResources((playerNum+1)%2).getMelds().get(i).size());
+            }
+            else {
+                aiCardMeldCount.get(i).setText("0");
             }
         }
 
@@ -182,6 +205,8 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
                 handButtons.get(i).setVisibility(View.INVISIBLE);
             }
         }
+
+
     }
 
     /**
@@ -257,6 +282,42 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
         meldButtons.add(11,(Button)activity.findViewById(R.id.meldJ));
         meldButtons.add(12,(Button)activity.findViewById(R.id.meldQ));
         meldButtons.add(13,(Button)activity.findViewById(R.id.meldK));
+
+
+
+
+        //connects ai meld card counters
+        aiCardMeldCount.add(0, null);
+        aiCardMeldCount.add(1, (Button)activity.findViewById((R.id.nPCCardsAS)));
+        aiCardMeldCount.add(2, (Button)activity.findViewById((R.id.nPCCards2)));
+        aiCardMeldCount.add(3, (Button)activity.findViewById((R.id.nPCCards3)));
+        aiCardMeldCount.add(4, (Button)activity.findViewById((R.id.nPCCards4)));
+        aiCardMeldCount.add(5, (Button)activity.findViewById((R.id.nPCCards5)));
+        aiCardMeldCount.add(6, (Button)activity.findViewById((R.id.nPCCards6)));
+        aiCardMeldCount.add(7, (Button)activity.findViewById((R.id.nPCCards7)));
+        aiCardMeldCount.add(8, (Button)activity.findViewById((R.id.nPCCards8)));
+        aiCardMeldCount.add(9, (Button)activity.findViewById((R.id.nPCCards9)));
+        aiCardMeldCount.add(10, (Button)activity.findViewById((R.id.nPCCards10)));
+        aiCardMeldCount.add(11, (Button)activity.findViewById((R.id.nPCCardsJ)));
+        aiCardMeldCount.add(12, (Button)activity.findViewById((R.id.nPCCardsQ)));
+        aiCardMeldCount.add(13, (Button)activity.findViewById((R.id.nPCCardsK)));
+
+        //connects ai meld buttons
+        aiMeldButtons.add(0,null);
+        aiMeldButtons.add(1,(Button)activity.findViewById(R.id.PCmeldAs));
+        aiMeldButtons.add(2,(Button)activity.findViewById(R.id.PCmeld2));
+        aiMeldButtons.add(3,(Button)activity.findViewById(R.id.PCmeld3));
+        aiMeldButtons.add(4,(Button)activity.findViewById(R.id.PCmeld4));
+        aiMeldButtons.add(5,(Button)activity.findViewById(R.id.PCmeld5));
+        aiMeldButtons.add(6,(Button)activity.findViewById(R.id.PCmeld6));
+        aiMeldButtons.add(7,(Button)activity.findViewById(R.id.PCmeld7));
+        aiMeldButtons.add(8,(Button)activity.findViewById(R.id.PCmeld8));
+        aiMeldButtons.add(9,(Button)activity.findViewById(R.id.PCmeld9));
+        aiMeldButtons.add(10,(Button)activity.findViewById(R.id.PCmeld10));
+        aiMeldButtons.add(11,(Button)activity.findViewById(R.id.PCmeldJ));
+        aiMeldButtons.add(12,(Button)activity.findViewById(R.id.PCmeldQ));
+        aiMeldButtons.add(13,(Button)activity.findViewById(R.id.PCmeldK));
+
 
         for (int i = 1; i < handButtons.size(); i++) {
             handButtons.get(i).setOnClickListener(this);

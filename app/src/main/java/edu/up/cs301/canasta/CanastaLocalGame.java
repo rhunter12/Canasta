@@ -2,9 +2,11 @@ package edu.up.cs301.canasta;
 
 import java.util.ArrayList;
 
+import edu.up.cs301.game.GameFramework.GameComputerPlayer;
 import edu.up.cs301.game.GameFramework.GamePlayer;
 import edu.up.cs301.game.GameFramework.LocalGame;
 import edu.up.cs301.game.GameFramework.actionMessage.GameAction;
+import edu.up.cs301.game.GameFramework.infoMessage.IllegalMoveInfo;
 import edu.up.cs301.game.GameFramework.infoMessage.NotYourTurnInfo;
 
 public class CanastaLocalGame extends LocalGame {
@@ -78,16 +80,19 @@ public class CanastaLocalGame extends LocalGame {
      */
     @Override
     protected boolean makeMove(GameAction action) {
-        System.out.println("Make move called");
+        //System.out.println("Make move called");
 
         int currentPlayer = state.getPlayerTurnID();
-        boolean yourTurn;
+        boolean yourTurn = false;
 
         if (action.getPlayer() instanceof CanastaPlayer) {
             yourTurn = canMove(((CanastaPlayer) action.getPlayer()).getPlayerNum());
         }
-        else {
+        else if (action.getPlayer() instanceof CanastaComputerPlayer1) {
             yourTurn = canMove(((CanastaComputerPlayer1) action.getPlayer()).getPlayerNum());
+        }
+        else if (action.getPlayer() instanceof CanastaComputerPlayer2) {
+            yourTurn = canMove(((CanastaComputerPlayer2) action.getPlayer()).getPlayerNum());
         }
 
 
@@ -104,22 +109,35 @@ public class CanastaLocalGame extends LocalGame {
 
         //discard action
         else if (action instanceof CanastaDiscardAction) {
+            System.out.println("Discarding action called");
             if (state.getTurnStage() == 0) {
-                drawDiscard(state.getResources(currentPlayer));
+                if (checkTopCard(state.getResources(currentPlayer))) {
+                    drawDiscard(state.getResources(currentPlayer));
+                }
+                else {
+                    return false;
+                }
             }
             else if (state.getTurnStage() == 1) {
-                addToDiscard(state.getResources(currentPlayer));
-                state.getResources(currentPlayer).setPlayerMoves(state.getResources(currentPlayer).getPlayerMoves());
+                boolean result = addToDiscard(state.getResources(currentPlayer));
+                if (result) {
+                    state.getResources(currentPlayer).setPlayerMoves(state.getResources(currentPlayer).getPlayerMoves());
+                }
+                else {
+                    return false;
+                }
             }
         }
 
         //meld action
         else if (action instanceof CanastaMeldAction) {
+            System.out.println("Meld action card");
             meldCard(state.getResources(currentPlayer),((CanastaMeldAction) action).getMeldDestination());
         }
 
         //select card action
         else if (action instanceof CanastaSelectCardAction) {
+            System.out.println("Selecting card action called");
             if (currentPlayer == 0) {
                 selectCard(currentPlayer,((CanastaSelectCardAction) action).getSelectedValue());
             }
@@ -137,10 +155,6 @@ public class CanastaLocalGame extends LocalGame {
             return false;
         }
 
-        //state.player1.sendInfo(state);
-        //state.player2.sendInfo(state);
-        //sendUpdatedStateTo(state.player1);
-        //sendUpdatedStateTo(state.player2);
         return true;
     }
 
@@ -172,7 +186,7 @@ public class CanastaLocalGame extends LocalGame {
      */
     private void removeRedThree(ArrayList<Card> hand, int currentPlayer) {
         for (int i = 0; i < hand.size(); i++) {
-            if (hand.get(0).getValue() == 3 && (hand.get(0).getSuit() == 'H' || hand.get(0).getSuit() == 'D')) {
+            if (hand.get(i).getValue() == 3 && (hand.get(i).getSuit() == 'H' || hand.get(i).getSuit() == 'D')) {
                 hand.remove(i);
                 hand.add(state.deck.remove(0));
                 state.getResources(currentPlayer).addTotalScore(  100);
@@ -318,15 +332,22 @@ public class CanastaLocalGame extends LocalGame {
         //you must draw or pick up discard pile before discarding
         for (int i = 0; i < p.getHand().size(); i++) {
             if (p.getHand().get(i).getValue() == state.getSelectedCard()) {
+                state.updatePoints();
+
+                if (p.getPlayerMoves().size() != 0) {
+                    if (state.checkPointsToMeld(state.getPlayerTurnID()) > p.getScore()) {
+                        return false;
+                    }
+                }
+
                 state.discardPile.add(p.getHand().remove(i));
                 state.setSelectedCard(-1);
-                state.updatePoints();
+
                 if (checkIfRoundOver(p)) {
                     state.cleanStart();
                 }
                 state.nextPlayer();
                 state.nextTurnStage();
-                //state.setPlayerTurnID(1);
                 return true;
             }
         }
@@ -334,13 +355,74 @@ public class CanastaLocalGame extends LocalGame {
     }
 
     public void drawDiscard(PlayerResources p) {
+        int topCard = state.discardPile.get(state.discardPile.size()-1).getValue();
+        p.getMelds().get(topCard).add(state.discardPile.remove(state.discardPile.size()-1));
+
         if (state.getTurnStage() == 0) {
             for (Card c : state.discardPile) {
                 p.getHand().add(c);
             }
             state.discardPile.retainAll(new ArrayList<Card>());
+            p.getPlayerMoves().retainAll(new ArrayList<Integer>());
             state.nextTurnStage();
         }
+    }
+
+    public boolean checkTopCard(PlayerResources p) {
+        int topDiscard = state.discardPile.get(state.discardPile.size()-1).getValue();
+        if (topDiscard == 3 || topDiscard == 0 || topDiscard == 2) {
+            return false;
+        }
+        int sum = 0;
+
+        for (int i=1; i<p.getMelds().size(); i++){
+            if (!((p.getMelds().get(i).size() == 2 && topDiscard == i) || p.getMelds().get(i).size() >= 3 || p.getMelds().get(i).size() == 0)) {
+                return false;
+            }
+            for (int j=0; j<p.getMelds().get(i).size();j++){
+                if (p.getMelds().get(i).get(j).getValue()==0){
+                    sum=sum+50;
+                }
+                else if (p.getMelds().get(i).get(j).getValue()==2){
+                    sum=sum+20;
+                }
+                else if (p.getMelds().get(i).get(j).getValue()==1){
+                    sum=sum+20;
+                }
+                else if (p.getMelds().get(i).get(j).getValue()<=7){
+                    sum=sum+5;
+                }
+                else if (p.getMelds().get(i).get(j).getValue()>7){
+                    sum=sum+10;
+                }
+            }
+        }
+
+        if (sum >= state.checkPointsToMeld(state.getPlayerTurnID())) {
+            if (p.getMelds().get(topDiscard).size() >= 2) {
+                if (!(state.isPileLocked())) {
+                    return true;
+                }
+                else {
+                    int count = 0;
+                    int count2 = 0;
+                    for (int i = 0; i < p.getPlayerMoves().size(); i++) {
+                        if (p.getPlayerMoves().get(i) == topDiscard) {
+                            count++;
+                        }
+                    }
+                    for (int j = (p.getMelds().get(topDiscard).size() - count); j < p.getMelds().get(topDiscard).size(); j++) {
+                        if (p.getMelds().get(topDiscard).get(j).getValue() == topDiscard) {
+                            count2++;
+                        }
+                    }
+                    if (count2 >= 2) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     public boolean checkIfRoundOver(PlayerResources p) {

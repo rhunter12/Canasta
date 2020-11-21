@@ -241,6 +241,15 @@ public class CanastaGameState extends GameState {
         }
     }
 
+    public boolean isPileLocked() {
+        for (int i = 0; i < discardPile.size(); i++) {
+            if (discardPile.get(i).getValue() == 0 || discardPile.get(i).getValue() == 2) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     //accessors
     public int getPlayer1Score() {

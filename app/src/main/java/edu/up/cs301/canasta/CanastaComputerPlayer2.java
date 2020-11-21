@@ -28,59 +28,66 @@ public class CanastaComputerPlayer2 extends GameComputerPlayer {
         if (info instanceof CanastaGameState) {
             CanastaGameState state = (CanastaGameState)info;
 
-
             //getting accurate count of cards in hand
             for (int i = 0; i < state.getResources(playerNum).getHand().size(); i++) {
                 counts[state.getResources(playerNum).getHand().get(i).getValue()]++;
             }
 
-
-
             if (state.getResources(playerNum).getHand().size() < 1){return;}
 
-            //decide if we're going to draw or pick up the discard pile
-            if (calcMaxPoints(state.getResources(playerNum),true) < state.checkPointsToMeld(playerNum)) {
-                game.sendAction(new CanastaDrawAction(this));
-            }
-
-            else if (state.discardPile.size() >= 4) {
-                int topCard = state.discardPile.get(state.discardPile.size()-1).getValue();
-
-                if (state.getResources(playerNum).getMelds().get(topCard).size() >= 3) {
-                    game.sendAction(new CanastaDiscardAction(this));
+            if (state.getTurnStage() == 0) {
+                //decide if we're going to draw or pick up the discard pile
+                if (calcMaxPoints(state.getResources(playerNum),true) < state.checkPointsToMeld(playerNum)) {
+                    game.sendAction(new CanastaDrawAction(this));
                 }
-                else if (countInHand(state.getResources(playerNum).getHand(), topCard) >= 2) {
-                    game.sendAction(new CanastaDiscardAction(this));
+
+                else if (state.discardPile.size() >= 4) {
+                    int topCard = state.discardPile.get(state.discardPile.size()-1).getValue();
+
+                    if (state.getResources(playerNum).getMelds().get(topCard).size() >= 3) {
+                        game.sendAction(new CanastaDiscardAction(this));
+                    }
+                    else if (countInHand(state.getResources(playerNum).getHand(), topCard) >= 2) {
+                        game.sendAction(new CanastaDiscardAction(this));
+                    }
+                    else {
+                        game.sendAction(new CanastaDrawAction(this));
+                    }
                 }
                 else {
                     game.sendAction(new CanastaDrawAction(this));
                 }
-            }
 
-            //decide which card we're going to meld
-            if (!(calcMaxPoints(state.getResources(playerNum),true) < state.checkPointsToMeld(playerNum))) {
+                //decide which card we're going to meld
+                if (!(calcMaxPoints(state.getResources(playerNum),false) < state.checkPointsToMeld(playerNum))) {
 
-                for (int i = 0; i < state.getResources(playerNum).getMelds().size(); i++) {
-                    if (i == 0 || i == 2) {
-                        continue;
-                    }
-                    else if (countInHand(state.getResources(playerNum).getHand(), i) >= 3) {
-                        for (int j = 0; j < countInHand(state.getResources(playerNum).getHand(), i); j++) {
-                            game.sendAction(new CanastaSelectCardAction(this,i));
-                            game.sendAction(new CanastaMeldAction(this));
+                    for (int i = 0; i < state.getResources(playerNum).getMelds().size(); i++) {
+                        if (i == 0 || i == 2) {
+                            continue;
+                        }
+                        else if (countInHand(state.getResources(playerNum).getHand(), i) >= 3) {
+                            for (int j = 0; j < countInHand(state.getResources(playerNum).getHand(), i);) {
+                                game.sendAction(new CanastaSelectCardAction(this,i));
+                                game.sendAction(new CanastaMeldAction(this));
+                            }
                         }
                     }
                 }
+
+                //how pick a card to discard
+                if (countInHand(state.getResources(playerNum).getHand(),3) > 0) {
+                    game.sendAction(new CanastaSelectCardAction(this,3));
+                }
+                else if (selectSingleCard() != -1) {
+                    int cardVal = selectSingleCard();
+                    game.sendAction(new CanastaSelectCardAction(this,cardVal));
+                }
+                else {
+                    game.sendAction(new CanastaSelectCardAction(this,state.getResources(playerNum).getHand().get(0).getValue()));
+                }
+                game.sendAction(new CanastaDiscardAction(this));
             }
 
-            //now pick a card to discard
-            if (countInHand(state.getResources(playerNum).getHand(),3) > 0) {
-                game.sendAction(new CanastaSelectCardAction(this,3));
-            }
-            else {
-                game.sendAction(new CanastaSelectCardAction(this,state.getResources(playerNum).getHand().get(0).getValue()));
-            }
-            game.sendAction(new CanastaDiscardAction(this));
 
 
         }
@@ -89,6 +96,15 @@ public class CanastaComputerPlayer2 extends GameComputerPlayer {
         }
         return;
 
+    }
+
+    public int selectSingleCard() {
+        for (int i = 3; i < counts.length; i++) {
+            if (counts[i] == 1) {
+                return i;
+            }
+        }
+        return -1;
     }
 
 
@@ -102,9 +118,9 @@ public class CanastaComputerPlayer2 extends GameComputerPlayer {
 
         int possibleScore = 0;
 
-        for (int i = 0; i < p.getHand().size(); i++) {
-            countsCopy[p.getHand().get(i).getValue()]++;
-        }
+//        for (int i = 0; i < p.getHand().size(); i++) {
+//            countsCopy[p.getHand().get(i).getValue()]++;
+//        }
 
         for (int i = 0; i < 14; i++) {
             if (i == 0 || i == 2) {
@@ -163,5 +179,11 @@ public class CanastaComputerPlayer2 extends GameComputerPlayer {
             }
         }
         return count;
+    }
+
+    public void setPlayerNum(int n) { playerNum = n; }
+
+    public int getPlayerNum() {
+        return  playerNum;
     }
 }
