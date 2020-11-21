@@ -82,7 +82,7 @@ public class CanastaComputerPlayer2 extends GameComputerPlayer {
             }
             game.sendAction(new CanastaDiscardAction(this));
 
-            
+
         }
         else{
             System.out.println("Received other info message.");
