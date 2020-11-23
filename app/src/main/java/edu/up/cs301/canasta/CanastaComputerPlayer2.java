@@ -31,6 +31,7 @@ public class CanastaComputerPlayer2 extends GameComputerPlayer {
         if (info instanceof CanastaGameState) {
             CanastaGameState state = (CanastaGameState)info;
 
+            counts = new int[14];
             //getting accurate count of cards in hand
             for (int i = 0; i < state.getResources(playerNum).getHand().size(); i++) {
                 counts[state.getResources(playerNum).getHand().get(i).getValue()]++;
@@ -47,10 +48,15 @@ public class CanastaComputerPlayer2 extends GameComputerPlayer {
                 else if (state.discardPile.size() >= 4) {
                     int topCard = state.discardPile.get(state.discardPile.size()-1).getValue();
 
-                    if (state.getResources(playerNum).getMelds().get(topCard).size() >= 3) {
+                    if (topCard == 0 || topCard == 3) {
+                        game.sendAction(new CanastaDrawAction(this));
+                    }
+                    else if (state.getResources(playerNum).getMelds().get(topCard).size() >= 3) {
+                        meldPickDiscard(state.getResources(playerNum), topCard, state);
                         game.sendAction(new CanastaDiscardAction(this));
                     }
                     else if (countInHand(state.getResources(playerNum).getHand(), topCard) >= 2) {
+                        meldPickDiscard(state.getResources(playerNum), topCard, state);
                         game.sendAction(new CanastaDiscardAction(this));
                     }
                     else {
@@ -114,6 +120,62 @@ public class CanastaComputerPlayer2 extends GameComputerPlayer {
         return -1;
     }
 
+
+    public void meldPickDiscard(PlayerResources p, int topDiscard, CanastaGameState state) {
+        int possibleScore = p.getScore();
+
+        for (int i = 0; i < 14; i++) {
+            if (i == 0 || i == 2) {
+                continue;
+            }
+            else if (counts[i] >= 3) {
+                possibleScore += (getPointValue(i)*counts[i]);
+
+                for (int j = 0; j < counts[i]; j++) {
+                    game.sendAction(new CanastaSelectCardAction(this,i));
+                    game.sendAction(new CanastaMeldAction(this));
+                }
+            }
+
+
+            if (counts[i] == 2) {
+                if (topDiscard == i) {
+                    possibleScore += (getPointValue(i)*counts[i]);
+                    game.sendAction(new CanastaSelectCardAction(this,i));
+                    game.sendAction(new CanastaMeldAction(this));
+                    game.sendAction(new CanastaSelectCardAction(this,i));
+                    game.sendAction(new CanastaMeldAction(this));
+                }
+                if (possibleScore > state.checkPointsToMeld(playerNum)) {
+                    continue;
+                }
+
+                if (counts[0] > 0) {
+                    possibleScore += (getPointValue(i)*counts[i]) + 50;
+                    game.sendAction(new CanastaSelectCardAction(this,0));
+                    CanastaMeldAction meld = new CanastaMeldAction(this);
+                    meld.setMeldDestination(i);
+                    game.sendAction(meld);
+                    game.sendAction(new CanastaSelectCardAction(this,i));
+                    game.sendAction(new CanastaMeldAction(this));
+                    game.sendAction(new CanastaSelectCardAction(this,i));
+                    game.sendAction(new CanastaMeldAction(this));
+                }
+                else if (counts[2] > 0) {
+                    possibleScore += (getPointValue(i)*counts[i]) + 20;
+                    game.sendAction(new CanastaSelectCardAction(this,2));
+                    CanastaMeldAction meld = new CanastaMeldAction(this);
+                    meld.setMeldDestination(i);
+                    game.sendAction(meld);
+                    game.sendAction(new CanastaSelectCardAction(this,i));
+                    game.sendAction(new CanastaMeldAction(this));
+                    game.sendAction(new CanastaSelectCardAction(this,i));
+                    game.sendAction(new CanastaMeldAction(this));
+                }
+            }
+
+        }
+    }
 
     /**
      * Helper method to calculate the max number of points
