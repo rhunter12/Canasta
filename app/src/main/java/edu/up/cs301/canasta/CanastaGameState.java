@@ -143,6 +143,10 @@ public class CanastaGameState extends GameState {
         deal();
     }
 
+    /**
+     * Calculates the score for the player
+     * based on their melds
+     */
     public void updatePoints(){
         int sum=0;
         for (int i=1; i<resources[0].getMelds().size(); i++){
@@ -225,7 +229,12 @@ public class CanastaGameState extends GameState {
 
     }
 
-
+    /**
+     * Checks if the number of points in their score
+     * is enough to meld
+     * @param pNum (The player)
+     * @return (The points required to meld)
+     */
     public int checkPointsToMeld (int pNum) {
         if (resources[pNum].getTotalScore() < 0) {
             return 15;
@@ -241,6 +250,11 @@ public class CanastaGameState extends GameState {
         }
     }
 
+    /**
+     * Checks if the discard pile is "locked" by a joker or 2.
+     * Locked means that no one can pick up the discard pile
+     * @return (Result of action)
+     */
     public boolean isPileLocked() {
         for (int i = 0; i < discardPile.size(); i++) {
             if (discardPile.get(i).getValue() == 0 || discardPile.get(i).getValue() == 2) {
@@ -250,6 +264,29 @@ public class CanastaGameState extends GameState {
         return false;
     }
 
+    /**
+     * Increments the next turn stage.
+     * Turn stage represents whether you are able to
+     * draw or play a card
+     * @return (The stage)
+     */
+    public int nextTurnStage(){
+        turnStage++;
+        turnStage=turnStage%2;
+        return turnStage;
+        //0 means player needs to draw or pick up discard pile
+        //1 means you can meld, discard, or undo
+    }
+
+    /**
+     * Increments player turn ID
+     * @return
+     */
+    public int nextPlayer(){
+        playerTurnID++;
+        playerTurnID=playerTurnID%2;
+        return playerTurnID;
+    }
 
     //accessors
     public int getPlayer1Score() {
@@ -275,18 +312,7 @@ public class CanastaGameState extends GameState {
     public int getTurnStage(){return turnStage;}
 
 
-    public int nextTurnStage(){
-        turnStage++;
-        turnStage=turnStage%2;
-        return turnStage;
-        //0 means player needs to draw or pick up discard pile
-        //1 means you can meld, discard, or undo
-    }
-    public int nextPlayer(){
-        playerTurnID++;
-        playerTurnID=playerTurnID%2;
-        return playerTurnID;
-    }
+
 
     public PlayerResources getResources(int num) {
         return resources[num];

@@ -22,7 +22,10 @@ public class CanastaComputerPlayer2 extends GameComputerPlayer {
         playerNum = num;
     }
 
-
+    /**
+     * Performs action when it gets info back from GameInfo
+     * @param info (The game info sender)
+     */
     @Override
     protected void receiveInfo(GameInfo info) {
         if (info instanceof CanastaGameState) {
@@ -98,6 +101,10 @@ public class CanastaComputerPlayer2 extends GameComputerPlayer {
 
     }
 
+    /**
+     * Helper method to select a card to discard
+     * @return (The card to select)
+     */
     public int selectSingleCard() {
         for (int i = 3; i < counts.length; i++) {
             if (counts[i] == 1) {
@@ -108,6 +115,13 @@ public class CanastaComputerPlayer2 extends GameComputerPlayer {
     }
 
 
+    /**
+     * Helper method to calculate the max number of points
+     * from an action played. Helps AI pick the best moves.
+     * @param p (The player)
+     * @param useWilds (Whether they want to use wild cards)
+     * @return (The point value of that move)
+     */
     public int calcMaxPoints(PlayerResources p, boolean useWilds) {
         int[] countsCopy = new int[14];
 
@@ -118,9 +132,6 @@ public class CanastaComputerPlayer2 extends GameComputerPlayer {
 
         int possibleScore = 0;
 
-//        for (int i = 0; i < p.getHand().size(); i++) {
-//            countsCopy[p.getHand().get(i).getValue()]++;
-//        }
 
         for (int i = 0; i < 14; i++) {
             if (i == 0 || i == 2) {
@@ -148,6 +159,11 @@ public class CanastaComputerPlayer2 extends GameComputerPlayer {
         return possibleScore + p.getScore();
     }
 
+    /**
+     * Gets the point value of a specific card
+     * @param value (The card value)
+     * @return (The points value)
+     */
     public int getPointValue(int value) {
         if (value == 1 || value == 2) {
             return 20;

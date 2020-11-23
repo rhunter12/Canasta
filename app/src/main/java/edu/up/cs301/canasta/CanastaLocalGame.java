@@ -354,6 +354,10 @@ public class CanastaLocalGame extends LocalGame {
         return false;
     }
 
+    /**
+     * Allows player to pick up the discard pile
+     * @param p (The player the action is from)
+     */
     public void drawDiscard(PlayerResources p) {
         int topCard = state.discardPile.get(state.discardPile.size()-1).getValue();
         p.getMelds().get(topCard).add(state.discardPile.remove(state.discardPile.size()-1));
@@ -368,6 +372,12 @@ public class CanastaLocalGame extends LocalGame {
         }
     }
 
+    /**
+     * Checks the top card of the discard pile
+     * and makes sure that it can be played immediately
+     * @param p (The player the action is from)
+     * @return (Whether the action was successful or not)
+     */
     public boolean checkTopCard(PlayerResources p) {
         int topDiscard = state.discardPile.get(state.discardPile.size()-1).getValue();
         if (topDiscard == 3 || topDiscard == 0 || topDiscard == 2) {
@@ -425,6 +435,11 @@ public class CanastaLocalGame extends LocalGame {
         return false;
     }
 
+    /**
+     * Checks if the round is over and ready to start the next round
+     * @param p (The player the action is from)
+     * @return (The boolean result of the action)
+     */
     public boolean checkIfRoundOver(PlayerResources p) {
         if (state.deck.size() == 0) {
             return true;

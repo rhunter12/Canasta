@@ -57,8 +57,6 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
         playerNum = orig.playerNum;
     }
 
-
-
     /**
      * Connects activity to layout
      * @return
@@ -79,25 +77,6 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
 
         if (info instanceof CanastaGameState) {
             state = (CanastaGameState) info;
-//            if (playerNum==0){
-//                state.getResources(playerNum).getHand()=state.getResources(playerNum).getHand();
-//                for (int i=1; i<melds.size(); i++){
-//                    melds=state.player1.getMelds();
-//                }
-//                totalScore=state.getPlayer1Score();
-//
-//            }
-//            else if (playerNum==1){
-//                hand=state.player2.getHand();
-//                for (int i=1; i<melds.size(); i++){
-//                    melds=state.player2.getMelds();
-//                }
-//                totalScore=state.getPlayer2Score();
-//
-//            }
-//            else{
-//                System.out.println("Error-player num has an unexpected value");
-//            }
 
             updateText(state);
 
@@ -114,20 +93,6 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
             else{
                 discardButton.setAlpha(0);
             }
-
-
-            //this is for the dumb ai
-//            if (playerNum==1 && state.getTurnStage()==0) {
-//                game.sendAction(new CanastaDrawAction(this));
-//            }
-//            else if (playerNum==1 && state.getTurnStage()==1){
-//                if (countInHand(hand,state.getSelectedCard())==0) {
-//                    game.sendAction(new CanastaSelectCardAction(this, hand.get(0).getValue()));
-//                }
-//                else {
-//                    game.sendAction(new CanastaDiscardAction(this));
-//                }
-//            }
 
         }
     }
