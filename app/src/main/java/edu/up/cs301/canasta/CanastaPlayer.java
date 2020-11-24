@@ -26,6 +26,8 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
     private Button discardButton = null;
     private Button playerScore = null;
     private Button aiScore = null;
+    private Button endGame = null;
+    private Button newGame = null;
 
     private ArrayList<Button> handButtons = new ArrayList<>();
     private ArrayList<Button> meldButtons = new ArrayList<>();
@@ -308,6 +310,13 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
                 R.drawable.club10,R.drawable.club_jack,R.drawable.club_queen,R.drawable.club_king};
         images=i;
         //the zeroth place should be the joker
+
+
+        this.endGame = (Button)activity.findViewById(R.id.offButton);
+        this.newGame = (Button)activity.findViewById(R.id.restartgame);
+
+        endGame.setOnClickListener(this);
+        newGame.setOnClickListener(this);
     }
 
 
@@ -349,6 +358,15 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
                 System.out.println("Hand button clicked");
             }
         }
+
+
+        if (view == newGame) {
+            System.out.println("New game clicked");
+        }
+        if (view == endGame) {
+            System.exit(1);
+        }
+
 
     }
 

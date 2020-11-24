@@ -311,6 +311,7 @@ public class CanastaLocalGame extends LocalGame {
             case 0:
                 p.getPlayerMoves().add(destination);
                 p.getMelds().get(destination).add(p.getHand().remove(pos));
+                break;
             case 2:
                 p.getPlayerMoves().add(destination);
                 p.getMelds().get(destination).add(p.getHand().remove(pos));
