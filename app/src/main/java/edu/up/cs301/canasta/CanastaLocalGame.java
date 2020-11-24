@@ -188,8 +188,14 @@ public class CanastaLocalGame extends LocalGame {
         for (int i = 0; i < hand.size(); i++) {
             if (hand.get(i).getValue() == 3 && (hand.get(i).getSuit() == 'H' || hand.get(i).getSuit() == 'D')) {
                 hand.remove(i);
-                hand.add(state.deck.remove(0));
                 state.getResources(currentPlayer).addTotalScore(  100);
+
+                if (state.deck.size() > 0) {
+                    hand.add(state.deck.remove(0));
+                }
+                else {
+                    state.cleanStart();
+                }
             }
         }
     }
@@ -346,7 +352,10 @@ public class CanastaLocalGame extends LocalGame {
                 if (checkIfRoundOver(p)) {
                     state.cleanStart();
                 }
-                state.nextPlayer();
+                else {
+                    state.nextPlayer();
+                }
+
                 state.nextTurnStage();
                 return true;
             }
