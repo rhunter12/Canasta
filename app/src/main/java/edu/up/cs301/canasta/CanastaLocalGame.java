@@ -402,14 +402,17 @@ public class CanastaLocalGame extends LocalGame {
 
         for (int i=1; i<p.getMelds().size(); i++){
             if (!((p.getMelds().get(i).size() == 2 && topDiscard == i) || p.getMelds().get(i).size() >= 3 || p.getMelds().get(i).size() == 0)) {
-                return false;
+                return false;//size of meld requirement not met
             }
+            int wildCount=0;
             for (int j=0; j<p.getMelds().get(i).size();j++){
                 if (p.getMelds().get(i).get(j).getValue()==0){
                     sum=sum+50;
+                    wildCount++;
                 }
                 else if (p.getMelds().get(i).get(j).getValue()==2){
                     sum=sum+20;
+                    wildCount++;
                 }
                 else if (p.getMelds().get(i).get(j).getValue()==1){
                     sum=sum+20;
@@ -420,6 +423,9 @@ public class CanastaLocalGame extends LocalGame {
                 else if (p.getMelds().get(i).get(j).getValue()>7){
                     sum=sum+10;
                 }
+            }
+            if (wildCount>p.getMelds().get(i).size()/2 && i!=2){
+                return false;//more than half of at least one meld is wildcards
             }
         }
 
