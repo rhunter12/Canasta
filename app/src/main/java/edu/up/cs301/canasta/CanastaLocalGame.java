@@ -459,8 +459,10 @@ public class CanastaLocalGame extends LocalGame {
         if (state.deck.size() == 0) {
             return true;
         }
-        else if (p.getHand().size() == 0) {
-            return true;
+        else if (p.getHand().size() == 0) {//have you gotten rid of all your cards
+            for (int i=1; i<p.getMelds().size();i++){//have you made at least one canasta
+                if (p.getMelds().get(i).size()>=7){return true;}
+            }
         }
         return false;
     }
