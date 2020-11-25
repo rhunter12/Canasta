@@ -137,6 +137,12 @@ public class CanastaComputerPlayer2 extends GameComputerPlayer {
 
     }
 
+    /**
+     * Method that undoes all melds that can be unmelded
+     * Used when the a discard action fails
+     * @param p the AI's player resources object
+     * @return always returns true
+     */
     public boolean undoAll(PlayerResources p){
         for (int i=0; i<p.getPlayerMoves().size();i++){
             game.sendAction(new CanastaUndoAction(this));

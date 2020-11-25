@@ -309,7 +309,6 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
                 R.drawable.club5,R.drawable.club6,R.drawable.club7,R.drawable.club8,R.drawable.club9,
                 R.drawable.club10,R.drawable.club_jack,R.drawable.club_queen,R.drawable.club_king};
         images=i;
-        //the zeroth place should be the joker
 
 
         this.endGame = (Button)activity.findViewById(R.id.offButton);

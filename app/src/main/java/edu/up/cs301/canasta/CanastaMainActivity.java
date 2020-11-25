@@ -12,7 +12,6 @@
 
 package edu.up.cs301.canasta;
 
-//import androidx.appcompat.app.AppCompatActivity;
 
 import edu.up.cs301.game.GameFramework.GameMainActivity;
 import edu.up.cs301.game.GameFramework.GamePlayer;
