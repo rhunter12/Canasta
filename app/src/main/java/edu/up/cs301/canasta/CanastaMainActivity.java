@@ -3,6 +3,11 @@
  *      Ryan Hunter-Bliss
  *      Sarah Ebner
  *      Lute Lillo Portero
+ *
+ * Bugs: There are no known bugs or issues with the game
+ *
+ * Additional features:
+ *      - Game supports both protrait and landscape
  */
 
 package edu.up.cs301.canasta;
@@ -41,7 +46,7 @@ public class CanastaMainActivity extends GameMainActivity {
                 return new CanastaComputerPlayer2(2, name);
             }});
 
-        GameConfig defaultConfig = new GameConfig(playerTypes, 1, 2, "Canasta", PORT_NUMBER);
+        GameConfig defaultConfig = new GameConfig(playerTypes, 2, 2, "Canasta", PORT_NUMBER);
         defaultConfig.addPlayer("Human", 0);
         defaultConfig.addPlayer("Computer", 1);
         defaultConfig.addPlayer("Computer", 2);

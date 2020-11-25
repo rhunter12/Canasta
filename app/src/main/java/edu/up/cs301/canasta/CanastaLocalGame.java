@@ -116,7 +116,6 @@ public class CanastaLocalGame extends LocalGame {
                 }
                 else {
                     CanastaIllegalMoveInfo info=new CanastaIllegalMoveInfo((CanastaDiscardAction)action,new CanastaGameState(state),1);
-
                     players[currentPlayer].sendInfo(info);
                     return false;
                 }
@@ -191,16 +190,17 @@ public class CanastaLocalGame extends LocalGame {
      */
     private void removeRedThree(ArrayList<Card> hand, int currentPlayer) {
         for (int i = 0; i < hand.size(); i++) {
-            if (hand.get(i).getValue() == 3 && (hand.get(i).getSuit() == 'H' || hand.get(i).getSuit() == 'D')) {
-                hand.remove(i);
-                if (state.deck.size() >= 1) {
-                    hand.add(state.deck.remove(0));
+            if (hand.get(i).getValue() == 3){
+             if(hand.get(i).getSuit() == 'H' || hand.get(i).getSuit() == 'D'){
+                    hand.remove(i);
+                    state.getResources(currentPlayer).addTotalScore(100);
+                    if (state.deck.size() > 0) {
+                        hand.add(state.deck.remove(0));
+                        i=0;
+                    } else {
+                        state.cleanStart();
+                    }
                 }
-                else{
-                    state.cleanStart();
-                }
-
-                state.getResources(currentPlayer).addTotalScore(  100);
             }
         }
     }
@@ -316,6 +316,7 @@ public class CanastaLocalGame extends LocalGame {
             case 0:
                 p.getPlayerMoves().add(destination);
                 p.getMelds().get(destination).add(p.getHand().remove(pos));
+                break;
             case 2:
                 p.getPlayerMoves().add(destination);
                 p.getMelds().get(destination).add(p.getHand().remove(pos));
@@ -357,7 +358,10 @@ public class CanastaLocalGame extends LocalGame {
                 if (checkIfRoundOver(p)) {
                     state.cleanStart();
                 }
-                state.nextPlayer();
+                else {
+                    state.nextPlayer();
+                }
+
                 state.nextTurnStage();
                 return true;
             }

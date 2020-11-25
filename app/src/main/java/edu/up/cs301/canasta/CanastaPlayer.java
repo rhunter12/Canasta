@@ -26,6 +26,8 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
     private Button discardButton = null;
     private Button playerScore = null;
     private Button aiScore = null;
+    private Button endGame = null;
+    private Button newGame = null;
 
     private ArrayList<Button> handButtons = new ArrayList<>();
     private ArrayList<Button> meldButtons = new ArrayList<>();
@@ -131,7 +133,7 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
         }
 
         //set counter of cards in your hand
-        for (int i = 1; i < cardHandCount.size(); i++) {
+        for (int i = 0; i < cardHandCount.size(); i++) {
             cardHandCount.get(i).setText("" + countInHand(state.getResources(playerNum).getHand(),i));
         }
 
@@ -156,7 +158,7 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
         }
 
         //set cards to visible once they're in your hand
-        for (int i = 1; i < handButtons.size(); i++) {
+        for (int i = 0; i < handButtons.size(); i++) {
             boolean exists = false;
             for (int j = 0; j < state.getResources(playerNum).getHand().size(); j++) {
                 if (state.getResources(playerNum).getHand().get(j).getValue() == i) {
@@ -185,7 +187,7 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
         activity.setContentView(R.layout.main_activity);
 
         //connect hand card buttons
-        handButtons.add(0,null);
+        handButtons.add(0,(Button)activity.findViewById(R.id.handJoker));
         handButtons.add(1,(Button)activity.findViewById(R.id.handAS));
         handButtons.add(2,(Button)activity.findViewById(R.id.hand2));
         handButtons.add(3,(Button)activity.findViewById(R.id.hand3));
@@ -201,7 +203,7 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
         handButtons.add(13,(Button)activity.findViewById(R.id.handK));
 
         //connects hand card counters
-        cardHandCount.add(0, null);
+        cardHandCount.add(0, (Button)activity.findViewById(R.id.nPlayerJoker));
         cardHandCount.add(1, (Button)activity.findViewById((R.id.nPlayerAS)));
         cardHandCount.add(2, (Button)activity.findViewById((R.id.nPlayer2)));
         cardHandCount.add(3, (Button)activity.findViewById((R.id.nPlayer3)));
@@ -284,7 +286,7 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
         aiMeldButtons.add(13,(Button)activity.findViewById(R.id.PCmeldK));
 
 
-        for (int i = 1; i < handButtons.size(); i++) {
+        for (int i = 0; i < handButtons.size(); i++) {
             handButtons.get(i).setOnClickListener(this);
         }
 
@@ -308,6 +310,13 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
                 R.drawable.club10,R.drawable.club_jack,R.drawable.club_queen,R.drawable.club_king};
         images=i;
         //the zeroth place should be the joker
+
+
+        this.endGame = (Button)activity.findViewById(R.id.offButton);
+        this.newGame = (Button)activity.findViewById(R.id.restartgame);
+
+        endGame.setOnClickListener(this);
+        newGame.setOnClickListener(this);
     }
 
 
@@ -343,12 +352,21 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
             }
         }
 
-        for (int i = 1; i < handButtons.size(); i++) {
+        for (int i = 0; i < handButtons.size(); i++) {
             if (view == handButtons.get(i)) {
                 game.sendAction(new CanastaSelectCardAction(this,i));
                 System.out.println("Hand button clicked");
             }
         }
+
+
+        if (view == newGame) {
+            System.out.println("New game clicked");
+        }
+        if (view == endGame) {
+            System.exit(1);
+        }
+
 
     }
 

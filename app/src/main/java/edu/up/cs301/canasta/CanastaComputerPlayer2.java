@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import edu.up.cs301.game.GameFramework.GameComputerPlayer;
 import edu.up.cs301.game.GameFramework.GameMainActivity;
 import edu.up.cs301.game.GameFramework.infoMessage.GameInfo;
+import edu.up.cs301.game.GameFramework.infoMessage.IllegalMoveInfo;
 
 public class CanastaComputerPlayer2 extends GameComputerPlayer {
 
@@ -43,6 +44,9 @@ public class CanastaComputerPlayer2 extends GameComputerPlayer {
             if (state.getTurnStage() == 0) {
                 //decide if we're going to draw or pick up the discard pile
                 if (calcMaxPoints(state.getResources(playerNum),true) < state.checkPointsToMeld(playerNum)) {
+                    game.sendAction(new CanastaDrawAction(this));
+                }
+                else if (state.isPileLocked()) {
                     game.sendAction(new CanastaDrawAction(this));
                 }
 
@@ -83,7 +87,6 @@ public class CanastaComputerPlayer2 extends GameComputerPlayer {
                         }
                     }
                 }
-                
 
                 //how pick a card to discard
                 if (countInHand(state.getResources(playerNum).getHand(),3) > 0) {
@@ -154,7 +157,13 @@ public class CanastaComputerPlayer2 extends GameComputerPlayer {
         return -1;
     }
 
-
+    /**
+     * Performs this action when it is planning on
+     * pickup up the discard pile. Melds cards before picking it up.
+     * @param p (The player)
+     * @param topDiscard (The card on the top of the discard pile)
+     * @param state (The game state)
+     */
     public void meldPickDiscard(PlayerResources p, int topDiscard, CanastaGameState state) {
         int possibleScore = p.getScore();
 
