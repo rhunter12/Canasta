@@ -125,6 +125,7 @@ public class CanastaGameState extends GameState {
      */
     public void cleanStart() {
         updatePoints();
+        subtractHandPoints();//points in the hand count against you.
         resources[0].addTotalScore(resources[0].getScore());
         deck.retainAll(new ArrayList<Card>());
         discardPile.retainAll(new ArrayList<Card>());
@@ -142,7 +143,31 @@ public class CanastaGameState extends GameState {
         buildDeck();
         deal();
     }
-
+    /**
+    Calculates the number of points in the players' hands and subtracts that score from the total score
+     Only runs at the end of a hand
+     */
+    public void subtractHandPoints(){
+        for (int n=0; n<resources.length;n++){
+            PlayerResources pr=resources[n];
+            int sum=0;
+            for (int i=0; i<pr.getHand().size();i++){
+               if(pr.getHand().get(i).getValue()==0){
+                   sum=sum+50;//joker
+               }
+               else if(pr.getHand().get(i).getValue()<=2){
+                   sum=sum+20;//ace or two
+               }
+               else if(pr.getHand().get(i).getValue()<=7){
+                   sum=sum+5;
+               }
+               else{
+                   sum=sum+10;
+               }
+            }
+            pr.addTotalScore(-sum);
+        }
+    }
     /**
      * Calculates the score for the player
      * based on their melds
