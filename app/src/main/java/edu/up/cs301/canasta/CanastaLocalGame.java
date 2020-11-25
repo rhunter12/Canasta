@@ -110,11 +110,14 @@ public class CanastaLocalGame extends LocalGame {
         //discard action
         else if (action instanceof CanastaDiscardAction) {
             System.out.println("Discarding action called");
-            if (state.getTurnStage() == 0) {
+            if (state.getTurnStage() == 0) {//draw from the discard pile
                 if (checkTopCard(state.getResources(currentPlayer))) {
                     drawDiscard(state.getResources(currentPlayer));
                 }
                 else {
+                    CanastaIllegalMoveInfo info=new CanastaIllegalMoveInfo((CanastaDiscardAction)action,new CanastaGameState(state),1);
+
+                    players[currentPlayer].sendInfo(info);
                     return false;
                 }
             }
@@ -124,6 +127,8 @@ public class CanastaLocalGame extends LocalGame {
                     state.getResources(currentPlayer).setPlayerMoves(state.getResources(currentPlayer).getPlayerMoves());
                 }
                 else {
+                    CanastaIllegalMoveInfo info=new CanastaIllegalMoveInfo((CanastaDiscardAction)action,new CanastaGameState(state),2);
+                    players[currentPlayer].sendInfo(info);
                     return false;
                 }
             }
@@ -188,7 +193,13 @@ public class CanastaLocalGame extends LocalGame {
         for (int i = 0; i < hand.size(); i++) {
             if (hand.get(i).getValue() == 3 && (hand.get(i).getSuit() == 'H' || hand.get(i).getSuit() == 'D')) {
                 hand.remove(i);
-                hand.add(state.deck.remove(0));
+                if (state.deck.size() >= 1) {
+                    hand.add(state.deck.remove(0));
+                }
+                else{
+                    state.cleanStart();
+                }
+
                 state.getResources(currentPlayer).addTotalScore(  100);
             }
         }

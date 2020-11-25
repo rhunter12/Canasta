@@ -1,5 +1,6 @@
 package edu.up.cs301.canasta;
 
+import android.util.Log;
 import android.widget.Button;
 
 import java.util.ArrayList;
@@ -82,6 +83,7 @@ public class CanastaComputerPlayer2 extends GameComputerPlayer {
                         }
                     }
                 }
+                
 
                 //how pick a card to discard
                 if (countInHand(state.getResources(playerNum).getHand(),3) > 0) {
@@ -100,11 +102,43 @@ public class CanastaComputerPlayer2 extends GameComputerPlayer {
 
 
         }
+        else if(info instanceof CanastaIllegalMoveInfo){
+            CanastaIllegalMoveInfo moveInfo=(CanastaIllegalMoveInfo)info;
+            CanastaGameState state=moveInfo.getState();
+            if ((moveInfo).getAct().getPlayer()==this){
+                if (moveInfo.getAct() instanceof CanastaDiscardAction){
+                    if (moveInfo.getNum()==1){
+                        Log.w("AI","Recieved Illegal Discard info. Attempting to resolve by drawing a card.");
+                        game.sendAction(new CanastaDrawAction(this));
+                    }
+                    else if(moveInfo.getNum()==2){
+                        Log.w("AI","Recieved Illegal Discard info. Attempting to resolve by undoing all melds.");
+                        undoAll(state.getResources(playerNum));
+                        int val=state.getResources(playerNum).getHand().get(0).getValue();
+                        game.sendAction(new CanastaSelectCardAction(this,val));
+                        game.sendAction(new CanastaDiscardAction(this));
+                    }
+                    else{
+                        Log.w("AI","Recieved Illegal Discard info. AI does not know how to resolve.");
+                    }
+                }
+                else{
+                    Log.w("AI","Recieved canasta illegal info message. AI does not know how to resolve");
+                }
+            }
+        }
         else{
             System.out.println("Received other info message.");
         }
         return;
 
+    }
+
+    public boolean undoAll(PlayerResources p){
+        for (int i=0; i<p.getPlayerMoves().size();i++){
+            game.sendAction(new CanastaUndoAction(this));
+        }
+        return true;
     }
 
     /**
