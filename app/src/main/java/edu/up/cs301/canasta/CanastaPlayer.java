@@ -7,6 +7,7 @@
 
 package edu.up.cs301.canasta;
 
+import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.widget.Button;
 
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import edu.up.cs301.game.GameFramework.GameHumanPlayer;
 import edu.up.cs301.game.GameFramework.GameMainActivity;
 import edu.up.cs301.game.GameFramework.infoMessage.GameInfo;
+import edu.up.cs301.game.GameFramework.infoMessage.NotYourTurnInfo;
 import edu.up.cs301.game.R;
 
 public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListener {
@@ -96,6 +98,35 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
                 discardButton.setAlpha(0);
             }
 
+        }
+        else if (info instanceof CanastaIllegalMoveInfo){
+            CanastaIllegalMoveInfo moveInfo=(CanastaIllegalMoveInfo)info;
+            if ((moveInfo).getAct().getPlayer()==this) {
+                String msg="Error";
+
+                if (moveInfo.getAct() instanceof CanastaMeldAction){
+                    msg=myActivity.getString(R.string.meldError);
+                }
+                else if (moveInfo.getAct() instanceof CanastaDrawAction){
+                    msg=myActivity.getString(R.string.drawError);
+                }
+                else if (moveInfo.getAct() instanceof CanastaDiscardAction){
+                    if (moveInfo.getNum()==1){
+                        msg=myActivity.getString(R.string.discardError1);
+                    }
+                    else if (moveInfo.getNum()==2){
+                        msg=myActivity.getString(R.string.discardError2);
+                    }
+                }
+
+                Snackbar s = Snackbar.make(undoButton, msg, Snackbar.LENGTH_SHORT);
+                s.show();
+            }
+        }
+        else if (info instanceof NotYourTurnInfo){
+            String msg=myActivity.getString(R.string.notYourTurnError);
+            Snackbar s = Snackbar.make(undoButton, msg, Snackbar.LENGTH_SHORT);
+            s.show();
         }
     }
 

@@ -104,7 +104,11 @@ public class CanastaLocalGame extends LocalGame {
         //draw action
         else if (action instanceof CanastaDrawAction) {
             System.out.println("Draw action called");
-            drawFromDeck(state.getResources(currentPlayer).getHand(), currentPlayer);
+            boolean suc=drawFromDeck(state.getResources(currentPlayer).getHand(), currentPlayer);
+            if (!suc){
+                CanastaIllegalMoveInfo info=new CanastaIllegalMoveInfo((CanastaDrawAction)action, new CanastaGameState(state),1);
+                players[currentPlayer].sendInfo(info);
+            }
         }
 
         //discard action
@@ -136,18 +140,18 @@ public class CanastaLocalGame extends LocalGame {
         //meld action
         else if (action instanceof CanastaMeldAction) {
             System.out.println("Meld action card");
-            meldCard(state.getResources(currentPlayer),((CanastaMeldAction) action).getMeldDestination());
+            boolean suc=meldCard(state.getResources(currentPlayer),((CanastaMeldAction) action).getMeldDestination());
+            if (!suc){
+                CanastaIllegalMoveInfo info=new CanastaIllegalMoveInfo((CanastaMeldAction)action, new CanastaGameState(state),1);
+                players[currentPlayer].sendInfo(info);
+            }
         }
 
         //select card action
         else if (action instanceof CanastaSelectCardAction) {
             System.out.println("Selecting card action called");
-            if (currentPlayer == 0) {
-                selectCard(currentPlayer,((CanastaSelectCardAction) action).getSelectedValue());
-            }
-            else if (currentPlayer == 1) {
-                selectCard(currentPlayer,((CanastaSelectCardAction) action).getSelectedValue());
-            }
+            selectCard(currentPlayer,((CanastaSelectCardAction) action).getSelectedValue());
+
         }
 
         //undo action
@@ -179,8 +183,8 @@ public class CanastaLocalGame extends LocalGame {
         }
         else {
             state.cleanStart();
+            return true;
         }
-        return false;
     }
 
     /**

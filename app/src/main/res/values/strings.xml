@@ -15,5 +15,10 @@
     <string name="_K">K</string>
     <string name="discard">Discard</string>
     <string name="_1">_1</string>
+    <string name="meldError">You do not have a valid card selected. </string>
+    <string name="drawError">You have already drawn or picked up the discard pile this turn. </string>
+    <string name="discardError1">Please meet all melding requirements in order to pick up the discard pile. </string>
+    <string name="discardError2">One or more melding requirements is not met. </string>
+    <string name="notYourTurnError">It is not your turn. </string>
     <string name="_0">0</string>
 </resources>

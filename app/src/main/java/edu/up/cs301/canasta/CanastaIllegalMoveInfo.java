@@ -15,6 +15,10 @@ public class CanastaIllegalMoveInfo extends IllegalMoveInfo {
         If action is a discard action
             1: failed to pick up the discard pile
             2: failed to discard to the discard pile
+        If action is a draw action
+            1: You have already drawn or picked up the discard pile this turn.
+        Meld Action
+            1: You do not have a valid card selected.
      */
     /**
      * Constructor
