@@ -168,8 +168,7 @@
                     android:layout_marginRight="20dp"
                     android:layout_marginBottom="20dp"
                     android:layout_weight="1"
-                    android:background="@drawable/questionmark"
-                    android:visibility="invisible" />
+                    android:background="@drawable/questionmark" />
             </LinearLayout>
 
         </LinearLayout>
