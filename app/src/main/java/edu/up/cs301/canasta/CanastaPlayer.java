@@ -100,6 +100,15 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
 
         }
         else if (info instanceof CanastaIllegalMoveInfo){
+            /*
+            External Citation
+            Date: 11/30/2020
+            Problem: We wanted some kind of pop-up message to show the user that their action did
+            not succeed
+            Resource 1: https://developer.android.com/reference/com/google/android/material/snackbar/Snackbar
+            Resource 2: https://abhiandroid.com/materialdesign/snackbar
+            Solution: I used the Snackbar.make() and snackbar.show() method shown in both resources
+             */
             CanastaIllegalMoveInfo moveInfo=(CanastaIllegalMoveInfo)info;
             if ((moveInfo).getAct().getPlayer()==this) {
                 String msg="Error";
