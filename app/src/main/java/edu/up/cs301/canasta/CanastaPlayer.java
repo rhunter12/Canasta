@@ -362,6 +362,13 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
     /**
      * Tells what action should be done when a button is pressed
      * @param view
+     *
+     * External Citation
+     * Date: 30 November 2020
+     * Problem: did not know how to create a popup window
+     *
+     * Resource: https://stackoverflow.com/questions/2115758/how-do-i-display-an-alert-dialog-on-android
+     * Solution: followed the example to create a similar popup
      */
     @Override
     public void onClick(View view) {
