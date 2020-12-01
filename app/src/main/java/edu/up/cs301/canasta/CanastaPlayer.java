@@ -39,6 +39,9 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
 
     private ArrayList<Button> aiMeldButtons = new ArrayList<>();
     private ArrayList<Button> aiCardMeldCount = new ArrayList<>();
+    private boolean showTotalScore=false;
+
+    private CanastaGameState stateCopy=null;
 
 
 
@@ -81,6 +84,7 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
 
         if (info instanceof CanastaGameState) {
             state = (CanastaGameState) info;
+            stateCopy=state;
 
             updateText(state);
 
@@ -145,9 +149,15 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
      * @param state (The game state)
      */
     public void updateText(CanastaGameState state) {
+
+
         int humanScore = state.getResources(playerNum).getScore();
         int aiScoreVal = state.getResources((playerNum+1)%2).getScore();
 
+        if (showTotalScore){
+            humanScore = state.getResources(playerNum).getTotalScore();
+            aiScoreVal = state.getResources((playerNum+1)%2).getTotalScore();
+        }
 
         this.playerScore.setText("" + humanScore);
         this.aiScore.setText("" + aiScoreVal);
@@ -340,6 +350,8 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
 
         this.playerScore = (Button)activity.findViewById(R.id.PlayerScore);
         this.aiScore = (Button)activity.findViewById(R.id.aiScore);
+        this.playerScore.setOnClickListener(this);
+        this.aiScore.setOnClickListener(this);
 
         discardButton.setOnClickListener(this);
         deckButton.setOnClickListener(this);
@@ -388,6 +400,19 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
         if (view == undoButton) {
             game.sendAction(undo);
             System.out.println("Undo button clicked");
+        }
+        //flip between the total score and score for a particular hand by clicking the score
+        if (view==aiScore|| view==playerScore){
+            showTotalScore=!showTotalScore;
+            int humanScore = stateCopy.getResources(playerNum).getScore();
+            int aiScoreVal = stateCopy.getResources((playerNum+1)%2).getScore();
+
+            if (showTotalScore){
+                humanScore = stateCopy.getResources(playerNum).getTotalScore();
+                aiScoreVal = stateCopy.getResources((playerNum+1)%2).getTotalScore();
+            }
+            this.playerScore.setText("" + humanScore);
+            this.aiScore.setText("" + aiScoreVal);
         }
 
         for (int i = 1; i < meldButtons.size(); i++) {
