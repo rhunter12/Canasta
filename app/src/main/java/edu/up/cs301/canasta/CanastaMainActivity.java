@@ -8,6 +8,8 @@
  *
  * Additional features:
  *      - Game supports both protrait and landscape
+ *      - Popup that alerts the user of an incorrect move
+ *      - How-to play tutorial and rules page
  */
 
 package edu.up.cs301.canasta;
