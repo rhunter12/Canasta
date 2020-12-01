@@ -128,13 +128,13 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
                     }
                 }
 
-                Snackbar s = Snackbar.make(undoButton, msg, Snackbar.LENGTH_SHORT);
+                Snackbar s = Snackbar.make(undoButton, msg, Snackbar.LENGTH_LONG);
                 s.show();
             }
         }
         else if (info instanceof NotYourTurnInfo){
             String msg=myActivity.getString(R.string.notYourTurnError);
-            Snackbar s = Snackbar.make(undoButton, msg, Snackbar.LENGTH_SHORT);
+            Snackbar s = Snackbar.make(undoButton, msg, Snackbar.LENGTH_LONG);
             s.show();
         }
     }
