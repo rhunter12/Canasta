@@ -434,16 +434,7 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
         if (view == newGame) {
             final AlertDialog alertDialog = new AlertDialog.Builder(myActivity).create();
             alertDialog.setTitle("Point Values");
-            alertDialog.setMessage("**Point values***\n" +
-                    "Jokers: 50\n" +
-                    "Aces: 20\n" +
-                    "Twos: 20\n" +
-                    "3-7: 5\n" +
-                    "8-King: 10\n\n" +
-                    "**Point Requirements**\n" +
-                    "<1500: 50\n" +
-                    "1500-2495: 90\n" +
-                    ">2500: 120");
+            alertDialog.setMessage(myActivity.getString(R.string.pointValues));
 
             alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Close",
                     new DialogInterface.OnClickListener() {
@@ -456,20 +447,7 @@ public class CanastaPlayer extends GameHumanPlayer implements View.OnClickListen
 
             final AlertDialog alertDialog2 = new AlertDialog.Builder(myActivity).create();
             alertDialog2.setTitle("How to Play");
-            alertDialog2.setMessage("**Melding cards:**\n" +
-                    "    -To meld a card, first select the card in your hand then click in the melding area\n" +
-                    "    -To meld a wildcard (a two or a joker), first select the card in your hand then click the melding slot where you want to play that wildcard\n" +
-                    "**Picking up the discard pile:**\n" +
-                    "    -To pick up the discard pile, first meld cards from your hand so that you meet the point requirement and have at least two cards in the melding slot for the top card from the discard pile\n" +
-                    "    -Point requirements are based on accumulated points from previous turns. See Point Requirements table below to see the requirements\n" +
-                    "**Discarding:**\n" +
-                    "    -To discard, click one card in your hand to select it, then click on the discard pile. If you have successfully discarded, the card you selected should be removed from your hand.\n" +
-                    "    -There are a number of reasons that a discard action may fail. They include:\n" +
-                    "        -You have cards in the melding area, but do not have enough points to meet the minimum point requirements\n" +
-                    "        -One or more of your melds is not valid\n" +
-                    "            -A meld has fewer than three cards\n" +
-                    "            -A meld has more wildcards than natural cards in a non-wildcard slot\n" +
-                    "        -To fix these issues, either meld more cards to meet the requirements, or use the undo button to reverse melds until all requirements are met");
+            alertDialog2.setMessage(myActivity.getString(R.string.howTo));
 
 
             alertDialog2.setButton(AlertDialog.BUTTON_NEUTRAL, "Next",
