@@ -21,4 +21,22 @@
     <string name="discardError2">One or more melding requirements is not met. </string>
     <string name="notYourTurnError">It is not your turn. </string>
     <string name="_0">0</string>
+    <string name="pointValues">**Point values***\nJokers: 50\nAces: 20\nTwos: 20\n3-7: 5\n8-King: 10\n\n**Point Requirements**\n&lt;1500: 50\n1500-2495: 90\n&gt;2500: 120</string>
+
+    <string name="howTo">
+        **Melding cards:**\n
+        -To meld a card, first select the card in your hand then click in the melding area\n
+        -To meld a wildcard (a two or a joker), first select the card in your hand then click the melding slot where you want to play that wildcard\n\n
+        **Picking up the discard pile:**\n
+        -To pick up the discard pile, first meld cards from your hand so that you meet the point requirement and have at least two cards in the melding slot for the top card from the discard pile\n
+        -Point requirements are based on accumulated points from previous turns. See Point Requirements table below to see the requirements\n\n
+        **Discarding:**\n
+        -To discard, click one card in your hand to select it, then click on the discard pile. If you have successfully discarded, the card you selected should be removed from your hand.\n
+        -There are a number of reasons that a discard action may fail. They include:\n
+        -\tYou have cards in the melding area, but do not have enough points to meet the minimum point requirements\n
+        -\tOne or more of your melds is not valid\n
+        -\t\tA meld has fewer than three cards\n
+        -\t\tA meld has more wildcards than natural cards in a non-wildcard slot\n
+        -\tTo fix these issues, either meld more cards to meet the requirements, or use the undo button to reverse melds until all requirements are met
+    </string>
 </resources>
