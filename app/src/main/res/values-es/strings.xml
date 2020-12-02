@@ -13,30 +13,30 @@
     <string name="_J">J</string>
     <string name="_Q">Q</string>
     <string name="_K">K</string>
-    <string name="discard">Discard</string>
+    <string name="discard">Descartar</string>
     <string name="_1">_1</string>
-    <string name="meldError">You do not have a valid card selected. </string>
-    <string name="drawError">You have already drawn or picked up the discard pile this turn. </string>
-    <string name="discardError1">Please meet all melding requirements in order to pick up the discard pile. </string>
-    <string name="discardError2">One or more melding requirements is not met. </string>
-    <string name="notYourTurnError">It is not your turn. </string>
+    <string name="meldError">No tienes una carta válida seleccionada.</string>
+    <string name="drawError">Ya has recogido de la baraja o de la pila de descartes este turno. </string>
+    <string name="discardError1">Por favor, cumpla con todos los requerimientos de fusión para recoger la pila de descartes. </string>
+    <string name="discardError2">Uno o más requerimientos de fusión no se están cumpliendo. </string>
+    <string name="notYourTurnError">No es tu turno. </string>
     <string name="_0">0</string>
-    <string name="pointValues">**Point values**\nJokers: 50\nAces: 20\nTwos: 20\n3-7: 5\n8-King: 10\n\n**Point Requirements**\n&lt;1500: 50\n1500-2495: 90\n&gt;2500: 120</string>
+    <string name="pointValues">**Puntos**\nJokers: 50\nAses: 20\nDoses: 20\n3-7: 5\n8-Rey: 10\n\n**Puntos Requeridos**\n&lt;1500: 50\n1500-2495: 90\n&gt;2500: 120</string>
 
     <string name="howTo">
-        **Melding cards:**\n
-        -To meld a card, first select the card in your hand then click in the melding area\n
-        -To meld a wildcard (a two or a joker), first select the card in your hand then click the melding slot where you want to play that wildcard\n\n
-        **Picking up the discard pile:**\n
-        -To pick up the discard pile, first meld cards from your hand so that you meet the point requirement and have at least two cards in the melding slot for the top card from the discard pile\n
-        -Point requirements are based on accumulated points from previous turns. See Point Requirements table below to see the requirements\n\n
-        **Discarding:**\n
-        -To discard, click one card in your hand to select it, then click on the discard pile. If you have successfully discarded, the card you selected should be removed from your hand.\n
-        -There are a number of reasons that a discard action may fail. They include:\n
-        -\tYou have cards in the melding area, but do not have enough points to meet the minimum point requirements\n
-        -\tOne or more of your melds is not valid\n
-        -\t\tA meld has fewer than three cards\n
-        -\t\tA meld has more wildcards than natural cards in a non-wildcard slot\n
-        -\tTo fix these issues, either meld more cards to meet the requirements, or use the undo button to reverse melds until all requirements are met
+        **Jugar Cartas:**\n
+        -Para jugar una carta, primero seleccionala desde tu mano y después presiona en la fila de jugarla.\n
+        -Para jugar un comodín (un dos, o un joker), primero selecciona la carta en tu mano y después selecciona en la fila para jugarla igual que en el paso anterior.\n
+        **Recoger la pila de descartes:**\n
+        -Para recogerla, primero juega las cartas necesarias de tu mano para cumplir con los puntos mínimos requeridos y tienes al menos dos cartas del mismo palo de la carta superior de la pila de descartes ya jugadas y listas para hacer una fusión.\n
+        Los puntos mínimos requeridos están basados en los puntos acumulados de turnos previos. Abajo encontrarás la tabla de Puntos requeridos.\n
+        **Descartar:**\n
+        -Para descartar, selecciona la carta deseada desde su mano y pulse en la pila de descartes (la carta mirando hacia arriba en el fila central del tablero). Si el descarte es válido esa carta será removida de su mano.\n
+        -Existen un número de razones por los que la acción de descartae puede fallar. Entre ellos se encuentran:\n
+        -\tTienes cartas en el area de fusión pero no cumples con los puntos mínimos requeridos.\n
+        -\tUna o más de tus cartas jugadas no es una fusión válida. \n
+        -\t\Una fusión tiene menos de tres cartas. \n
+        -\t\Hay mas comodines en esa fusion que cartas naturales del mismo palo. \n
+        -\tPara arreglar estos problemas, puede fusionar más cartas hasta cumplir con los requerimientos o utilizar el botón  de deshacer (“Undo”) para revertir las últimas fusiones realizadas hasta volver a un estado de juego válido.
     </string>
 </resources>
